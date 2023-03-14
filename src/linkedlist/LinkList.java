@@ -29,7 +29,6 @@ public class LinkList {
         return current;
     }
 
-    //assumes non-empty list
     public Link delete(int key) {
         if (isEmpty()) return null;
         Link current, previous;
