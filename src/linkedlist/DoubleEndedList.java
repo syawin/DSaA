@@ -48,6 +48,20 @@ public class DoubleEndedList {
     }
 
     public static void main(String[] args) {
+        DoubleEndedList list = new DoubleEndedList();
+        list.insertFirst(1, 22.2);
+        list.insertFirst(3, 1.23);
+        list.insertFirst(55, 66.0);
 
+        list.insertLast(10, 1.01);
+        list.insertLast(22, 66.6);
+        list.insertLast(69, 3.33);
+
+        list.print();
+
+        list.deleteFirst();
+        list.deleteFirst();
+
+        list.print();
     }
 }
