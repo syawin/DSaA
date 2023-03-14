@@ -12,9 +12,26 @@ public class LinkList {
     }
 
     public void insertFirst(int iData, double dData) {
-        Link newLink = new Link(iData,dData);
+        Link newLink = new Link(iData, dData);
         newLink.setNext(first);
         this.first = newLink;
+    }
+
+    public void insertInOrder(int iData, double dData) {
+        Link newLink = new Link(iData, dData);
+        Link previous = null;
+        Link current = this.first;
+
+        while (current!=null && iData > current.iData) {
+            previous = current;
+            current = current.getNext();
+        }
+        //list is empty, insert at beginning
+        if (previous == null) first = newLink;
+        //list is not empty, inserting at middle or end
+        else previous.setNext(newLink);
+        //point new link next ref to the current link
+        newLink.setNext(current);
     }
 
     public Link find(int key) {
@@ -23,7 +40,7 @@ public class LinkList {
         while (current.iData != key) {
             //continue to next link
             if (current.hasNext()) current = current.getNext();
-            //key not found
+                //key not found
             else return null;
         }
         return current;
@@ -44,7 +61,7 @@ public class LinkList {
         }
         //link to delete is first link
         if (current == first) first = first.getNext();
-        //remove current by setting prev.next to curr.next
+            //remove current by setting prev.next to curr.next
         else previous.setNext(current.getNext());
         return current;
     }
@@ -66,7 +83,7 @@ public class LinkList {
         System.out.println();
     }
 
-    static class LinkedListDemo {
+    private static class LinkedListDemo {
         public static void main(String[] args) {
             LinkList linkList = new LinkList();
 
@@ -94,6 +111,26 @@ public class LinkList {
             found = linkList.find(44);
             if (found != null) System.out.println("Found link: " + found);
             else System.out.println("Link not found.");
+        }
+    }
+
+    private static class SortedListDemo {
+        public static void main(String[] args) {
+            LinkList linkList = new LinkList();
+
+            linkList.insertInOrder(33, 3.81);
+            linkList.insertInOrder(22, 2.99);
+
+            linkList.print();
+
+            linkList.insertInOrder(55, 1.01);
+            linkList.insertInOrder(44, 4.90);
+
+            linkList.print();
+
+            linkList.deleteFirst();
+
+            linkList.print();
         }
     }
 }
