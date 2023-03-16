@@ -83,6 +83,14 @@ public class LinkedList {
         System.out.println();
     }
 
+    public Link getFirst() {
+        return this.first;
+    }
+
+    public void setFirst(Link link) {
+        this.first = link;
+    }
+
     private static class LinkedListDemo {
         public static void main(String[] args) {
             LinkedList linkedList = new LinkedList();
