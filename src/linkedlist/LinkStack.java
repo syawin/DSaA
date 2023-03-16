@@ -1,26 +1,26 @@
 package linkedlist;
 
 public class LinkStack {
-    private final LinkList linkList;
+    private final LinkedList linkedList;
 
     public LinkStack() {
-        this.linkList = new LinkList();
+        this.linkedList = new LinkedList();
     }
 
     public void push(int iData, double dData) {
-        this.linkList.insertFirst(iData, dData);
+        this.linkedList.insertFirst(iData, dData);
     }
 
     public Link pop() {
-        return this.linkList.deleteFirst();
+        return this.linkedList.deleteFirst();
     }
 
     public boolean isEmpty() {
-        return this.linkList.isEmpty();
+        return this.linkedList.isEmpty();
     }
 
     public void print() {
-        this.linkList.print();
+        this.linkedList.print();
     }
 
     private static class LinkStackApp {

@@ -1,9 +1,9 @@
 package linkedlist;
 
-public class LinkList {
+public class LinkedList {
     private Link first;
 
-    public LinkList() {
+    public LinkedList() {
         first = null;
     }
 
@@ -85,30 +85,30 @@ public class LinkList {
 
     private static class LinkedListDemo {
         public static void main(String[] args) {
-            LinkList linkList = new LinkList();
+            LinkedList linkedList = new LinkedList();
 
-            linkList.insertFirst(22, 2.99);
-            linkList.insertFirst(33, 3.81);
-            linkList.insertFirst(44, 4.90);
-            linkList.insertFirst(55, 1.01);
+            linkedList.insertFirst(22, 2.99);
+            linkedList.insertFirst(33, 3.81);
+            linkedList.insertFirst(44, 4.90);
+            linkedList.insertFirst(55, 1.01);
 
-            linkList.print();
+            linkedList.print();
 
-            Link found = linkList.find(44);
+            Link found = linkedList.find(44);
             if (found != null) System.out.println("Found link: " + found);
             else System.out.println("Link not found.");
 
-            Link deleted = linkList.find(55);
+            Link deleted = linkedList.find(55);
             if (deleted != null) System.out.println("Deleted link: " + deleted);
             else System.out.println("Can't deleted; link not found.");
 
-            while (!linkList.isEmpty()) {
-                Link link = linkList.deleteFirst();
+            while (!linkedList.isEmpty()) {
+                Link link = linkedList.deleteFirst();
                 System.out.println("Deleted link: " + link);
             }
-            linkList.print();
+            linkedList.print();
 
-            found = linkList.find(44);
+            found = linkedList.find(44);
             if (found != null) System.out.println("Found link: " + found);
             else System.out.println("Link not found.");
         }
@@ -116,21 +116,21 @@ public class LinkList {
 
     private static class SortedListDemo {
         public static void main(String[] args) {
-            LinkList linkList = new LinkList();
+            LinkedList linkedList = new LinkedList();
 
-            linkList.insertInOrder(33, 3.81);
-            linkList.insertInOrder(22, 2.99);
+            linkedList.insertInOrder(33, 3.81);
+            linkedList.insertInOrder(22, 2.99);
 
-            linkList.print();
+            linkedList.print();
 
-            linkList.insertInOrder(55, 1.01);
-            linkList.insertInOrder(44, 4.90);
+            linkedList.insertInOrder(55, 1.01);
+            linkedList.insertInOrder(44, 4.90);
 
-            linkList.print();
+            linkedList.print();
 
-            linkList.deleteFirst();
+            linkedList.deleteFirst();
 
-            linkList.print();
+            linkedList.print();
         }
     }
 }
