@@ -41,23 +41,12 @@ public class Infix {
             char ch = input.charAt(i);
             stackX.displayStack("For " + ch + " ");
             switch (ch) {
-                case '+':
-                case '-':
-                    gotOper(ch, 1);
-                    break;
-                case '*':
-                case '/':
-                    gotOper(ch, 2);
-                    break;
-                case '(':
-                    stackX.push(ch);
-                    break;
-                case ')':
-                    gotParen(ch);
-                    break;
-                default:
-                    output = output + ch;
-                    break;
+                case '+', '-' -> gotOper(ch, 1);
+                case '*', '/' -> gotOper(ch, 2);
+                case '(' -> stackX.push(ch);
+                case ')' -> gotParen(ch);
+                default -> //noinspection StringConcatenationInLoop
+                        output = output + ch;
             }
         }
         while (!stackX.isEmpty()) {
