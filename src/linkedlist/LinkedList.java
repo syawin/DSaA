@@ -46,6 +46,10 @@ public class LinkedList {
         return current;
     }
 
+    public LinkedListIterator getIterator() {
+        return new LinkedListIterator(this);
+    }
+
     public Link delete(int key) {
         if (isEmpty()) return null;
         Link current, previous;

@@ -1,5 +1,9 @@
 package linkedlist;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 public class LinkedListIterator {
     private Link curr, prev;
     private LinkedList linkedList;
@@ -61,13 +65,94 @@ public class LinkedListIterator {
         Link result = this.getCurrent();
         // at beginning
         if (prev == null) {
-           this.linkedList.setFirst(curr.getNext());
-           reset();
+            this.linkedList.setFirst(curr.getNext());
+            reset();
         } else {
             prev.setNext(curr.getNext());
             if (atEnd()) reset();
             else this.curr = curr.getNext();
         }
         return result;
+    }
+
+    private static class LinkedListIterApp {
+        public static void main(String[] args) throws IOException {
+            LinkedList list = new LinkedList();
+            LinkedListIterator iterator = list.getIterator();
+            int value;
+            boolean quit = false;
+
+            iterator.insertAfter(1, 2.2);
+            iterator.insertAfter(3, 4.4);
+            iterator.insertAfter(5, 6.66);
+            iterator.insertAfter(7, 7.8);
+
+            while (true) {
+                System.out.print("Enter first letter of Show, Reset,\nNext, Get, Before, After, Delete: ");
+                System.out.flush();
+                int choice = getChar();
+                switch (choice) {
+                    case 's':
+                        if (!list.isEmpty()) list.print();
+                        else System.out.println("List is empty.");
+                        break;
+                    case 'r':
+                        iterator.reset();
+                        break;
+                    case 'n':
+                        if (!list.isEmpty() && !iterator.atEnd()) iterator.nextLink();
+                        else System.out.println("Can't go to next link.");
+                        break;
+                    case 'g':
+                        if (!list.isEmpty()) {
+                            value = iterator.getCurrent().iData;
+                            System.out.printf("Returned %d.\n", value);
+                        } else System.out.println("List is empty.");
+                        break;
+                    case 'b':
+                        System.out.print("Enter value to insert: ");
+                        System.out.flush();
+                        value = getInt();
+                        //insert blank value for new nodes b/c I'm too lazy to impl two inputs
+                        iterator.insertBefore(value, 0.0);
+                        break;
+                    case 'a':
+                        System.out.print("Enter value to insert: ");
+                        System.out.flush();
+                        value = getInt();
+                        //insert blank value for new nodes b/c I'm too lazy to impl two inputs
+                        iterator.insertAfter(value, 0.0);
+                        break;
+                    case 'd':
+                        if (!list.isEmpty()) {
+                            value = iterator.deleteCurrent().iData;
+                            System.out.printf("Deleted %d.\n", value);
+                        } else System.out.println("Can't delete.");
+                        break;
+                    case 'q':
+                        quit = true;
+                        break;
+                    default:
+                        System.out.println("Invalid entry.");
+                        break;
+                } if (quit) break;
+            }
+        }
+
+        static String getString() throws IOException {
+            InputStreamReader streamReader = new InputStreamReader(System.in);
+            BufferedReader bufferedReader = new BufferedReader(streamReader);
+            return bufferedReader.readLine();
+        }
+
+        static char getChar() throws IOException {
+            String s = getString();
+            return s.charAt(0);
+        }
+
+        static int getInt() throws IOException {
+            String s = getString();
+            return Integer.parseInt(s);
+        }
     }
 }
