@@ -1,4 +1,8 @@
-package linkedlist;
+package queue;
+
+import linkedlist.Link;
+import linkedlist.LinkedList;
+import linkedlist.LinkedListIterator;
 
 public class PriorityQSortedLL {
 
