@@ -1,62 +1,62 @@
 package linkedlist;
 
 public class DoublyLinkedList {
-    private DoubleLink first, last;
+    private DoubleLink left, right;
 
     public DoublyLinkedList() {
-        first = last = null;
+        left = right = null;
     }
 
     public boolean isEmpty() {
-        return first == null;
+        return left == null;
     }
 
-    public void insertFirst(int iData) {
+    public void insertLeft(int iData) {
         DoubleLink newLink = new DoubleLink(iData);
 
-        if (isEmpty()) last = newLink;
-        else first.setPrev(newLink);
-        newLink.setNext(first);
-        first = newLink;
+        if (isEmpty()) right = newLink;
+        else left.setPrev(newLink);
+        newLink.setNext(left);
+        left = newLink;
     }
 
-    public void insertLast(int iData) {
+    public void insertRight(int iData) {
         DoubleLink newLink = new DoubleLink(iData);
 
-        if (isEmpty()) first = newLink;
+        if (isEmpty()) left = newLink;
         else {
-            last.setNext(newLink);
-            newLink.setPrev(last);
+            right.setNext(newLink);
+            newLink.setPrev(right);
         }
-        last = newLink;
+        right = newLink;
     }
 
-    public DoubleLink deleteFirst() {
+    public DoubleLink deleteLeft() {
         if (isEmpty()) return null;
 
-        DoubleLink temp = first;
-        if (first.getNext() == null) last = null;
-        else first.getNext().getPrev().setPrev(null);
+        DoubleLink temp = left;
+        if (left.getNext() == null) right = null;
+        else left.getNext().getPrev().setPrev(null);
 
-        first = first.getNext();
+        left = left.getNext();
         return temp;
     }
 
-    public DoubleLink deleteLast() {
+    public DoubleLink deleteRight() {
         if (isEmpty()) return null;
 
-        DoubleLink temp = last;
-        if (first.getNext() == null) first = null;
-        else last.getPrev().setNext(null);
+        DoubleLink temp = right;
+        if (left.getNext() == null) left = null;
+        else right.getPrev().setNext(null);
 
-        last = last.getPrev();
+        right = right.getPrev();
         return temp;
     }
 
     public boolean insertAfter(int key, int iData) {
         //return false if list is empty to avoid NPE
         if (isEmpty()) return false;
-        DoubleLink current = first;
+        DoubleLink current = left;
         while (current.getiData() != key) {
             //advance search node
             current = current.getNext();
@@ -65,9 +65,9 @@ public class DoublyLinkedList {
         }
         DoubleLink newLink = new DoubleLink(iData);
         //if current is last node
-        if (current == last) {
+        if (current == right) {
             newLink.setNext(null);
-            last = newLink;
+            right = newLink;
         //current node is not last node
         } else {
             //set new node next to be current next node
@@ -82,7 +82,7 @@ public class DoublyLinkedList {
     public DoubleLink deleteKey(int key) {
         //reutrn null if list is empty to prevent NPE
         if (isEmpty()) return null;
-        DoubleLink current = first;
+        DoubleLink current = left;
         while (current.getiData() != key) {
             //advance current node
             current = current.getNext();
@@ -92,18 +92,18 @@ public class DoublyLinkedList {
         DoubleLink temp = current;
 
         //set next node value
-        if (current == first) first = current.getNext();
+        if (current == left) left = current.getNext();
         else current.getPrev().setNext(current.getNext());
 
         //set prev node value
-        if (current == last) last = current.getPrev();
+        if (current == right) right = current.getPrev();
         else current.getNext().setPrev(current.getPrev());
         return current;
     }
 
     public void printForward() {
-        System.out.print("List (first --> last): ");
-        DoubleLink current = this.first;
+        System.out.print("List (left  --> right): ");
+        DoubleLink current = this.left;
         while (current != null) {
             current.print();
             current = current.getNext();
@@ -112,8 +112,8 @@ public class DoublyLinkedList {
     }
 
     public void printBackward() {
-        System.out.print("List (last --> first): ");
-        DoubleLink current = this.last;
+        System.out.print("List (right --> left): ");
+        DoubleLink current = this.right;
         while (current != null) {
             current.print();
             current = current.getPrev();
@@ -125,18 +125,18 @@ public class DoublyLinkedList {
         public static void main(String[] args) {
             DoublyLinkedList linkedList = new DoublyLinkedList();
 
-            linkedList.insertFirst(22);
-            linkedList.insertFirst(44);
-            linkedList.insertFirst(33);
-            linkedList.insertLast(13);
-            linkedList.insertLast(10);
-            linkedList.insertLast(88);
+            linkedList.insertLeft(22);
+            linkedList.insertLeft(44);
+            linkedList.insertLeft(33);
+            linkedList.insertRight(13);
+            linkedList.insertRight(10);
+            linkedList.insertRight(88);
 
             linkedList.printForward();
             linkedList.printBackward();
 
-            linkedList.deleteFirst();
-            linkedList.deleteLast();
+            linkedList.deleteLeft();
+            linkedList.deleteRight();
             linkedList.deleteKey(13);
 
             linkedList.printForward();
