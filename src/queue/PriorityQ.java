@@ -1,3 +1,5 @@
+package queue;
+
 public class PriorityQ {
     private final int maxSize;
     private long[] qArray;

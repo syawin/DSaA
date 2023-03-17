@@ -1,3 +1,5 @@
+package stack;
+
 import java.io.IOException;
 
 public class Postfix {

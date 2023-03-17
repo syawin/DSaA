@@ -1,3 +1,5 @@
+package stack;
+
 //Reversing a String with Stacks
 //Stack push/pop = O(1)
 @SuppressWarnings("BooleanMethodIsAlwaysInverted")

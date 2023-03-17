@@ -1,4 +1,6 @@
-// Queue insert & remove = O(1)
+package queue;
+
+// queue.Queue insert & remove = O(1)
 public class Queue {
     private final int maxSize;
     private long[] qArray;
@@ -103,7 +105,7 @@ class QueueApp {
 }
 
 @SuppressWarnings("unused")
-//Queue impl w/o item count. Complicated!
+//queue.Queue impl w/o item count. Complicated!
 class QueueX {
     private int maxSize;
     private long[] qArray;

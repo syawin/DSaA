@@ -1,3 +1,5 @@
+package stack;
+
 import java.io.IOException;
 
 public class Infix {
@@ -89,7 +91,7 @@ class InfixApp {
 
             Infix infix = new Infix(input);
             output = infix.toPostfix();
-            System.out.println("Postfix is " + output);
+            System.out.println("stack.Postfix is " + output);
             System.out.println();
         }
     }

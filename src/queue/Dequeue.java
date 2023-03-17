@@ -1,3 +1,5 @@
+package queue;
+
 /**
  * Programming Project 4.2
  * Implement a dequeue
