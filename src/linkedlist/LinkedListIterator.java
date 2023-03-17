@@ -13,7 +13,7 @@ public class LinkedListIterator {
         reset();
     }
 
-    private void reset() {
+    public void reset() {
         curr = linkedList.getFirst();
         prev = null;
     }
