@@ -101,7 +101,7 @@ public class DoublyLinkedList {
         return current;
     }
 
-    public void printForward() {
+    public void printLtoR() {
         System.out.print("List (left  --> right): ");
         DoubleLink current = this.left;
         while (current != null) {
@@ -111,7 +111,7 @@ public class DoublyLinkedList {
         System.out.println();
     }
 
-    public void printBackward() {
+    public void printRtoL() {
         System.out.print("List (right --> left): ");
         DoubleLink current = this.right;
         while (current != null) {
@@ -132,19 +132,19 @@ public class DoublyLinkedList {
             linkedList.insertRight(10);
             linkedList.insertRight(88);
 
-            linkedList.printForward();
-            linkedList.printBackward();
+            linkedList.printLtoR();
+            linkedList.printRtoL();
 
             linkedList.deleteLeft();
             linkedList.deleteRight();
             linkedList.deleteKey(13);
 
-            linkedList.printForward();
+            linkedList.printLtoR();
 
             linkedList.insertAfter(22,17);
             linkedList.insertAfter(17,99);
 
-            linkedList.printForward();
+            linkedList.printLtoR();
         }
     }
 }
