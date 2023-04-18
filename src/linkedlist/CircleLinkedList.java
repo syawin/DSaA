@@ -38,6 +38,16 @@ public class CircleLinkedList {
         return result;
     }
 
+    public Link find(int key) {
+        if (isEmpty()) return null;
+        Link start = this.curr;
+        do {
+            if (this.curr.iData == key) return this.curr;
+            this.step();
+        } while (this.curr != start);
+        return null;
+    }
+
     public boolean isEmpty() {
         return null == curr;
     }
@@ -56,6 +66,10 @@ public class CircleLinkedList {
         public static void main(String[] args) {
             CircleLinkedList circleLinkedList = new CircleLinkedList();
 
+            //test empty list checks
+            System.out.println(circleLinkedList.find(88));
+            System.out.println(circleLinkedList.delete());
+
             circleLinkedList.insert(22, 2.99);
 
             circleLinkedList.print();
@@ -67,6 +81,11 @@ public class CircleLinkedList {
             circleLinkedList.insert(44, 4.90);
 
             circleLinkedList.print();
+
+            System.out.println(circleLinkedList.find(22));
+
+            //test not found
+            System.out.println(circleLinkedList.find(88));
 
             circleLinkedList.insert(55, 1.01);
 
