@@ -112,7 +112,7 @@ public class LinkedList {
 
             Link deleted = linkedList.find(55);
             if (deleted != null) System.out.println("Deleted link: " + deleted);
-            else System.out.println("Can't deleted; link not found.");
+            else System.out.println("Can't delete; link not found.");
 
             while (!linkedList.isEmpty()) {
                 Link link = linkedList.deleteFirst();
