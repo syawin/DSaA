@@ -21,6 +21,23 @@ public class CircleLinkedList {
         }
     }
 
+    public void step() {
+        curr = curr.getNext();
+    }
+
+    public Link delete() {
+        Link result;
+        if (isEmpty()) return null;
+        if (this.curr == this.curr.getNext()) {
+            result = this.curr;
+            this.curr = null;
+        } else {
+            result = this.curr.getNext();
+            this.curr.setNext(result.getNext());
+        }
+        return result;
+    }
+
     public boolean isEmpty() {
         return null == curr;
     }
@@ -52,6 +69,10 @@ public class CircleLinkedList {
             circleLinkedList.print();
 
             circleLinkedList.insert(55, 1.01);
+
+            circleLinkedList.print();
+
+            System.out.println(circleLinkedList.delete());
 
             circleLinkedList.print();
 
