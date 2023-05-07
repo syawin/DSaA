@@ -2,7 +2,7 @@ package linkedlist;
 
 public class CircleLinkedList {
 
-    private Link curr;
+    private Link curr, first;
 
     public CircleLinkedList() {
         curr = null;
@@ -11,12 +11,12 @@ public class CircleLinkedList {
     public void insert(int iData, double dData) {
         Link newLink = new Link(iData, dData);
         if (isEmpty()) {
-            curr = newLink;
-            newLink.setNext(curr);
+            curr = first = newLink;
+            newLink.setNext(first);
         }
         else {
-            newLink.setNext(curr.getNext());
-            curr.setNext(newLink);
+            newLink.setNext(curr);
+            first.setNext(newLink);
             curr = newLink;
         }
     }
@@ -28,12 +28,13 @@ public class CircleLinkedList {
     public Link delete() {
         Link result;
         if (isEmpty()) return null;
-        if (this.curr == this.curr.getNext()) {
+        if (this.curr == this.first) {
             result = this.curr;
-            this.curr = null;
+            this.curr = this.first = null;
         } else {
-            result = this.curr.getNext();
-            this.curr.setNext(result.getNext());
+            result = this.curr;
+            step();
+            this.first.setNext(this.curr);
         }
         return result;
     }
@@ -42,9 +43,9 @@ public class CircleLinkedList {
         if (isEmpty()) return null;
         Link start = this.curr;
         do {
-            if (this.curr.iData == key) return this.curr;
-            this.step();
-        } while (this.curr != start);
+            if (start.iData == key) return start;
+            start = start.next;
+        } while (start != this.curr);
         return null;
     }
 
@@ -53,6 +54,10 @@ public class CircleLinkedList {
     }
 
     public void print() {
+        if (isEmpty()) {
+            System.out.println("Empty list.");
+            return;
+        }
         System.out.println("List (curr --> curr - 1)");
         Link current = this.curr;
         do {
@@ -84,7 +89,7 @@ public class CircleLinkedList {
 
             System.out.println(circleLinkedList.find(22));
 
-            //test not found
+            //test key not found
             System.out.println(circleLinkedList.find(88));
 
             circleLinkedList.insert(55, 1.01);
@@ -92,9 +97,9 @@ public class CircleLinkedList {
             circleLinkedList.print();
 
             System.out.println(circleLinkedList.delete());
-
-            circleLinkedList.print();
-
+            System.out.println(circleLinkedList.delete());
+            System.out.println(circleLinkedList.delete());
+            System.out.println(circleLinkedList.delete());
         }
     }
 }
