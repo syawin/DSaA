@@ -2,7 +2,7 @@ package linkedlist;
 
 public class CircleStack {
 
-    //stack is FIFO
+    //stack is FILO
 
     private final CircleLinkedList linkedList;
 
@@ -34,7 +34,6 @@ public class CircleStack {
             stack.push(55, 1.01);
             stack.print();
             Link pop = stack.pop();
-            //fails, returns 22 which is key of first pushed link
             assert pop.iData == 55;
             System.out.println(pop);
             stack.print();
