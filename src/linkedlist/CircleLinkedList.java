@@ -2,40 +2,58 @@ package linkedlist;
 
 public class CircleLinkedList {
 
-    private Link curr, first;
+    private Link curr, first, prev;
+    private int size;
 
     public CircleLinkedList() {
-        curr = null;
+        curr = first = prev = null;
+        size = 0;
+    }
+
+    //creates a LinkedList pre-populated with data nodes in ascending order (from 'curr' to 'first')
+    //useful for testing
+    public CircleLinkedList(int size) {
+        this.size = 0;
+        curr = first = prev = null;
+        for (int i = size; i > 0; i--) {
+            insert(i,0.0);
+        }
     }
 
     public void insert(int iData, double dData) {
         Link newLink = new Link(iData, dData);
         if (isEmpty()) {
-            curr = first = newLink;
-            newLink.setNext(first);
+            curr = first = prev = newLink;
+            newLink.setNext(prev);
         }
         else {
             newLink.setNext(curr);
-            first.setNext(newLink);
+            prev.setNext(newLink);
             curr = newLink;
         }
+        size++;
     }
 
     public void step() {
-        curr = curr.getNext();
+        if (!isEmpty()) {
+            prev = curr;
+            curr = curr.getNext();
+        }
     }
 
     public Link delete() {
         Link result;
         if (isEmpty()) return null;
-        if (this.curr == this.first) {
+        if (size == 1) {
             result = this.curr;
-            this.curr = this.first = null;
+            this.curr = this.first = this.prev = null;
         } else {
             result = this.curr;
-            step();
-            this.first.setNext(this.curr);
+            this.curr = this.curr.getNext();
+            this.prev.setNext(this.curr);
+            //this statement is clipping the list b/c it assumes curr always points to the last elem added
         }
+        size--;
         return result;
     }
 
@@ -65,6 +83,10 @@ public class CircleLinkedList {
             current = current.getNext();
         } while (current != curr);
         System.out.println();
+    }
+
+    public int getSize() {
+        return size;
     }
 
     private static class LinkedListDemo {

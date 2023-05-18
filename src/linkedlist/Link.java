@@ -2,12 +2,16 @@ package linkedlist;
 
 public class Link {
     int iData;
+
     double dData;
     Link next;
-
     public Link(int iData, double dData) {
         this.iData = iData;
         this.dData = dData;
+    }
+
+    public int getiData() {
+        return iData;
     }
 
     public void print() {
