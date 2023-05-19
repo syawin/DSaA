@@ -51,7 +51,6 @@ public class CircleLinkedList {
             result = this.curr;
             this.curr = this.curr.getNext();
             this.prev.setNext(this.curr);
-            //this statement is clipping the list b/c it assumes curr always points to the last elem added
         }
         size--;
         return result;
