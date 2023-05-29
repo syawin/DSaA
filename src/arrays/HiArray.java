@@ -3,8 +3,8 @@ package arrays;
 import java.util.Arrays;
 
 public class HiArray {
-    private long[] a;
-    private int nElems;
+    long[] a;
+    int nElems;
 
     public HiArray(int max) {
         a = new long[max];
@@ -13,29 +13,30 @@ public class HiArray {
 
     /**
      * Searches array for provided key by performing a simple iteration over all array elements.
-     * @param searchKey key to find
-     * @return true if key found, false if not found
+     *
+     * @param key key to find
+     * @return index of found element, -1 if not found
      */
-    public boolean iterFind(long searchKey) {
+    public int find(long key) {
         int i;
-        for (i = 0; i < nElems; i++) if (a[i] == searchKey) break;
-        return i != nElems;
+        for (i = 0; i < nElems; i++) if (a[i] == key) break;
+        return i != nElems ? i : -1;
     }
 
     public void insert(long value) {
         a[nElems++] = value;
     }
 
-    public boolean delete(long value) {
+    public boolean delete(long key) {
         int i;
         for (i = 0; i < nElems; i++) {
-            if (value == a[i]) break;
+            if (key == a[i]) break;
         }
-        if (i==nElems) {
+        if (i == nElems) {
             return false;
         } else {
             for (int j = i; j < nElems; j++) {
-                a[j] = a[j+1];
+                a[j] = a[j + 1];
             }
             nElems--;
             return true;
