@@ -6,8 +6,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-//Reversing a String with Stacks
-//Stack push/pop = O(1)
+// Reversing a String with Stacks
+// Stack push/pop = O(1)
 @SuppressWarnings("BooleanMethodIsAlwaysInverted")
 class StackX {
     private final int maxSize;
@@ -82,7 +82,7 @@ class StackXDQ {
     }
 }
 
-//Reverse a string using a stack
+// Reverse a string using a stack
 class Reverser {
     private String input;
     private String output;
@@ -108,7 +108,7 @@ class Reverser {
     }
 }
 
-//Use a stack to match brackets
+// Use a stack to match brackets
 class BracketChecker {
     private final String input;
 
