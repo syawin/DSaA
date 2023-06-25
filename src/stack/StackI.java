@@ -1,9 +1,9 @@
 package stack;
 
-//Reversing a String with Stacks
-//Stack push/pop = O(1)
+// Reversing a String with Stacks
+// Stack push/pop = O(1)
 @SuppressWarnings("BooleanMethodIsAlwaysInverted")
-class StackI {
+public class StackI {
     private final int maxSize;
     private int[] stackArray;
     private int top;
@@ -47,4 +47,3 @@ class StackI {
         System.out.println();
     }
 }
-
