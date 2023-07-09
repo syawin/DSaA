@@ -1,4 +1,4 @@
-package knapsack;
+package recursion;
 
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
@@ -7,7 +7,6 @@ import cucumber.api.java.en.When;
 import org.apache.commons.collections4.CollectionUtils;
 import org.jetbrains.annotations.NotNull;
 import org.junit.Assert;
-import recursion.Knapsack;
 
 import java.util.Arrays;
 import java.util.List;
