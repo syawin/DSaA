@@ -30,11 +30,12 @@ public class Knapsack {
             }
             else if (elem < target) {
                 /*
-                For some reason the "3,4,5" target 10 scenario isn't working. Getting an off-by-one type error
-                where sublist is duplicating elements already picked. Yet changing the code below to do a proper
+                2023-07-09 — For some reason the "3,4,5" target 10 scenario isn't working. Getting an off-by-one type
+                error where sublist is duplicating elements already picked. Yet changing the code below to do a proper
                 sublist by increasing index causes the happy path to fail.
+                2023-07-09 — FIXED; All I had to do was change sublist call from 1 to i + 1 (hence off-by-one).
                 */
-                if (knapRecur(arr.subList(1, arr.size()), target - elem, ans.push(elem))) {
+                if (knapRecur(arr.subList(i + 1, arr.size()), target - elem, ans.push(elem))) {
                     return true;
                 }
                 else {
