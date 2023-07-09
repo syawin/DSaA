@@ -39,7 +39,7 @@ public class KnapsackStepDef {
         this.target = target;
     }
 
-    @When("I execute the recursive algorithm")
+    @When("I execute the recursive knapsack algorithm")
     public void iExecuteTheRecursiveAlgorithm()
     {
         result = Knapsack.knapsack(args, target);

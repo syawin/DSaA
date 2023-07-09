@@ -5,7 +5,7 @@ Feature: Knapsack problem
     Scenario Outline: Knapsack problem
         Given a list containing <numbers>
         And the target <target>
-        When I execute the recursive algorithm
+        When I execute the recursive knapsack algorithm
         Then I should have <expected> as my result
 
         Examples:
@@ -17,7 +17,7 @@ Feature: Knapsack problem
     Scenario Outline: Knapsack problem - error path
         Given a list containing <numbers>
         And the target <target>
-        When I execute the recursive algorithm
+        When I execute the recursive knapsack algorithm
         Then I should have no result
 
         Examples:
