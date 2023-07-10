@@ -12,14 +12,13 @@ import java.util.List;
 
 public class KnapsackStepDef {
 
-    List<Integer> args;
+    List<Integer> args, result;
     int target;
-    List<Integer> result;
 
     @Given("a list containing {string}")
     public void aListContainingNumbersAndATarget(String args)
     {
-        this.args = StepDefUtil.getIntegerList(args);
+        this.args = StepDefUtil.getCommaSeparatedIntegerList(args);
     }
 
     @And("the target {int}")
@@ -39,7 +38,7 @@ public class KnapsackStepDef {
     public void iShouldHaveAsMyResult(String expected)
     {
         Assert.assertFalse("Results set is empty", result.isEmpty());
-        List<Integer> expectedList = StepDefUtil.getIntegerList(expected);
+        List<Integer> expectedList = StepDefUtil.getCommaSeparatedIntegerList(expected);
         Assert.assertTrue(String.format("Expected %s but got %s", expectedList, result),
                           CollectionUtils.isEqualCollection(result, expectedList));
     }
