@@ -5,12 +5,10 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.apache.commons.collections4.CollectionUtils;
-import org.jetbrains.annotations.NotNull;
 import org.junit.Assert;
+import util.StepDefUtil;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class KnapsackStepDef {
 
@@ -21,16 +19,7 @@ public class KnapsackStepDef {
     @Given("a list containing {string}")
     public void aListContainingNumbersAndATarget(String args)
     {
-        this.args = getIntegerList(args);
-    }
-
-    @NotNull
-    private static List<Integer> getIntegerList(String args)
-    {
-        return Arrays.stream(args.split(","))
-                     .map(String::trim)
-                     .map(Integer::valueOf)
-                     .collect(Collectors.toList());
+        this.args = StepDefUtil.getIntegerList(args);
     }
 
     @And("the target {int}")
@@ -50,10 +39,9 @@ public class KnapsackStepDef {
     public void iShouldHaveAsMyResult(String expected)
     {
         Assert.assertFalse("Results set is empty", result.isEmpty());
-        List<Integer> expectedList = getIntegerList(expected);
+        List<Integer> expectedList = StepDefUtil.getIntegerList(expected);
         Assert.assertTrue(String.format("Expected %s but got %s", expectedList, result),
-                          CollectionUtils.isEqualCollection(result,
-                                                            expectedList));
+                          CollectionUtils.isEqualCollection(result, expectedList));
     }
 
     @Then("I should have no result")
