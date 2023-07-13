@@ -8,9 +8,9 @@ import java.util.List;
 @SuppressWarnings("BooleanMethodIsAlwaysInverted")
 public class StackI {
 
-    private final int maxSize;
-    private int[] stackArray;
-    private int top;
+    private final int   maxSize;
+    private       int[] stackArray;
+    private       int   top;
 
     public StackI(int maxSize)
     {
