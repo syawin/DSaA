@@ -2,20 +2,11 @@ package sort;
 
 import java.util.concurrent.TimeUnit;
 
-public class ShellSort {
-
-    private long[] arr;
-    private int    size;
+public class ShellSort extends SortableArray {
 
     public ShellSort(int maxSize)
     {
-        this.size = 0;
-        this.arr  = new long[maxSize];
-    }
-
-    public void insert(long val)
-    {
-        arr[size++] = val;
+        super(maxSize);
     }
 
     public void shellSort()
@@ -49,18 +40,6 @@ public class ShellSort {
             }
             h = (h - 1) / 3;
         }
-    }
-
-    @Override
-    public String toString()
-    {
-        StringBuffer stringBuffer = new StringBuffer("A=");
-        for (long l : arr) {
-            stringBuffer.append(" [")
-                        .append(l)
-                        .append("]");
-        }
-        return stringBuffer.toString();
     }
 
     private static final class ShellSortDemo {
