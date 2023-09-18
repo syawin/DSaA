@@ -7,6 +7,12 @@ public class Partition extends SortableArray {
         super(maxSize);
     }
 
+    @Override
+    public void sort()
+    {
+        ;
+    }
+
     // partition algorithm has O(n) efficiency
     public int partitionArray(int left, int right, long pivot)
     {

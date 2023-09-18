@@ -7,6 +7,7 @@ public class Quicksort extends SortableArray {
         super(maxSize);
     }
 
+    @Override
     public void sort()
     {
         recQuickSort(0, this.size - 1);
@@ -49,13 +50,6 @@ public class Quicksort extends SortableArray {
         }
         swap(leftPtr, right);
         return leftPtr;
-    }
-
-    public void swap(int idex1, int idex2)
-    {
-        long temp = arr[idex1];
-        arr[idex1] = arr[idex2];
-        arr[idex2] = temp;
     }
 
     private static final class QuickSortDemo {

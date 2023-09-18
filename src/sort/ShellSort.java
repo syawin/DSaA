@@ -9,7 +9,7 @@ public class ShellSort extends SortableArray {
         super(maxSize);
     }
 
-    public void shellSort()
+    public void sort()
     {
         int inner, outer;
         long temp;
@@ -53,7 +53,7 @@ public class ShellSort extends SortableArray {
             }
             System.out.println(sort);
             long start = System.nanoTime();
-            sort.shellSort();
+            sort.sort();
             long stop = System.nanoTime();
             long timeInMilli = TimeUnit.MILLISECONDS.convert(stop - start, TimeUnit.NANOSECONDS);
             System.out.println(sort);
