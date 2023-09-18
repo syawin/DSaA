@@ -1,6 +1,6 @@
 package sort;
 
-public class SortableArray {
+public abstract class SortableArray {
 
     protected long[] arr;
     protected int    size;
@@ -10,6 +10,8 @@ public class SortableArray {
         this.arr  = new long[maxSize];
         this.size = 0;
     }
+
+    public abstract void sort();
 
     public void insert(long val)
     {
@@ -26,6 +28,13 @@ public class SortableArray {
                         .append("]");
         }
         return stringBuffer.toString();
+    }
+
+    public void swap(int idex1, int idex2)
+    {
+        long temp = arr[idex1];
+        arr[idex1] = arr[idex2];
+        arr[idex2] = temp;
     }
 
     public int getSize()
