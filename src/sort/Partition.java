@@ -10,37 +10,10 @@ public class Partition extends SortableArray {
     @Override
     public void sort()
     {
-        ;
+        long pivot = this.arr[this.size - 1];
+        partitionArray(0, this.size - 1, pivot);
     }
 
-    // partition algorithm has O(n) efficiency
-    public int partitionArray(int left, int right, long pivot)
-    {
-        int leftPtr = left - 1;
-        int rightPtr = right + 1;
-        while (true) {
-            // avg N+1 or N+2 comparisons
-            while (leftPtr < right && arr[++leftPtr] < pivot)
-                ;
-            while (rightPtr > left && arr[--rightPtr] > pivot)
-                ;
-            if (leftPtr >= rightPtr) {
-                break;
-            }
-            else {
-                swap(leftPtr, rightPtr);
-            }
-        }
-        return leftPtr;
-    }
-
-    // avg N/2 swaps
-    public void swap(int idex1, int idex2)
-    {
-        long temp = arr[idex1];
-        arr[idex1] = arr[idex2];
-        arr[idex2] = temp;
-    }
 
     private static final class PartitionDemo {
 
@@ -51,7 +24,8 @@ public class Partition extends SortableArray {
                 part.insert(((int) (Math.random() * 199)));
             }
             System.out.println(part);
-            int partitionIndex = part.partitionArray(0, part.getMaxSize() - 1, 99);
+            long pivot = part.arr[part.size - 1];
+            int partitionIndex = part.partitionArray(0, part.size - 1, pivot);
             System.out.println("Partition is at index " + partitionIndex);
             System.out.println(part);
         }
