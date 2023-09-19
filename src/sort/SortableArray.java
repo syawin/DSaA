@@ -18,6 +18,27 @@ public abstract class SortableArray {
         arr[size++] = val;
     }
 
+    // partition algorithm has O(n) efficiency
+    public int partitionArray(int left, int right, long pivot)
+    {
+        int leftPtr = left - 1;
+        int rightPtr = right;
+        while (true) {
+            while (arr[++leftPtr] < pivot)
+                ;
+            while (rightPtr > 0 && arr[--rightPtr] > pivot)
+                ;
+            if (leftPtr >= rightPtr) {
+                break;
+            }
+            else {
+                swap(leftPtr, rightPtr);
+            }
+        }
+        swap(leftPtr, right);
+        return leftPtr;
+    }
+
     @Override
     public String toString()
     {
