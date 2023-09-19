@@ -25,31 +25,10 @@ public class Quicksort extends SortableArray {
         }
         else {
             long pivot = this.arr[right];
-            int partition = partitionIt(left, right, pivot);
+            int partition = partitionArray(left, right, pivot);
             recQuickSort(left, partition - 1);
             recQuickSort(partition + 1, right);
         }
-    }
-
-    // Time complexity O(N)
-    public int partitionIt(int left, int right, long pivot)
-    {
-        int leftPtr = left - 1;
-        int rightPtr = right;
-        while (true) {
-            while (arr[++leftPtr] < pivot)
-                ;
-            while (rightPtr > 0 && arr[--rightPtr] > pivot)
-                ;
-            if (leftPtr >= rightPtr) {
-                break;
-            }
-            else {
-                swap(leftPtr, rightPtr);
-            }
-        }
-        swap(leftPtr, right);
-        return leftPtr;
     }
 
     private static final class QuickSortDemo {
