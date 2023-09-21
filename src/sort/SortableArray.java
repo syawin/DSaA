@@ -26,7 +26,7 @@ public abstract class SortableArray {
         while (true) {
             while (arr[++leftPtr] < pivot)
                 ;
-            while (rightPtr > 0 && arr[--rightPtr] > pivot)
+            while (rightPtr > left && arr[--rightPtr] > pivot)
                 ;
             if (leftPtr >= rightPtr) {
                 break;
