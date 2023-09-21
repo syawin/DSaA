@@ -28,7 +28,7 @@ public class QuicksortMedian extends SortableArray {
 
     private int partitionIt(int left, int right, long pivot)
     {
-        int leftPtr = left;
+        int leftPtr = left - 1;
         int rightPtr = right;
         while (true) {
             while (arr[++leftPtr] < pivot)
