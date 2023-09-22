@@ -29,7 +29,7 @@ public class QuicksortInsert extends SortableArray {
 
     private int partitionIt(int left, int right, long pivot)
     {
-        int leftPtr = left;
+        int leftPtr = left - 1;
         int rightPtr = right;
         while (true) {
             while (arr[++leftPtr] < pivot)
@@ -82,7 +82,7 @@ public class QuicksortInsert extends SortableArray {
 
         public static void main(String[] args)
         {
-            int maxSize = 100;
+            int maxSize = 16;
             QuicksortInsert qs = new QuicksortInsert(maxSize);
             for (int i = 0; i < maxSize; i++) {
                 long n = (int) (Math.random() * 99);
