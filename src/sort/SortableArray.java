@@ -1,13 +1,15 @@
 package sort;
 
+import java.util.Arrays;
+
 public abstract class SortableArray {
 
-    protected long[] arr;
+    protected Long[] arr;
     protected int    size;
 
     public SortableArray(int maxSize)
     {
-        this.arr  = new long[maxSize];
+        this.arr = new Long[maxSize];
         this.size = 0;
     }
 
@@ -68,4 +70,10 @@ public abstract class SortableArray {
         return arr.length;
     }
 
+    @SuppressWarnings("SlowListContainsAll")
+    public boolean hasAllElems(SortableArray toCompare)
+    {
+        return Arrays.asList(this.arr)
+                     .containsAll(Arrays.asList(toCompare.arr));
+    }
 }

@@ -20,6 +20,7 @@ public class FindMedian extends SortableArray {
 
     public void recPartition(int left, int right, long pivot, int selectDex)
     {
+        // noinspection DuplicatedCode
         if (right - left <= 0) {
             return;
         }
@@ -43,12 +44,15 @@ public class FindMedian extends SortableArray {
         {
             int maxSize = 15;
             FindMedian median = new FindMedian(maxSize);
+            FindMedian clone = new FindMedian(maxSize);
             for (int i = 0; i < maxSize; i++) {
                 long n = (int) (Math.random() * 99);
                 median.insert(n);
+                clone.insert(n);
             }
             System.out.println(median);
             median.sort();
+            assert median.hasAllElems(clone);
             System.out.println(median);
         }
 
