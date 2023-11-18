@@ -15,17 +15,24 @@ public class RadixSort extends SortableArray {
         }
     }
 
-
     public static void main(String[] args)
     {
-
         System.out.println(RadixSort.hash(801, 1));
         System.out.println(RadixSort.hash(801, 2));
         System.out.println(RadixSort.hash(801, 3));
         System.out.println(RadixSort.hash(801, 41));
+        System.out.println(RadixSort.hash(4001, 4));
     }
 
-    public static int hash(final long val, final int nDigit)
+    /**
+     * Hash function that returns the nth digit in a value in decimal
+     *
+     * @param val    value to be hashed
+     * @param nDigit nth place digit to be returned
+     *
+     * @return hash value between 0 and 9
+     */
+    private static int hash(final long val, final int nDigit)
     {
         int count = nDigit;
         long temp = val;
@@ -38,7 +45,8 @@ public class RadixSort extends SortableArray {
     @Override
     public void sort()
     {
-        for (int i = 1; i <= 3; i++) {
+        int maxDigits = this.getMaxDigits();
+        for (int i = 1; i <= maxDigits; i++) {
             for (Long val : arr) {
                 map.get(hash(val, i))
                    .add(val);
@@ -53,19 +61,34 @@ public class RadixSort extends SortableArray {
         }
     }
 
-    private static final class RadixDemo {
+    private int getMaxDigits()
+    {
+        long max = -1;
+        int numDigits = 0;
+        for (Long l : arr) {
+            if (l > max) max = l;
+        }
+        while (max > 0) {
+            max /= 10;
+            numDigits++;
+        }
+        return numDigits;
+    }
+
+    private static final class SortDemo {
 
         public static void main(String[] args)
         {
-            int maxSize = 16;
-            RadixSort qs = new RadixSort(maxSize);
+            int maxSize = 20;
+            RadixSort sort = new RadixSort(maxSize);
             for (int i = 0; i < maxSize; i++) {
-                long n = (int) (Math.random() * 999);
-                qs.insert(n);
+                long n = (int) (Math.random() * 99999);
+                sort.insert(n);
             }
-            System.out.println(qs);
-            qs.sort();
-            System.out.println(qs);
+            System.out.println(sort.getMaxDigits());
+            System.out.println(sort);
+            sort.sort();
+            System.out.println(sort);
         }
 
     }
