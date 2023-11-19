@@ -1,4 +1,4 @@
-package arrays;
+package array;
 
 public class OrderedArray extends HiArray{
     public OrderedArray(int max) {

@@ -1,4 +1,4 @@
-package arrays;
+package array;
 
 public class BinarySearchOrderedArray extends OrderedArray {
     public BinarySearchOrderedArray(int max) {
