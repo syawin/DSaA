@@ -168,7 +168,7 @@ public class Tree {
             while (!globalStack.isEmpty()) {
                 Node temp = globalStack.pop();
                 if (temp != null) {
-                    System.out.print(temp.getKey());
+                    System.out.print(temp.getVal());
                     localStack.push(temp.getlChild());
                     localStack.push(temp.getrChild());
 
