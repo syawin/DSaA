@@ -15,22 +15,22 @@ public class Node {
         rChild = builder.rChild;
     }
 
-    public Node getRight()
+    public Node getrChild()
     {
         return rChild;
     }
 
-    public void setRight(Node right)
+    public void setrChild(Node right)
     {
         this.rChild = right;
     }
 
-    public Node getLeft()
+    public Node getlChild()
     {
         return lChild;
     }
 
-    public void setLeft(Node left)
+    public void setlChild(Node left)
     {
         this.lChild = left;
     }
