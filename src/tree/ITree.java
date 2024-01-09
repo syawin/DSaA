@@ -2,7 +2,7 @@ package tree;
 
 import stack.StackGeneric;
 
-public class Tree {
+public class ITree {
 
     private INode root;
 
@@ -259,7 +259,7 @@ public class Tree {
 
         public static void main(String[] args)
         {
-            Tree tree = new Tree();
+            ITree tree = new ITree();
             tree.insert(4, 2.0);
             tree.insert(3, 2.0);
             tree.insert(6, 2.0);
