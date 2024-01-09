@@ -21,7 +21,7 @@ public class Tree {
         return current;
     }
 
-    public void insert(int key, double val)
+    public void insert(int key, Object val)
     {
         Node insert = new Node.Builder(key, val).build();
         if (root == null) {
@@ -261,9 +261,9 @@ public class Tree {
         public static void main(String[] args)
         {
             Tree tree = new Tree();
-            tree.insert(4, 2.0);
-            tree.insert(3, 2.0);
-            tree.insert(6, 2.0);
+            tree.insert(4, 'a');
+            tree.insert(3, "abc");
+            tree.insert(6, 1);
             tree.insert(5, 2.0);
             tree.displayTree(16);
             tree.displayTree();
