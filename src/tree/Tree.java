@@ -8,29 +8,15 @@ import java.util.List;
 @SuppressWarnings("DuplicatedCode")
 public class Tree {
 
-    private Node root;
+    private GraphNode root;
 
     public Tree()
     {
     }
 
-    public Tree(Node root)
+    public Tree(GraphNode root)
     {
         this.root = root;
-    }
-
-    public Node find(int key)
-    {
-        Node current = root;
-        while (current != null && current.getKey() != key) {
-            if (key < current.getKey()) {
-                current = current.getlChild();
-            }
-            else {
-                current = current.getrChild();
-            }
-        }
-        return current;
     }
 
     public static Tree createStringTree(String message)
@@ -38,7 +24,7 @@ public class Tree {
         Tree master = new Tree();
         List<Tree> forest = new ArrayList<>();
         for (char c : message.toCharArray()) {
-            Node node = new Node.Builder(-1, c).build();
+            GraphNode node = new GraphNode.Builder(-1, c).build();
             Tree tree = new Tree(node);
             forest.add(tree);
         }
@@ -50,12 +36,12 @@ public class Tree {
 
     public static Tree mergeTrees(Tree aTree, Tree bTree)
     {
-        Node newRoot;
+        GraphNode newRoot;
         if (aTree.root == null) {
             newRoot = bTree.root;
         }
         else {
-            newRoot = new Node.Builder(-1, '+')
+            newRoot = new GraphNode.Builder(-1, '+')
                               .leftChild(aTree.root)
                               .rightChild(bTree.root)
                               .build();
@@ -63,15 +49,29 @@ public class Tree {
         return new Tree(newRoot);
     }
 
+    public GraphNode find(int key)
+    {
+        GraphNode current = root;
+        while (current != null && current.getKey() != key) {
+            if (key < current.getKey()) {
+                current = current.getlChild();
+            }
+            else {
+                current = current.getrChild();
+            }
+        }
+        return current;
+    }
+
     public void insert(int key, Object val)
     {
-        Node insert = new Node.Builder(key, val).build();
+        GraphNode insert = new GraphNode.Builder(key, val).build();
         if (root == null) {
             root = insert;
         }
         else {
-            Node current = root;
-            Node parent;
+            GraphNode current = root;
+            GraphNode parent;
             while (true) {
                 parent = current;
                 // less than - left
@@ -96,7 +96,7 @@ public class Tree {
 
     public boolean delete(int key)
     {
-        Node parent, curr;
+        GraphNode parent, curr;
         parent = curr = root;
         boolean isLeftChild = true;
         while (curr.getKey() != key) {
@@ -158,7 +158,7 @@ public class Tree {
         // end case: 1 child
         // begin case: 2 child
         else {
-            Node successor = getSuccessor(curr);
+            GraphNode successor = getSuccessor(curr);
             if (curr == root) {
                 root = successor;
             }
@@ -174,10 +174,10 @@ public class Tree {
         return true;
     }
 
-    public Node min()
+    public GraphNode min()
     {
-        Node min = null;
-        Node current = root;
+        GraphNode min = null;
+        GraphNode current = root;
         while (current != null) {
             min     = current;
             current = current.getlChild();
@@ -192,7 +192,7 @@ public class Tree {
 
     public void displayTree(int spaces)
     {
-        StackGeneric<Node> globalStack = new StackGeneric<>();
+        StackGeneric<GraphNode> globalStack = new StackGeneric<>();
         globalStack.push(root);
         int nBlanks = spaces;
         boolean isRowEmpty = false;
@@ -201,14 +201,14 @@ public class Tree {
         System.out.println(lineBreak);
 
         while (!isRowEmpty) {
-            StackGeneric<Node> localStack = new StackGeneric<>();
+            StackGeneric<GraphNode> localStack = new StackGeneric<>();
             isRowEmpty = true;
             for (int i = 0; i < nBlanks; i++) {
                 System.out.print(' ');
             }
 
             while (!globalStack.isEmpty()) {
-                Node temp = globalStack.pop();
+                GraphNode temp = globalStack.pop();
                 if (temp != null) {
                     System.out.print(temp.getVal());
                     localStack.push(temp.getlChild());
@@ -254,7 +254,7 @@ public class Tree {
         }
     }
 
-    void inOrder(Node localRoot)
+    void inOrder(GraphNode localRoot)
     {
         if (localRoot != null) {
             inOrder(localRoot.getlChild());
@@ -263,7 +263,7 @@ public class Tree {
         }
     }
 
-    void preOrder(Node localRoot)
+    void preOrder(GraphNode localRoot)
     {
         if (localRoot != null) {
             System.out.println(localRoot.getKey() + " ");
@@ -272,7 +272,7 @@ public class Tree {
         }
     }
 
-    void postOrder(Node localRoot)
+    void postOrder(GraphNode localRoot)
     {
         if (localRoot != null) {
             postOrder(localRoot.getlChild());
@@ -281,9 +281,9 @@ public class Tree {
         }
     }
 
-    private Node getSuccessor(Node delNode)
+    private GraphNode getSuccessor(GraphNode delNode)
     {
-        Node paren, successor, curr;
+        GraphNode paren, successor, curr;
         paren = successor = delNode;
         curr  = delNode.getrChild();
         while (curr != null) {
