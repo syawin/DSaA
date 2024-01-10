@@ -2,10 +2,22 @@ package tree;
 
 import stack.StackGeneric;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @SuppressWarnings("DuplicatedCode")
 public class Tree {
 
     private Node root;
+
+    public Tree()
+    {
+    }
+
+    public Tree(Node root)
+    {
+        this.root = root;
+    }
 
     public Node find(int key)
     {
@@ -19,6 +31,36 @@ public class Tree {
             }
         }
         return current;
+    }
+
+    public static Tree createStringTree(String message)
+    {
+        Tree master = new Tree();
+        List<Tree> forest = new ArrayList<>();
+        for (char c : message.toCharArray()) {
+            Node node = new Node.Builder(-1, c).build();
+            Tree tree = new Tree(node);
+            forest.add(tree);
+        }
+        for (Tree tree : forest) {
+            master = mergeTrees(master, tree);
+        }
+        return master;
+    }
+
+    public static Tree mergeTrees(Tree aTree, Tree bTree)
+    {
+        Node newRoot;
+        if (aTree.root == null) {
+            newRoot = bTree.root;
+        }
+        else {
+            newRoot = new Node.Builder(-1, '+')
+                              .leftChild(aTree.root)
+                              .rightChild(bTree.root)
+                              .build();
+        }
+        return new Tree(newRoot);
     }
 
     public void insert(int key, Object val)
@@ -260,13 +302,16 @@ public class Tree {
 
         public static void main(String[] args)
         {
-            Tree tree = new Tree();
-            tree.insert(4, 'a');
-            tree.insert(3, "abc");
-            tree.insert(6, 1);
-            tree.insert(5, 2.0);
-            tree.displayTree(16);
-            tree.displayTree();
+            Tree alphaTree = createStringTree("ABCDE");
+            alphaTree.displayTree();
+
+            // Tree tree = new Tree();
+            // tree.insert(4, 'a');
+            // tree.insert(3, "abc");
+            // tree.insert(6, 1);
+            // tree.insert(5, 2.0);
+            // tree.displayTree(16);
+            // tree.displayTree();
         }
 
     }
