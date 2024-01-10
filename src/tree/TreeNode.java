@@ -1,16 +1,13 @@
 package tree;
 
-public class TreeNode {
+public class TreeNode extends Node {
 
-    private final int      key;
-    private final Object   val;
     private       TreeNode rChild;
     private       TreeNode lChild;
 
     private TreeNode(Builder builder)
     {
-        key    = builder.key;
-        val    = builder.val;
+        super(builder);
         lChild = builder.lChild;
         rChild = builder.rChild;
     }
@@ -35,38 +32,25 @@ public class TreeNode {
         this.lChild = left;
     }
 
-    public int getKey()
-    {
-        return key;
-    }
-
-    public Object getVal()
-    {
-        return val;
-    }
-
     @Override
     public String toString()
     {
         return "Node{" +
-                       "key=" + key +
-                       ", val=" + val +
+                       "key=" + getKey() +
+                       ", val=" + getVal() +
                        ", rChild=" + rChild +
                        ", lChild=" + lChild +
                        '}';
     }
 
-    public static class Builder {
+    public static class Builder extends Node.Builder {
 
-        private final int    key;
-        private final Object val;
         private       TreeNode lChild = null;
         private       TreeNode rChild = null;
 
         public Builder(int key, Object val)
         {
-            this.key = key;
-            this.val = val;
+            super(key, val);
         }
 
         public Builder leftChild(TreeNode lChild)
