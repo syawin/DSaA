@@ -302,16 +302,23 @@ public class Tree {
 
         public static void main(String[] args)
         {
+            Tree tree = new Tree();
+            tree.insert(4, 'a');
+            tree.insert(3, "abc");
+            tree.insert(6, 1);
+            tree.insert(5, 2.0);
+            tree.displayTree(16);
+            tree.displayTree();
+        }
+
+    }
+
+    private static class AlphaTreeDemo {
+
+        public static void main(String[] args)
+        {
             Tree alphaTree = createStringTree("ABCDE");
             alphaTree.displayTree();
-
-            // Tree tree = new Tree();
-            // tree.insert(4, 'a');
-            // tree.insert(3, "abc");
-            // tree.insert(6, 1);
-            // tree.insert(5, 2.0);
-            // tree.displayTree(16);
-            // tree.displayTree();
         }
 
     }
