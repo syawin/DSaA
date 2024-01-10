@@ -1,13 +1,13 @@
 package tree;
 
-public class GraphNode {
+public class TreeNode {
 
-    private final int       key;
-    private final Object    val;
-    private       GraphNode rChild;
-    private       GraphNode lChild;
+    private final int      key;
+    private final Object   val;
+    private       TreeNode rChild;
+    private       TreeNode lChild;
 
-    private GraphNode(Builder builder)
+    private TreeNode(Builder builder)
     {
         key    = builder.key;
         val    = builder.val;
@@ -15,22 +15,22 @@ public class GraphNode {
         rChild = builder.rChild;
     }
 
-    public GraphNode getrChild()
+    public TreeNode getrChild()
     {
         return rChild;
     }
 
-    public void setrChild(GraphNode right)
+    public void setrChild(TreeNode right)
     {
         this.rChild = right;
     }
 
-    public GraphNode getlChild()
+    public TreeNode getlChild()
     {
         return lChild;
     }
 
-    public void setlChild(GraphNode left)
+    public void setlChild(TreeNode left)
     {
         this.lChild = left;
     }
@@ -60,8 +60,8 @@ public class GraphNode {
 
         private final int    key;
         private final Object val;
-        private       GraphNode lChild = null;
-        private       GraphNode rChild = null;
+        private       TreeNode lChild = null;
+        private       TreeNode rChild = null;
 
         public Builder(int key, Object val)
         {
@@ -69,21 +69,21 @@ public class GraphNode {
             this.val = val;
         }
 
-        public Builder leftChild(GraphNode lChild)
+        public Builder leftChild(TreeNode lChild)
         {
             this.lChild = lChild;
             return this;
         }
 
-        public Builder rightChild(GraphNode rChild)
+        public Builder rightChild(TreeNode rChild)
         {
             this.rChild = rChild;
             return this;
         }
 
-        public GraphNode build()
+        public TreeNode build()
         {
-            return new GraphNode(this);
+            return new TreeNode(this);
         }
 
     }
