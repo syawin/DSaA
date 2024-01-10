@@ -1,13 +1,13 @@
 package tree;
 
-public class Node {
+public class GraphNode {
 
-    private final int    key;
-    private final Object val;
-    private       Node   rChild;
-    private       Node   lChild;
+    private final int       key;
+    private final Object    val;
+    private       GraphNode rChild;
+    private       GraphNode lChild;
 
-    private Node(Builder builder)
+    private GraphNode(Builder builder)
     {
         key    = builder.key;
         val    = builder.val;
@@ -15,22 +15,22 @@ public class Node {
         rChild = builder.rChild;
     }
 
-    public Node getrChild()
+    public GraphNode getrChild()
     {
         return rChild;
     }
 
-    public void setrChild(Node right)
+    public void setrChild(GraphNode right)
     {
         this.rChild = right;
     }
 
-    public Node getlChild()
+    public GraphNode getlChild()
     {
         return lChild;
     }
 
-    public void setlChild(Node left)
+    public void setlChild(GraphNode left)
     {
         this.lChild = left;
     }
@@ -60,8 +60,8 @@ public class Node {
 
         private final int    key;
         private final Object val;
-        private       Node   lChild = null;
-        private       Node   rChild = null;
+        private       GraphNode lChild = null;
+        private       GraphNode rChild = null;
 
         public Builder(int key, Object val)
         {
@@ -69,21 +69,21 @@ public class Node {
             this.val = val;
         }
 
-        public Builder leftChild(Node lChild)
+        public Builder leftChild(GraphNode lChild)
         {
             this.lChild = lChild;
             return this;
         }
 
-        public Builder rightChild(Node rChild)
+        public Builder rightChild(GraphNode rChild)
         {
             this.rChild = rChild;
             return this;
         }
 
-        public Node build()
+        public GraphNode build()
         {
-            return new Node(this);
+            return new GraphNode(this);
         }
 
     }
