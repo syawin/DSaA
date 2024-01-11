@@ -10,6 +10,11 @@ public class LinkedNode extends Node {
         next = builder.next;
     }
 
+    public boolean hasNext()
+    {
+        return next != null;
+    }
+
     public LinkedNode getNext()
     {
         return next;
