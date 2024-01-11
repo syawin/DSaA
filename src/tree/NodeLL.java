@@ -87,7 +87,7 @@ public class NodeLL implements Iterable<LinkedNode> {
         @Override
         public boolean hasNext()
         {
-            return curr.hasNext();
+            return curr != null;
         }
 
         @Override
