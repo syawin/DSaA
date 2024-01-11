@@ -2,8 +2,8 @@ package tree;
 
 public class TreeNode extends Node {
 
-    private       TreeNode rChild;
-    private       TreeNode lChild;
+    private TreeNode rChild;
+    private TreeNode lChild;
 
     private TreeNode(Builder builder)
     {
@@ -45,8 +45,8 @@ public class TreeNode extends Node {
 
     public static class Builder extends Node.Builder {
 
-        private       TreeNode lChild = null;
-        private       TreeNode rChild = null;
+        private TreeNode lChild = null;
+        private TreeNode rChild = null;
 
         public Builder(int key, Object val)
         {

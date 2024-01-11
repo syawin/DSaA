@@ -27,9 +27,13 @@ public class LinkedList {
             current = current.getNext();
         }
         //list is empty, insert at beginning
-        if (previous == null) first = newLink;
+        if (previous == null) {
+            first = newLink;
+        }
         //list is not empty, inserting at middle or end
-        else previous.setNext(newLink);
+        else {
+            previous.setNext(newLink);
+        }
         //point new link next ref to the current link
         newLink.setNext(current);
     }
