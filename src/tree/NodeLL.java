@@ -65,6 +65,20 @@ public class NodeLL implements Iterable<LinkedNode> {
         return curr;
     }
 
+    @Override
+    public String toString()
+    {
+        final StringBuffer sb = new StringBuffer("NodeLL{");
+        sb.append('\n');
+        for (LinkedNode node : this) {
+            sb.append('\t')
+              .append(node)
+              .append('\n');
+        }
+        sb.append('}');
+        return sb.toString();
+    }
+
     @NotNull
     @Override
     public Iterator<LinkedNode> iterator()
