@@ -31,18 +31,7 @@ public class TreeNode extends Node {
     {
         this.lChild = left;
     }
-
-    @Override
-    public String toString()
-    {
-        return "TreeNode{" +
-                       "rChild=" + rChild +
-                       ", lChild=" + lChild +
-                       ", key=" + getKey() +
-                       ", val=" + getVal() +
-                       '}';
-    }
-
+    
     public static class Builder extends Node.Builder {
 
         private TreeNode lChild = null;
