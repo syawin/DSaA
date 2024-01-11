@@ -30,6 +30,14 @@ public class NodeLL implements Iterable<LinkedNode> {
                              .build();
     }
 
+    public Node removeFirst()
+    {
+        if (isEmpty()) return null;
+        Node res = first;
+        first = first.getNext();
+        return res;
+    }
+
     public void insertInOrder(Node node)
     {
         LinkedNode newLink, prev, curr;
