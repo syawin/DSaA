@@ -35,11 +35,11 @@ public class TreeNode extends Node {
     @Override
     public String toString()
     {
-        return "Node{" +
-                       "key=" + getKey() +
-                       ", val=" + getVal() +
-                       ", rChild=" + rChild +
+        return "TreeNode{" +
+                       "rChild=" + rChild +
                        ", lChild=" + lChild +
+                       ", key=" + getKey() +
+                       ", val=" + getVal() +
                        '}';
     }
 

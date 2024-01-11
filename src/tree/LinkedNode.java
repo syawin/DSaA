@@ -25,6 +25,16 @@ public class LinkedNode extends Node {
         this.next = next;
     }
 
+    @Override
+    public String toString()
+    {
+        return "LinkedNode{" +
+                       "next=" + next +
+                       ", key=" + getKey() +
+                       ", val=" + getVal() +
+                       '}';
+    }
+
     public static class Builder extends Node.Builder {
 
         private LinkedNode next = null;

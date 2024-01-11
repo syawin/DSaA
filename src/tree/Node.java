@@ -21,6 +21,15 @@ public class Node {
         return val;
     }
 
+    @Override
+    public String toString()
+    {
+        return "Node{" +
+                       "key=" + key +
+                       ", val=" + val +
+                       '}';
+    }
+
     public static class Builder {
 
         private final int    key;
