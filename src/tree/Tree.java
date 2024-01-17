@@ -214,6 +214,15 @@ public class Tree {
         System.out.println(lineBreak);
     }
 
+    void preOrder(TreeNode localRoot)
+    {
+        if (localRoot != null) {
+            System.out.println(localRoot.getKey() + " ");
+            preOrder(localRoot.getlChild());
+            preOrder(localRoot.getrChild());
+        }
+    }
+
     public void insert(int key, Object val)
     {
         TreeNode insert = new TreeNode.Builder(key, val).build();
@@ -254,15 +263,6 @@ public class Tree {
             current = current.getlChild();
         }
         return min;
-    }
-
-    void preOrder(TreeNode localRoot)
-    {
-        if (localRoot != null) {
-            System.out.println(localRoot.getKey() + " ");
-            preOrder(localRoot.getlChild());
-            preOrder(localRoot.getrChild());
-        }
     }
 
     public void traverse(int traverseType)
