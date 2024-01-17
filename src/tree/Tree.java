@@ -39,7 +39,7 @@ public class Tree {
                             .getVal();
     }
 
-    public static Tree mergeTrees(Tree aTree, Tree bTree)
+    private static Tree mergeTrees(Tree aTree, Tree bTree)
     {
         TreeNode newRoot;
         if (aTree.root == null) {
