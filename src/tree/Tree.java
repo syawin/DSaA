@@ -19,19 +19,24 @@ public class Tree {
         this.root = root;
     }
 
-    public static Tree createStringTree(String message)
+    public static Tree createBalancedStringTree(String message)
     {
-        Tree master = new Tree();
-        List<Tree> forest = new ArrayList<>();
+        NodeLL forest = new NodeLL();
+
         for (char c : message.toCharArray()) {
-            TreeNode node = new TreeNode.Builder(-1, c).build();
-            Tree tree = new Tree(node);
-            forest.add(tree);
+            TreeNode root = new TreeNode.Builder(-1, c).build();
+            Tree tree = new Tree(root);
+            Node wrapper = new Node.Builder(-1, tree).build();
+            forest.insertFirst(wrapper);
         }
-        for (Tree tree : forest) {
-            master = mergeTrees(master, tree);
+        while (forest.length() > 1) {
+            Node a = forest.removeFirst();
+            Node b = forest.removeFirst();
+            Node c = new Node.Builder(-1, mergeTrees((Tree) a.getVal(), (Tree) b.getVal())).build();
+            forest.insertLast(c);
         }
-        return master;
+        return (Tree) forest.getFirst()
+                            .getVal();
     }
 
     public static Tree mergeTrees(Tree aTree, Tree bTree)
@@ -49,49 +54,19 @@ public class Tree {
         return new Tree(newRoot);
     }
 
-    public TreeNode find(int key)
+    public static Tree createStringTree(String message)
     {
-        TreeNode current = root;
-        while (current != null && current.getKey() != key) {
-            if (key < current.getKey()) {
-                current = current.getlChild();
-            }
-            else {
-                current = current.getrChild();
-            }
+        Tree master = new Tree();
+        List<Tree> forest = new ArrayList<>();
+        for (char c : message.toCharArray()) {
+            TreeNode node = new TreeNode.Builder(-1, c).build();
+            Tree tree = new Tree(node);
+            forest.add(tree);
         }
-        return current;
-    }
-
-    public void insert(int key, Object val)
-    {
-        TreeNode insert = new TreeNode.Builder(key, val).build();
-        if (root == null) {
-            root = insert;
+        for (Tree tree : forest) {
+            master = mergeTrees(master, tree);
         }
-        else {
-            TreeNode current = root;
-            TreeNode parent;
-            while (true) {
-                parent = current;
-                // less than - left
-                if (key < current.getKey()) {
-                    current = current.getlChild();
-                    if (current == null) {
-                        parent.setlChild(insert);
-                        return;
-                    }
-                }
-                //  greater than or equal - right
-                else {
-                    current = current.getrChild();
-                    if (current == null) {
-                        parent.setrChild(insert);
-                        return;
-                    }
-                }
-            }
-        }
+        return master;
     }
 
     public boolean delete(int key)
@@ -174,15 +149,18 @@ public class Tree {
         return true;
     }
 
-    public TreeNode min()
+    public TreeNode find(int key)
     {
-        TreeNode min = null;
         TreeNode current = root;
-        while (current != null) {
-            min     = current;
-            current = current.getlChild();
+        while (current != null && current.getKey() != key) {
+            if (key < current.getKey()) {
+                current = current.getlChild();
+            }
+            else {
+                current = current.getrChild();
+            }
         }
-        return min;
+        return current;
     }
 
     public void displayTree()
@@ -236,6 +214,57 @@ public class Tree {
         System.out.println(lineBreak);
     }
 
+    public void insert(int key, Object val)
+    {
+        TreeNode insert = new TreeNode.Builder(key, val).build();
+        if (root == null) {
+            root = insert;
+        }
+        else {
+            TreeNode current = root;
+            TreeNode parent;
+            while (true) {
+                parent = current;
+                // less than - left
+                if (key < current.getKey()) {
+                    current = current.getlChild();
+                    if (current == null) {
+                        parent.setlChild(insert);
+                        return;
+                    }
+                }
+                //  greater than or equal - right
+                else {
+                    current = current.getrChild();
+                    if (current == null) {
+                        parent.setrChild(insert);
+                        return;
+                    }
+                }
+            }
+        }
+    }
+
+    public TreeNode min()
+    {
+        TreeNode min = null;
+        TreeNode current = root;
+        while (current != null) {
+            min     = current;
+            current = current.getlChild();
+        }
+        return min;
+    }
+
+    void preOrder(TreeNode localRoot)
+    {
+        if (localRoot != null) {
+            System.out.println(localRoot.getKey() + " ");
+            preOrder(localRoot.getlChild());
+            preOrder(localRoot.getrChild());
+        }
+    }
+
     public void traverse(int traverseType)
     {
         switch (traverseType) {
@@ -260,15 +289,6 @@ public class Tree {
             inOrder(localRoot.getlChild());
             System.out.println(localRoot.getKey() + " ");
             inOrder(localRoot.getrChild());
-        }
-    }
-
-    void preOrder(TreeNode localRoot)
-    {
-        if (localRoot != null) {
-            System.out.println(localRoot.getKey() + " ");
-            preOrder(localRoot.getlChild());
-            preOrder(localRoot.getrChild());
         }
     }
 
@@ -319,6 +339,8 @@ public class Tree {
         {
             Tree alphaTree = createStringTree("ABCDE");
             alphaTree.displayTree();
+            Tree test = createBalancedStringTree("ABCDEFGHIJKL");
+            test.displayTree();
         }
 
     }
