@@ -6,16 +6,40 @@ import java.util.Iterator;
 
 public class NodeLL implements Iterable<LinkedNode> {
 
-    private LinkedNode first;
+    private LinkedNode first, last;
+    private int size;
 
     public NodeLL()
     {
-        first = null;
+        last = first = null;
+        size = 0;
     }
 
+    // getter
     public LinkedNode getFirst()
     {
         return first;
+    }
+
+    public LinkedNode getLast()
+    {
+        return last;
+    }
+    // getter end
+
+    public LinkedNode find(int key)
+    {
+        if (isEmpty()) return null;
+        LinkedNode curr = this.first;
+        while (curr.getKey() != key) {
+            if (curr.hasNext()) {
+                curr = curr.getNext();
+            }
+            else {
+                return null;
+            }
+        }
+        return curr;
     }
 
     public boolean isEmpty()
@@ -25,17 +49,12 @@ public class NodeLL implements Iterable<LinkedNode> {
 
     public void insertFirst(Node node)
     {
-        this.first = new LinkedNode.Builder(node.getKey(), node.getVal())
-                             .next(first)
-                             .build();
-    }
-
-    public Node removeFirst()
-    {
-        if (isEmpty()) return null;
-        Node res = first;
-        first = first.getNext();
-        return res;
+        LinkedNode linkedNode = new LinkedNode.Builder(node.getKey(), node.getVal())
+                                        .next(first)
+                                        .build();
+        if (size == 0) this.last = linkedNode;
+        this.first = linkedNode;
+        size++;
     }
 
     public void insertInOrder(Node node)
@@ -55,22 +74,43 @@ public class NodeLL implements Iterable<LinkedNode> {
         else {
             prev.setNext(newLink);
         }
+        if (curr == null) last = newLink;
         newLink.setNext(curr);
+        size++;
     }
 
-    public LinkedNode find(int key)
+    public void insertLast(Node node)
+    {
+        LinkedNode linkedNode = new LinkedNode.Builder(node.getKey(), node.getVal()).build();
+        if (isEmpty()) {
+            first = last = linkedNode;
+        }
+        else {
+            last.setNext(linkedNode);
+            last = linkedNode;
+        }
+        size++;
+    }
+
+    @NotNull
+    @Override
+    public Iterator<LinkedNode> iterator()
+    {
+        return new LinkedListIterator(this);
+    }
+
+    public int length()
+    {
+        return size;
+    }
+
+    public Node removeFirst()
     {
         if (isEmpty()) return null;
-        LinkedNode curr = this.first;
-        while (curr.getKey() != key) {
-            if (curr.hasNext()) {
-                curr = curr.getNext();
-            }
-            else {
-                return null;
-            }
-        }
-        return curr;
+        Node res = first;
+        first = first.getNext();
+        size--;
+        return res;
     }
 
     @Override
@@ -85,13 +125,6 @@ public class NodeLL implements Iterable<LinkedNode> {
         }
         sb.append('}');
         return sb.toString();
-    }
-
-    @NotNull
-    @Override
-    public Iterator<LinkedNode> iterator()
-    {
-        return new LinkedListIterator(this);
     }
 
     private static final class LinkedListIterator implements Iterator<LinkedNode> {
@@ -134,13 +167,21 @@ public class NodeLL implements Iterable<LinkedNode> {
         {
             NodeLL linkedNodes = new NodeLL();
 
-            linkedNodes.insertFirst(new LinkedNode.Builder(1, 'a').build());
-            linkedNodes.insertFirst(new LinkedNode.Builder(1, 'b').build());
-            linkedNodes.insertFirst(new LinkedNode.Builder(1, 'c').build());
-            linkedNodes.insertFirst(new LinkedNode.Builder(1, 'd').build());
-            linkedNodes.insertFirst(new LinkedNode.Builder(1, 'e').build());
+            linkedNodes.insertInOrder(new LinkedNode.Builder(5, 'a').build());
+            linkedNodes.insertInOrder(new LinkedNode.Builder(4, 'b').build());
+            linkedNodes.insertInOrder(new LinkedNode.Builder(3, 'c').build());
+            linkedNodes.insertInOrder(new LinkedNode.Builder(2, 'd').build());
+            linkedNodes.insertLast(new LinkedNode.Builder(1, 'e').build());
 
             System.out.println(linkedNodes);
+
+            System.out.println(linkedNodes.removeFirst());
+            System.out.println(linkedNodes.removeFirst());
+            System.out.println(linkedNodes.removeFirst());
+            System.out.println(linkedNodes.removeFirst());
+            System.out.println(linkedNodes.removeFirst());
+            System.out.println(linkedNodes.removeFirst());
+            System.out.println(linkedNodes.removeFirst());
         }
 
     }
