@@ -54,6 +54,16 @@ public class Tree {
         return new Tree(newRoot);
     }
 
+    public static Tree createFullStringTree(String message)
+    {
+        char[] charArray = message.toCharArray();
+        TreeNode[] forest = new TreeNode[charArray.length];
+        for (int i = 0; i < charArray.length; i++) {
+            forest[i] = new TreeNode.Builder(-1, charArray[i]).build();
+        }
+        return new Tree(createFullStringTreeRec(forest, 1));
+    }
+
     public static Tree createStringTree(String message)
     {
         Tree master = new Tree();
@@ -67,6 +77,17 @@ public class Tree {
             master = mergeTrees(master, tree);
         }
         return master;
+    }
+
+    private static TreeNode createFullStringTreeRec(TreeNode[] forest, int ptr)
+    {
+        int index = ptr - 1;
+        if (index >= forest.length) return null;
+        TreeNode root = forest[index];
+        if (root == null) return null;
+        root.setlChild(createFullStringTreeRec(forest, ptr * 2));
+        root.setrChild(createFullStringTreeRec(forest, (ptr * 2) + 1));
+        return root;
     }
 
     public boolean delete(int key)
@@ -341,6 +362,8 @@ public class Tree {
             alphaTree.displayTree();
             Tree test = createBalancedStringTree("ABCDEFGHIJKL");
             test.displayTree();
+            Tree test2 = createFullStringTree("ABCDEFGHIJKL");
+            test2.displayTree();
         }
 
     }
