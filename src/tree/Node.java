@@ -1,5 +1,6 @@
 package tree;
 
+// todo parameterize class Node
 public class Node {
 
     private final int    key;
