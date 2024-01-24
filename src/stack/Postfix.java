@@ -3,14 +3,17 @@ package stack;
 import java.io.IOException;
 
 public class Postfix {
+
     private StackI stackI;
     private String input;
 
-    public Postfix(String input) {
+    public Postfix(String input)
+    {
         this.input = input;
     }
 
-    public int eval() {
+    public int eval()
+    {
         stackI = new StackI(input.length());
         char ch;
         int i, num1, num2, temp = 0;
@@ -34,10 +37,13 @@ public class Postfix {
         }
         return stackI.pop();
     }
+
 }
 
 class PostfixApp {
-    public static void main(String[] args) throws IOException {
+
+    public static void main(String[] args) throws IOException
+    {
         String input;
         int output;
 
@@ -45,12 +51,11 @@ class PostfixApp {
             System.out.print("Enter postfix expression (single digit only): ");
             System.out.flush();
             input = IOUtility.readNextString();
-            if (input.equals(""))
-                break;
-
+            if (input.isEmpty()) break;
             Postfix postfix = new Postfix(input);
             output = postfix.eval();
             System.out.println("Evaluates to " + output);
         }
     }
+
 }
