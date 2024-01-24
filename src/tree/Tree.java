@@ -5,6 +5,8 @@ import stack.StackGeneric;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.lang.Integer.parseInt;
+
 @SuppressWarnings("DuplicatedCode")
 public class Tree {
 
@@ -54,6 +56,58 @@ public class Tree {
         return new Tree(newRoot);
     }
 
+    /**
+     * Static factory method to transform a postfix expression into an expression tree that can be traversed.
+     *
+     * @param expr A space delimited expression string in postfix order
+     *
+     * @return the expression as an expression tree
+     */
+    public static Tree createExpressionTree(String expr)
+    {
+        String[] tokens = expr.split(" ");
+        NodeLL argStack = new NodeLL();
+        // StackI argStack = new StackI(tokens.length);
+        TreeNode root = null;
+        for (String token : tokens) {
+            if (isNumeric(token)) {
+
+                argStack.insertFirst(new Node.Builder(-1,
+                                                      new TreeNode.Builder(-1,
+                                                                           parseInt(token))
+                                                              .build())
+                                             .build());
+            }
+            else {
+                TreeNode y = (TreeNode) argStack.removeFirst()
+                                                .getVal();
+                TreeNode x = (TreeNode) argStack.removeFirst()
+                                                .getVal();
+                argStack.insertFirst(new Node.Builder(-1, mergeExpressions(token, x, y)).build());
+            }
+        }
+        return new Tree((TreeNode) argStack.removeFirst()
+                                           .getVal());
+    }
+
+    private static boolean isNumeric(String str)
+    {
+        try {
+            parseInt(str);
+        } catch (NumberFormatException e) {
+            return false;
+        }
+        return true;
+    }
+
+    private static TreeNode mergeExpressions(String operator, TreeNode lExpr, TreeNode rExpr)
+    {
+        return new TreeNode.Builder(-1, operator)
+                       .leftChild(lExpr)
+                       .rightChild(rExpr)
+                       .build();
+    }
+
     public static Tree createFullStringTree(String message)
     {
         char[] charArray = message.toCharArray();
@@ -78,6 +132,7 @@ public class Tree {
         }
         return master;
     }
+
 
     private static TreeNode createFullStringTreeRec(TreeNode[] forest, int ptr)
     {
@@ -235,12 +290,21 @@ public class Tree {
         System.out.println(lineBreak);
     }
 
-    void preOrder(TreeNode localRoot)
+    public void traverse(int traverseType)
     {
-        if (localRoot != null) {
-            System.out.println(localRoot.getKey() + " ");
-            preOrder(localRoot.getlChild());
-            preOrder(localRoot.getrChild());
+        switch (traverseType) {
+            case 1:
+                System.out.println("\nPreorder traversal: ");
+                preOrder(root);
+                break;
+            case 2:
+                System.out.println("\nInorder traversal:");
+                inOrder(root);
+                break;
+            case 3:
+                System.out.println("\nPostorder traversal:");
+                postOrder(root);
+                break;
         }
     }
 
@@ -286,29 +350,11 @@ public class Tree {
         return min;
     }
 
-    public void traverse(int traverseType)
-    {
-        switch (traverseType) {
-            case 1:
-                System.out.print("\nPreorder traversal: ");
-                preOrder(root);
-                break;
-            case 2:
-                System.out.print("\nInorder traversal");
-                inOrder(root);
-                break;
-            case 3:
-                System.out.print("\nPostorder traversal");
-                postOrder(root);
-                break;
-        }
-    }
-
     void inOrder(TreeNode localRoot)
     {
         if (localRoot != null) {
             inOrder(localRoot.getlChild());
-            System.out.println(localRoot.getKey() + " ");
+            System.out.print(localRoot.getVal() + " ");
             inOrder(localRoot.getrChild());
         }
     }
@@ -318,7 +364,16 @@ public class Tree {
         if (localRoot != null) {
             postOrder(localRoot.getlChild());
             postOrder(localRoot.getrChild());
-            System.out.println(localRoot.getKey() + " ");
+            System.out.print(localRoot.getVal() + " ");
+        }
+    }
+
+    void preOrder(TreeNode localRoot)
+    {
+        if (localRoot != null) {
+            System.out.print(localRoot.getVal() + " ");
+            preOrder(localRoot.getlChild());
+            preOrder(localRoot.getrChild());
         }
     }
 
@@ -364,6 +419,10 @@ public class Tree {
             test.displayTree();
             Tree test2 = createFullStringTree("ABCDEFGHIJKL");
             test2.displayTree();
+            Tree expr = createExpressionTree("1 2 3 * + 4 +");
+            expr.traverse(1);
+            expr.traverse(2);
+            expr.traverse(3);
         }
 
     }
