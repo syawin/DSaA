@@ -66,6 +66,26 @@ public class Huffman {
         this.fTable = freq;
     }
 
+    public String decode(String encoded)
+    {
+        StringBuilder decoded = new StringBuilder();
+        char[] encArr = encoded.toCharArray();
+        int i = 0;
+        while (i < encArr.length) {
+            TreeNode hPtr = this.hTree.getRoot();
+            while (!hPtr.isLeaf()) {
+                if (encArr[i++] == '0') {
+                    hPtr = hPtr.getlChild();
+                }
+                else {
+                    hPtr = hPtr.getrChild();
+                }
+            }
+            decoded.append(hPtr.getVal());
+        }
+        return decoded.toString();
+    }
+
     public void createHuffmanTree()
     {
         NodeLL priorityQueue = new NodeLL();
@@ -121,8 +141,7 @@ public class Huffman {
 
         public static void main(String[] args)
         {
-            // final String message = "stef dehan made a summertime banger";
-            final String message = "SUSIE SAYS IT IS EASY\n";
+            final String message = "stef dehan made a summertime banger";
             Huffman huffman = new Huffman(message);
             huffman.createFreqTable();
             huffman.createHuffmanTree();
@@ -130,6 +149,7 @@ public class Huffman {
             System.out.println(Arrays.toString(huffman.codeTable));
             String encoded = huffman.encodeMessage();
             System.out.println(encoded);
+            System.out.println(huffman.decode(encoded));
         }
 
     }
