@@ -1,7 +1,5 @@
 package tree;
 
-import org.apache.commons.lang3.ArrayUtils;
-
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -37,7 +35,7 @@ public class Huffman {
                                                                         'Z',
                                                                         ' ',
                                                                         '\n');
-    private final        char[]                  codeTable    = new char[SIMPLE_ALPHA.size()];
+    private final        String[]                codeTable    = new String[SIMPLE_ALPHA.size()];
     private final        String                  msg;
     private              Map<Character, Integer> fTable;
     private              Tree                    hTree;
@@ -47,12 +45,10 @@ public class Huffman {
         this.msg = msg.toUpperCase();
     }
 
-    // todo refactor to use a String literal of '1' & '0' chars. passing an instance of StringBuilder is probably the
-    //  best approach
     public void createCodeTable()
     {
-        Arrays.fill(codeTable, ((char) -1));
-        createCodeTableRecur(this.hTree.getRoot(), (char) 0);
+        Arrays.fill(codeTable, null);
+        createCodeTableRecur(this.hTree.getRoot(), "");
     }
 
     public void createFreqTable()
@@ -99,27 +95,16 @@ public class Huffman {
         hTree.displayTree(64);
     }
 
-    public char[] decodeMessage(final char[] encoded)
+    public String encodeMessage()
     {
-        char[] decoded = new char[encoded.length];
-        for (int i = 0; i < encoded.length; i++) {
-            char c = encoded[i];
-            int codeIndex = ArrayUtils.indexOf(codeTable, c);
-            decoded[i] = SIMPLE_ALPHA.get(codeIndex);
+        StringBuilder encoded = new StringBuilder();
+        for (char c : msg.toCharArray()) {
+            encoded.append(codeTable[SIMPLE_ALPHA.indexOf(c)]);
         }
-        return decoded;
+        return encoded.toString();
     }
 
-    public char[] encodeMessage()
-    {
-        char[] encoded = this.msg.toCharArray();
-        for (int i = 0; i < encoded.length; i++) {
-            encoded[i] = codeTable[SIMPLE_ALPHA.indexOf(encoded[i])];
-        }
-        return encoded;
-    }
-
-    private void createCodeTableRecur(TreeNode root, char bitString)
+    private void createCodeTableRecur(TreeNode root, String bitString)
     {
         if (root == null) return;
         if (root.isLeaf()) {
@@ -127,8 +112,8 @@ public class Huffman {
             codeTable[i] = bitString;
         }
         else {
-            createCodeTableRecur(root.getlChild(), (char) (bitString << 1));
-            createCodeTableRecur(root.getrChild(), (char) (bitString << 1 | 1));
+            createCodeTableRecur(root.getlChild(), bitString + '0');
+            createCodeTableRecur(root.getrChild(), bitString + '1');
         }
     }
 
@@ -143,10 +128,8 @@ public class Huffman {
             huffman.createHuffmanTree();
             huffman.createCodeTable();
             System.out.println(Arrays.toString(huffman.codeTable));
-            char[] encoded = huffman.encodeMessage();
-            char[] decoded = huffman.decodeMessage(encoded);
+            String encoded = huffman.encodeMessage();
             System.out.println(encoded);
-            System.out.println(decoded);
         }
 
     }
