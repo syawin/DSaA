@@ -14,8 +14,9 @@
     <orderEntry type="library" name="io.cucumber.junit" level="project" />
     <orderEntry type="library" name="junit" level="project" />
     <orderEntry type="library" name="io.cucumber.java" level="project" />
-    <orderEntry type="library" name="apache.commons.collections4" level="project" />
     <orderEntry type="library" name="production" level="project" />
     <orderEntry type="library" exported="" name="DSaA" level="project" />
+    <orderEntry type="library" name="apache.commons.collections4" level="project" />
+    <orderEntry type="library" name="apache.commons.lang3" level="project" />
   </component>
 </module>
