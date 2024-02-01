@@ -21,6 +21,13 @@ public class Tree {
         this.root = root;
     }
 
+    // getter
+    public TreeNode getRoot()
+    {
+        return root;
+    }
+    // getter end
+
     public static Tree createBalancedStringTree(String message)
     {
         NodeLL forest = new NodeLL();
@@ -37,8 +44,9 @@ public class Tree {
             Node c = new Node.Builder(-1, mergeTrees((Tree) a.getVal(), (Tree) b.getVal())).build();
             forest.insertLast(c);
         }
-        return (Tree) forest.getFirst()
-                            .getVal();
+        return (Tree) forest
+                              .getFirst()
+                              .getVal();
     }
 
     private static Tree mergeTrees(Tree aTree, Tree bTree)
@@ -79,14 +87,17 @@ public class Tree {
                                              .build());
             }
             else {
-                TreeNode y = (TreeNode) argStack.removeFirst()
+                TreeNode y = (TreeNode) argStack
+                                                .removeFirst()
                                                 .getVal();
-                TreeNode x = (TreeNode) argStack.removeFirst()
+                TreeNode x = (TreeNode) argStack
+                                                .removeFirst()
                                                 .getVal();
                 argStack.insertFirst(new Node.Builder(-1, mergeExpressions(token, x, y)).build());
             }
         }
-        return new Tree((TreeNode) argStack.removeFirst()
+        return new Tree((TreeNode) argStack
+                                           .removeFirst()
                                            .getVal());
     }
 
@@ -350,6 +361,23 @@ public class Tree {
         return min;
     }
 
+    private TreeNode getSuccessor(TreeNode delNode)
+    {
+        TreeNode paren, successor, curr;
+        paren = successor = delNode;
+        curr  = delNode.getrChild();
+        while (curr != null) {
+            paren     = successor;
+            successor = curr;
+            curr      = curr.getlChild();
+        }
+        if (successor != delNode.getrChild()) {
+            paren.setlChild(successor.getrChild());
+            successor.setrChild(delNode.getrChild());
+        }
+        return successor;
+    }
+
     void inOrder(TreeNode localRoot)
     {
         if (localRoot != null) {
@@ -375,23 +403,6 @@ public class Tree {
             preOrder(localRoot.getlChild());
             preOrder(localRoot.getrChild());
         }
-    }
-
-    private TreeNode getSuccessor(TreeNode delNode)
-    {
-        TreeNode paren, successor, curr;
-        paren = successor = delNode;
-        curr  = delNode.getrChild();
-        while (curr != null) {
-            paren     = successor;
-            successor = curr;
-            curr      = curr.getlChild();
-        }
-        if (successor != delNode.getrChild()) {
-            paren.setlChild(successor.getrChild());
-            successor.setrChild(delNode.getrChild());
-        }
-        return successor;
     }
 
     private static class TreeDemo {
