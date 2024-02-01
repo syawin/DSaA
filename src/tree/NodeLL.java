@@ -16,16 +16,23 @@ public class NodeLL implements Iterable<LinkedNode> {
     }
 
     // getter
-    public LinkedNode getFirst()
+    public Node getFirst()
     {
         return first;
     }
 
-    public LinkedNode getLast()
+    public Node getLast()
     {
         return last;
     }
     // getter end
+
+    // setter
+    public void setFirst(LinkedNode first)
+    {
+        this.first = first;
+    }
+    // setter end
 
     public LinkedNode find(int key)
     {
@@ -119,9 +126,10 @@ public class NodeLL implements Iterable<LinkedNode> {
         final StringBuffer sb = new StringBuffer("NodeLL{");
         sb.append('\n');
         for (LinkedNode node : this) {
-            sb.append('\t')
-              .append(node)
-              .append('\n');
+            sb
+                    .append('\t')
+                    .append(node)
+                    .append('\n');
         }
         sb.append('}');
         return sb.toString();

@@ -12,25 +12,34 @@ public class TreeNode extends Node {
         rChild = builder.rChild;
     }
 
+    // getter
+    public TreeNode getlChild()
+    {
+        return lChild;
+    }
+
     public TreeNode getrChild()
     {
         return rChild;
+    }
+
+    public boolean isLeaf()
+    {
+        return lChild == null && rChild == null;
+    }
+    // getter end
+
+    // setter
+    public void setlChild(TreeNode left)
+    {
+        this.lChild = left;
     }
 
     public void setrChild(TreeNode right)
     {
         this.rChild = right;
     }
-
-    public TreeNode getlChild()
-    {
-        return lChild;
-    }
-
-    public void setlChild(TreeNode left)
-    {
-        this.lChild = left;
-    }
+    // setter end
 
     public static class Builder extends Node.Builder {
 
@@ -40,6 +49,11 @@ public class TreeNode extends Node {
         public Builder(int key, Object val)
         {
             super(key, val);
+        }
+
+        public TreeNode build()
+        {
+            return new TreeNode(this);
         }
 
         public Builder leftChild(TreeNode lChild)
@@ -52,11 +66,6 @@ public class TreeNode extends Node {
         {
             this.rChild = rChild;
             return this;
-        }
-
-        public TreeNode build()
-        {
-            return new TreeNode(this);
         }
 
     }
