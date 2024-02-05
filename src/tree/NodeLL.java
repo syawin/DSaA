@@ -56,9 +56,8 @@ public class NodeLL implements Iterable<LinkedNode> {
 
     public void insertFirst(Node node)
     {
-        LinkedNode linkedNode = new LinkedNode.Builder(node.getKey(), node.getVal())
-                                        .next(first)
-                                        .build();
+        LinkedNode linkedNode = new LinkedNode.Builder(node.getKey(), node.getVal()).next(first)
+                                                                                    .build();
         if (size == 0) this.last = linkedNode;
         this.first = linkedNode;
         size++;
@@ -126,10 +125,9 @@ public class NodeLL implements Iterable<LinkedNode> {
         final StringBuffer sb = new StringBuffer("NodeLL{");
         sb.append('\n');
         for (LinkedNode node : this) {
-            sb
-                    .append('\t')
-                    .append(node)
-                    .append('\n');
+            sb.append('\t')
+              .append(node)
+              .append('\n');
         }
         sb.append('}');
         return sb.toString();

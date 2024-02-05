@@ -12,6 +12,7 @@ public class Node {
         val = builder.val;
     }
 
+    // getter
     public int getKey()
     {
         return key;
@@ -21,14 +22,12 @@ public class Node {
     {
         return val;
     }
+    // getter end
 
     @Override
     public String toString()
     {
-        return "Node{" +
-                       "key=" + key +
-                       ", val=" + val +
-                       '}';
+        return "Node{" + "key=" + key + ", val=" + val + '}';
     }
 
     public static class Builder {

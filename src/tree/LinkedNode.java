@@ -10,19 +10,23 @@ public class LinkedNode extends Node {
         next = builder.next;
     }
 
-    public boolean hasNext()
-    {
-        return next != null;
-    }
-
+    // getter
     public LinkedNode getNext()
     {
         return next;
     }
+    // getter end
 
+    // setter
     public void setNext(LinkedNode next)
     {
         this.next = next;
+    }
+    // setter end
+
+    public boolean hasNext()
+    {
+        return next != null;
     }
 
     public static class Builder extends Node.Builder {
@@ -34,15 +38,15 @@ public class LinkedNode extends Node {
             super(key, val);
         }
 
+        public LinkedNode build()
+        {
+            return new LinkedNode(this);
+        }
+
         public Builder next(LinkedNode next)
         {
             this.next = next;
             return this;
-        }
-
-        public LinkedNode build()
-        {
-            return new LinkedNode(this);
         }
 
     }

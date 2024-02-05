@@ -34,7 +34,8 @@ public class Huffman {
                                                                         'Y',
                                                                         'Z',
                                                                         ' ',
-                                                                        '\n');
+                                                                        '\n'
+                                                                       );
     private final        String[]                codeTable    = new String[SIMPLE_ALPHA.size()];
     private final        String                  msg;
     private              Map<Character, Integer> fTable;
@@ -66,6 +67,31 @@ public class Huffman {
         this.fTable = freq;
     }
 
+    public void createHuffmanTree()
+    {
+        NodeLL priorityQueue = new NodeLL();
+        for (Map.Entry<Character, Integer> entry : fTable.entrySet()) {
+            TreeNode treeNode = new TreeNode.Builder(entry.getValue(), entry.getKey()).build();
+            Node wrapper = new Node.Builder(entry.getValue(), treeNode).build();
+            priorityQueue.insertInOrder(wrapper);
+        }
+        while (priorityQueue.length() > 1) {
+            TreeNode x = (TreeNode) priorityQueue.removeFirst()
+                                                 .getVal();
+            TreeNode y = (TreeNode) priorityQueue.removeFirst()
+                                                 .getVal();
+            int sum = x.getKey() + y.getKey();
+            TreeNode newRoot = new TreeNode.Builder(sum, null).leftChild(x)
+                                                              .rightChild(y)
+                                                              .build();
+            Node wrapper = new Node.Builder(sum, newRoot).build();
+            priorityQueue.insertInOrder(wrapper);
+        }
+        this.hTree = new Tree((TreeNode) priorityQueue.getFirst()
+                                                      .getVal());
+        hTree.displayTree(64);
+    }
+
     public String decode(String encoded)
     {
         StringBuilder decoded = new StringBuilder();
@@ -84,35 +110,6 @@ public class Huffman {
             decoded.append(hPtr.getVal());
         }
         return decoded.toString();
-    }
-
-    public void createHuffmanTree()
-    {
-        NodeLL priorityQueue = new NodeLL();
-        for (Map.Entry<Character, Integer> entry : fTable.entrySet()) {
-            TreeNode treeNode = new TreeNode.Builder(entry.getValue(), entry.getKey()).build();
-            Node wrapper = new Node.Builder(entry.getValue(), treeNode).build();
-            priorityQueue.insertInOrder(wrapper);
-        }
-        while (priorityQueue.length() > 1) {
-            TreeNode x = (TreeNode) priorityQueue
-                                            .removeFirst()
-                                            .getVal();
-            TreeNode y = (TreeNode) priorityQueue
-                                            .removeFirst()
-                                            .getVal();
-            int sum = x.getKey() + y.getKey();
-            TreeNode newRoot = new TreeNode.Builder(sum, null)
-                                       .leftChild(x)
-                                       .rightChild(y)
-                                       .build();
-            Node wrapper = new Node.Builder(sum, newRoot).build();
-            priorityQueue.insertInOrder(wrapper);
-        }
-        this.hTree = new Tree((TreeNode) priorityQueue
-                                                 .getFirst()
-                                                 .getVal());
-        hTree.displayTree(64);
     }
 
     public String encodeMessage()

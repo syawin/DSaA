@@ -6,51 +6,6 @@ public class ITree {
 
     private INode root;
 
-    public INode find(int key)
-    {
-        INode current = root;
-        while (current != null && current.key != key) {
-            if (key < current.key) {
-                current = current.lChild;
-            }
-            else {
-                current = current.rChild;
-            }
-        }
-        return current;
-    }
-
-    public void insert(int key, double val)
-    {
-        INode insert = new INode(key, val);
-        if (root == null) {
-            root = insert;
-        }
-        else {
-            INode current = root;
-            INode parent;
-            while (true) {
-                parent = current;
-                // less than - left
-                if (key < current.key) {
-                    current = current.lChild;
-                    if (current == null) {
-                        parent.lChild = insert;
-                        return;
-                    }
-                }
-                //  greater than or equal - right
-                else {
-                    current = current.rChild;
-                    if (current == null) {
-                        parent.rChild = insert;
-                        return;
-                    }
-                }
-            }
-        }
-    }
-
     public boolean delete(int key)
     {
         INode parent, curr;
@@ -131,15 +86,18 @@ public class ITree {
         return true;
     }
 
-    public INode min()
+    public INode find(int key)
     {
-        INode min = null;
         INode current = root;
-        while (current != null) {
-            min     = current;
-            current = current.lChild;
+        while (current != null && current.key != key) {
+            if (key < current.key) {
+                current = current.lChild;
+            }
+            else {
+                current = current.rChild;
+            }
         }
-        return min;
+        return current;
     }
 
     public void displayTree()
@@ -193,6 +151,57 @@ public class ITree {
         System.out.println(lineBreak);
     }
 
+    public void insert(int key, double val)
+    {
+        INode insert = new INode(key, val);
+        if (root == null) {
+            root = insert;
+        }
+        else {
+            INode current = root;
+            INode parent;
+            while (true) {
+                parent = current;
+                // less than - left
+                if (key < current.key) {
+                    current = current.lChild;
+                    if (current == null) {
+                        parent.lChild = insert;
+                        return;
+                    }
+                }
+                //  greater than or equal - right
+                else {
+                    current = current.rChild;
+                    if (current == null) {
+                        parent.rChild = insert;
+                        return;
+                    }
+                }
+            }
+        }
+    }
+
+    public INode min()
+    {
+        INode min = null;
+        INode current = root;
+        while (current != null) {
+            min     = current;
+            current = current.lChild;
+        }
+        return min;
+    }
+
+    void preOrder(INode localRoot)
+    {
+        if (localRoot != null) {
+            System.out.println(localRoot.key + " ");
+            preOrder(localRoot.lChild);
+            preOrder(localRoot.rChild);
+        }
+    }
+
     public void traverse(int traverseType)
     {
         switch (traverseType) {
@@ -217,15 +226,6 @@ public class ITree {
             inOrder(localRoot.lChild);
             System.out.println(localRoot.key + " ");
             inOrder(localRoot.rChild);
-        }
-    }
-
-    void preOrder(INode localRoot)
-    {
-        if (localRoot != null) {
-            System.out.println(localRoot.key + " ");
-            preOrder(localRoot.lChild);
-            preOrder(localRoot.rChild);
         }
     }
 

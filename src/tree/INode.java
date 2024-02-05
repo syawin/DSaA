@@ -24,12 +24,7 @@ public class INode {
     @Override
     public String toString()
     {
-        return "Node{" +
-                       "key=" + key +
-                       ", val=" + val +
-                       ", lChild=" + lChild +
-                       ", rChild=" + rChild +
-                       '}';
+        return "Node{" + "key=" + key + ", val=" + val + ", lChild=" + lChild + ", rChild=" + rChild + '}';
     }
 
 }

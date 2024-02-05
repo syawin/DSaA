@@ -44,9 +44,8 @@ public class Tree {
             Node c = new Node.Builder(-1, mergeTrees((Tree) a.getVal(), (Tree) b.getVal())).build();
             forest.insertLast(c);
         }
-        return (Tree) forest
-                              .getFirst()
-                              .getVal();
+        return (Tree) forest.getFirst()
+                            .getVal();
     }
 
     private static Tree mergeTrees(Tree aTree, Tree bTree)
@@ -56,10 +55,9 @@ public class Tree {
             newRoot = bTree.root;
         }
         else {
-            newRoot = new TreeNode.Builder(-1, '+')
-                              .leftChild(aTree.root)
-                              .rightChild(bTree.root)
-                              .build();
+            newRoot = new TreeNode.Builder(-1, '+').leftChild(aTree.root)
+                                                   .rightChild(bTree.root)
+                                                   .build();
         }
         return new Tree(newRoot);
     }
@@ -80,24 +78,17 @@ public class Tree {
         for (String token : tokens) {
             if (isNumeric(token)) {
 
-                argStack.insertFirst(new Node.Builder(-1,
-                                                      new TreeNode.Builder(-1,
-                                                                           parseInt(token))
-                                                              .build())
-                                             .build());
+                argStack.insertFirst(new Node.Builder(-1, new TreeNode.Builder(-1, parseInt(token)).build()).build());
             }
             else {
-                TreeNode y = (TreeNode) argStack
-                                                .removeFirst()
+                TreeNode y = (TreeNode) argStack.removeFirst()
                                                 .getVal();
-                TreeNode x = (TreeNode) argStack
-                                                .removeFirst()
+                TreeNode x = (TreeNode) argStack.removeFirst()
                                                 .getVal();
                 argStack.insertFirst(new Node.Builder(-1, mergeExpressions(token, x, y)).build());
             }
         }
-        return new Tree((TreeNode) argStack
-                                           .removeFirst()
+        return new Tree((TreeNode) argStack.removeFirst()
                                            .getVal());
     }
 
@@ -113,10 +104,9 @@ public class Tree {
 
     private static TreeNode mergeExpressions(String operator, TreeNode lExpr, TreeNode rExpr)
     {
-        return new TreeNode.Builder(-1, operator)
-                       .leftChild(lExpr)
-                       .rightChild(rExpr)
-                       .build();
+        return new TreeNode.Builder(-1, operator).leftChild(lExpr)
+                                                 .rightChild(rExpr)
+                                                 .build();
     }
 
     public static Tree createFullStringTree(String message)
