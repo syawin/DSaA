@@ -7,18 +7,6 @@ public class RBTreeNodeTest {
 
     RBTreeNode node;
 
-    @Test
-    public void hasRedChildren()
-    {
-        assert node.hasRedChildren();
-    }
-
-    @Test
-    public void isBlack()
-    {
-        assert node.isBlack();
-    }
-
     @Before
     public void setUp() throws Exception
     {
@@ -30,6 +18,18 @@ public class RBTreeNodeTest {
                                                           .leftChild(left)
                                                           .rightChild(right)
                                                           .build();
+    }
+
+    @Test
+    public void hasRedChildren()
+    {
+        assert node.hasRedChildren();
+    }
+
+    @Test
+    public void isBlack()
+    {
+        assert node.isBlack();
     }
 
 }
