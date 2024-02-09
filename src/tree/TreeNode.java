@@ -5,7 +5,7 @@ public class TreeNode extends Node {
     private TreeNode lChild;
     private TreeNode rChild;
 
-    private TreeNode(Builder builder)
+    TreeNode(Builder builder)
     {
         super(builder);
         lChild = builder.lChild;
