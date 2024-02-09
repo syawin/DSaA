@@ -1,0 +1,35 @@
+package tree;
+
+import org.junit.Before;
+import org.junit.Test;
+
+public class RBTreeNodeTest {
+
+    RBTreeNode node;
+
+    @Test
+    public void hasRedChildren()
+    {
+        assert node.hasRedChildren();
+    }
+
+    @Test
+    public void isBlack()
+    {
+        assert node.isBlack();
+    }
+
+    @Before
+    public void setUp() throws Exception
+    {
+        RBTreeNode left = new RBTreeNode.Builder(1, 'B').red(true)
+                                                        .build();
+        RBTreeNode right = new RBTreeNode.Builder(2, 'C').red(true)
+                                                         .build();
+        node = (RBTreeNode) new RBTreeNode.Builder(3, 'A').red(false)
+                                                          .leftChild(left)
+                                                          .rightChild(right)
+                                                          .build();
+    }
+
+}
