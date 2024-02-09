@@ -73,7 +73,6 @@ public class Tree {
     {
         String[] tokens = expr.split(" ");
         NodeLL argStack = new NodeLL();
-        // StackI argStack = new StackI(tokens.length);
         TreeNode root = null;
         for (String token : tokens) {
             if (isNumeric(token)) {
