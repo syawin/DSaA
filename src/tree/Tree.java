@@ -28,6 +28,13 @@ public class Tree {
     }
     // getter end
 
+    // setter
+    public void setRoot(TreeNode root)
+    {
+        this.root = root;
+    }
+    // setter end
+
     public static Tree createBalancedStringTree(String message)
     {
         NodeLL forest = new NodeLL();
