@@ -14,6 +14,10 @@ public class RBTree extends Tree {
     @Override
     public void insert(int key, Object val)
     {
+        if (this.getRoot() == null) {
+            this.setRoot(new RBTreeNode.Builder(key, val).red(false)
+                                                         .build());
+        }
         // todo color flips on the way down
         // todo rotations on the way down
         // todo rotations after the node is inserted
