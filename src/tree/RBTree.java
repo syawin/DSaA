@@ -18,6 +18,7 @@ public class RBTree extends Tree {
             this.setRoot(new RBTreeNode.Builder(key, val).red(false)
                                                          .build());
         }
+        // todo insert binary search find correct node algo
         // todo color flips on the way down
         // todo rotations on the way down
         // todo rotations after the node is inserted
