@@ -21,9 +21,12 @@ public class RBTreeNode extends TreeNode {
     }
     // setter end
 
-    public boolean hasRedChildren()
+    public boolean hasTwoRedChildren()
     {
-        return ((RBTreeNode) this.getlChild()).isRed() && ((RBTreeNode) this.getrChild()).isRed();
+        return this.getlChild() != null
+               && this.getrChild() != null
+               && ((RBTreeNode) this.getlChild()).isRed()
+               && ((RBTreeNode) this.getrChild()).isRed();
     }
 
     public void flipColors()
