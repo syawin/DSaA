@@ -24,14 +24,14 @@ public class RBTreeNodeTest {
     public void flipColors()
     {
         node.flipColors();
-        assert !node.hasRedChildren();
+        assert !node.hasTwoRedChildren();
         assert !node.isBlack();
     }
 
     @Test
     public void hasRedChildren()
     {
-        assert node.hasRedChildren();
+        assert node.hasTwoRedChildren();
     }
 
     @Test
