@@ -19,8 +19,6 @@ public class RBTree extends Tree {
         // todo rotations after the node is inserted
     }
 
-    // todo flipColors
-
     private static class RBTreeDemo {
 
         public static void main(String[] args)

@@ -26,6 +26,13 @@ public class RBTreeNode extends TreeNode {
         return ((RBTreeNode) this.getlChild()).isRed() && ((RBTreeNode) this.getrChild()).isRed();
     }
 
+    public void flipColors()
+    {
+        this.setRed(true);
+        ((RBTreeNode) this.getlChild()).setRed(false);
+        ((RBTreeNode) this.getrChild()).setRed(false);
+    }
+
     public boolean isRed()
     {
         return red;
