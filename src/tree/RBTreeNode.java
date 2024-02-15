@@ -35,6 +35,30 @@ public class RBTreeNode extends TreeNode {
         ((RBTreeNode) this.getlChild()).setRed(false);
         ((RBTreeNode) this.getrChild()).setRed(false);
     }
+    
+    public RBTreeNode rotateLeft()
+    {
+        RBTreeNode r, top, temp;
+        top = temp = this;
+        r   = (( RBTreeNode ) top.getrChild());
+        if (r != null) {
+            top = r;
+            top.setlChild(temp);
+        }
+        return top;
+    }
+    
+    public RBTreeNode rotateRight()
+    {
+        RBTreeNode l, top, temp;
+        top = temp = this;
+        l   = ( RBTreeNode ) top.getlChild();
+        if (l != null) {
+            top = l;
+            top.setrChild(temp);
+        }
+        return top;
+    }
 
     public boolean isRed()
     {
