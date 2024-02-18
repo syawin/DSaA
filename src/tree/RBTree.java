@@ -1,6 +1,10 @@
 package tree;
 
+import java.util.function.Predicate;
+
 public class RBTree extends Tree {
+    
+    private static final Predicate<RBTreeNode> isFlip = n -> n.isBlack() && n.hasTwoRedChildren();
     
     public RBTree()
     {
@@ -22,12 +26,13 @@ public class RBTree extends Tree {
         else {
             RBTreeNode curr = ( RBTreeNode ) this.getRoot();
             RBTreeNode paren;
-            if (curr.isBlack() & curr.hasTwoRedChildren()) {
+            if (isFlip.test(curr)) {
                 curr.flipColors();
                 curr.setRed(false);
             }
             while (true) {
                 paren = curr;
+                if (isFlip.test(curr)) curr.flipColors();
                 if (key < curr.getKey()) {
                     curr = ( RBTreeNode ) curr.getlChild();
                     if (curr == null) {
@@ -44,10 +49,11 @@ public class RBTree extends Tree {
                 }
             }
         }
-        // todo color flips on the way down
         // todo rotations on the way down
         // todo rotations after the node is inserted
     }
+    
+    // todo public boolean validateRBCorrect()
     
     private static class RBTreeDemo {
         
