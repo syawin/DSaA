@@ -271,7 +271,9 @@ public class Tree {
             while (!globalStack.isEmpty()) {
                 TreeNode temp = globalStack.pop();
                 if (temp != null) {
-                    System.out.print(temp.getVal());
+                    if (temp instanceof RBTreeNode && (( RBTreeNode ) temp).isRed()) System.out.print("\u001B[31m");
+                    System.out.print(temp.getVal() + "/" + temp.getKey());
+                    System.out.print("\u001B[0m");
                     localStack.push(temp.getlChild());
                     localStack.push(temp.getrChild());
 
