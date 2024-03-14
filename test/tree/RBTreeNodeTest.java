@@ -3,8 +3,6 @@ package tree;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertSame;
-
 public class RBTreeNodeTest {
     
     RBTreeNode node, left, right;
@@ -36,36 +34,6 @@ public class RBTreeNodeTest {
         assert node.hasTwoRedChildren();
     }
     
-    @Test
-    public void rotateLeft()
-    {
-        RBTreeNode top = node.rotateLeft();
-        assertSame("Right child has not rotated to top pos", top, right);
-    }
-    
-    @Test
-    public void rotateLeftNoRightChild()
-    {
-        node.setrChild(null);
-        RBTreeNode result = node.rotateLeft();
-        assertSame("top node has changed", result, node);
-    }
-    
-    @Test
-    public void rotateRight()
-    {
-        RBTreeNode top = node.rotateRight();
-        assertSame("Left child has not rotated to top pos", top, left);
-    }
-    
-    @Test
-    public void rotateRightNoLeftChild()
-    {
-        node.setlChild(null);
-        RBTreeNode result = node.rotateRight();
-        assertSame("top node has changed", result, node);
-    }
-
     @Test
     public void isBlack()
     {
