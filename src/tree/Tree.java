@@ -333,6 +333,7 @@ public class Tree {
                     current = current.getlChild();
                     if (current == null) {
                         parent.setlChild(insert);
+                        insert.setParent(parent);
                         return;
                     }
                 }
@@ -341,6 +342,7 @@ public class Tree {
                     current = current.getrChild();
                     if (current == null) {
                         parent.setrChild(insert);
+                        insert.setParent(parent);
                         return;
                     }
                 }
