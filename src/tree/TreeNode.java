@@ -53,6 +53,17 @@ public class TreeNode extends Node {
     }
     // setter end
     
+    /**
+     * Performs a left rotation on this node.
+     * <p>
+     * This method performs a left rotation around this node, making its right child the new root of the subtree
+     * originally rooted at this node. The left child of the new root (the original right child) becomes this node,
+     * and the original left child of the new root becomes the right child of this node. Adjusts parent references
+     * accordingly.
+     * </p>
+     *
+     * @return The new root of the subtree after rotation.
+     */
     public TreeNode rotateLeft()
     {
         TreeNode top = this;
@@ -72,10 +83,15 @@ public class TreeNode extends Node {
     }
     
     /**
-     * This method is meant to be invoked on the node to be rotated. Parent ref should be updated to point to the new
-     * top & rotated node must have its parent ref updated.
+     * Performs a right rotation on this node.
+     * <p>
+     * This method performs a right rotation around this node, making its left child the new root of the subtree
+     * originally rooted at this node. The right child of the new root (the original left child) becomes this node,
+     * and the original right child of the new root becomes the left child of this node. Adjusts parent references
+     * accordingly.
+     * </p>
      *
-     * @return Ref to the node that moves into the place of 'this'.
+     * @return The new root of the subtree after rotation.
      */
     public TreeNode rotateRight()
     {
