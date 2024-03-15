@@ -53,6 +53,48 @@ public class TreeNode extends Node {
     }
     // setter end
     
+    public TreeNode rotateLeft()
+    {
+        TreeNode top = this;
+        TreeNode r = top.getrChild();
+        if (r != null) {
+            TreeNode temp = r.lChild;
+            r.lChild   = top;
+            top.rChild = temp;
+            if (temp != null) {
+                temp.parent = top;
+            }
+            r.parent   = top.parent;
+            top.parent = r;
+            top        = r;
+        }
+        return top;
+    }
+    
+    /**
+     * This method is meant to be invoked on the node to be rotated. Parent ref should be updated to point to the new
+     * top & rotated node must have its parent ref updated.
+     *
+     * @return Ref to the node that moves into the place of 'this'.
+     */
+    public TreeNode rotateRight()
+    {
+        TreeNode top = this;
+        TreeNode l = top.getlChild();
+        if (l != null) {
+            TreeNode temp = l.rChild;
+            l.rChild   = top;
+            top.lChild = temp;
+            if (temp != null) {
+                temp.parent = top;
+            }
+            l.parent   = top.parent;
+            top.parent = l;
+            top        = l;
+        }
+        return top;
+    }
+    
     public static class Builder extends Node.Builder {
         
         private TreeNode lChild = null;
