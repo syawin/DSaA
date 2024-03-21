@@ -5,10 +5,39 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;
 
-// todo add assertions to each test case
-//      ideal is to impl validateRBCorrect & then use that for assertions
-//      basically validate RB correct before insert & after insert
 public class RBTreeTest {
+    
+    @Test
+    public void insertRRViolationWithRedUncle()
+    {
+        RBTree rbTree = new RBTree();
+        rbTree.insert(4, 'A');
+        rbTree.insert(2, 'B');
+        rbTree.insert(6, 'C');
+        rbTree.insert(1, 'D');
+        rbTree.insert(3, 'E');
+        rbTree.insert(5, 'F');
+        rbTree.insert(7, 'G');
+        rbTree.displayTree();
+        assertTrue("Tree is not RB correct", rbTree.validateRBCorrect());
+        rbTree.insert(8, 'G');
+        rbTree.displayTree();
+        assertTrue("Tree is not RB correct", rbTree.validateRBCorrect());
+    }
+    
+    @Test
+    public void insertRRViolationWithoutUncle()
+    {
+        RBTree rbTree = new RBTree();
+        rbTree.insert(10, 'A');
+        rbTree.insert(5, 'B');
+        rbTree.insert(20, 'C');
+        rbTree.insert(15, 'D');
+        rbTree.insert(25, 'E');
+        rbTree.insert(30, 'F');
+        rbTree.displayTree();
+        assertTrue("Tree is not RB correct", rbTree.validateRBCorrect());
+    }
     
     @Test
     public void insertWhenRootIsBlackWithTwoRedChildren()
@@ -35,35 +64,19 @@ public class RBTreeTest {
                 (( RBTreeNode ) root.getlChild()
                                     .getrChild()).isRed()
                   );
+        assertTrue("Tree is not RB correct", rbTree.validateRBCorrect());
     }
     
     @Test
-    public void insertRRViolationWithRedUncle()
+    public void insertWhenRootIsNull()
     {
         RBTree rbTree = new RBTree();
-        rbTree.insert(4, 'A');
-        rbTree.insert(2, 'B');
-        rbTree.insert(6, 'C');
-        rbTree.insert(1, 'D');
-        rbTree.insert(3, 'E');
-        rbTree.insert(5, 'F');
-        rbTree.insert(7, 'G');
-        rbTree.displayTree();
-        rbTree.insert(8, 'G');
-        rbTree.displayTree();
-    }
-    
-    @Test
-    public void insertRRViolationWithoutUncle()
-    {
-        RBTree rbTree = new RBTree();
-        rbTree.insert(10, 'A');
-        rbTree.insert(5, 'B');
-        rbTree.insert(20, 'C');
-        rbTree.insert(15, 'D');
-        rbTree.insert(25, 'E');
-        rbTree.insert(30, 'F');
-        rbTree.displayTree();
+        assert rbTree.getRoot() == null;
+        rbTree.insert(1, 'A');
+        assert rbTree.getRoot()
+                     .getKey() == 1;
+        assertTrue("root node is not black", (( RBTreeNode ) rbTree.getRoot()).isBlack());
+        assertTrue("Tree is not RB correct", rbTree.validateRBCorrect());
     }
     
     @Test
@@ -79,8 +92,10 @@ public class RBTreeTest {
         rbTree.insert(85, 'G');
         rbTree.insert(55, 'H');
         rbTree.displayTree();
+        assertTrue("Tree is not RB correct", rbTree.validateRBCorrect());
         rbTree.insert(65, 'I');
         rbTree.displayTree();
+        assertTrue("Tree is not RB correct", rbTree.validateRBCorrect());
     }
     
     @Test
@@ -90,6 +105,7 @@ public class RBTreeTest {
         rbTree.insert(1, 'A');
         rbTree.insert(2, 'B');
         rbTree.insert(3, 'C');
+        assertTrue("Tree is not RB correct", rbTree.validateRBCorrect());
     }
     
     @Test
@@ -119,8 +135,10 @@ public class RBTreeTest {
                   );
         rbTree.insert(22, 'E');
         rbTree.displayTree();
+        assertTrue("Tree is not RB correct", rbTree.validateRBCorrect());
         rbTree.insert(21, 'F');
         rbTree.displayTree();
+        assertTrue("Tree is not RB correct", rbTree.validateRBCorrect());
     }
     
     @Test
@@ -153,6 +171,7 @@ public class RBTreeTest {
         rbTree.insert(21, 'F');
         rbTree.insert(23, 'G');
         rbTree.insert(20, 'H');
+        assertTrue("Tree is not RB correct", rbTree.validateRBCorrect());
     }
     
     @Test
@@ -180,9 +199,10 @@ public class RBTreeTest {
         rbTree.displayTree();
         rbTree.insert(77, 'G');
         rbTree.displayTree();
-        
+        assertTrue("Tree is not RB correct", rbTree.validateRBCorrect());
         rbTree.insert(70, 'D');
         rbTree.displayTree();
+        assertTrue("Tree is not RB correct", rbTree.validateRBCorrect());
     }
     
     @Test
@@ -203,8 +223,10 @@ public class RBTreeTest {
         
         rbTree.insert(12, 'E');
         rbTree.displayTree();
+        assertTrue("Tree is not RB correct", rbTree.validateRBCorrect());
         rbTree.insert(18, 'D');
         rbTree.displayTree();
+        assertTrue("Tree is not RB correct", rbTree.validateRBCorrect());
     }
     
     @Test
@@ -219,19 +241,10 @@ public class RBTreeTest {
         rbTree.insert(60, 'F');
         rbTree.insert(55, 'G');
         rbTree.displayTree();
+        assertTrue("Tree is not RB correct", rbTree.validateRBCorrect());
         rbTree.insert(59, 'H');
         rbTree.displayTree();
-    }
-    
-    @Test
-    public void insertWhenRootIsNull()
-    {
-        RBTree rbTree = new RBTree();
-        assert rbTree.getRoot() == null;
-        rbTree.insert(1, 'A');
-        assert rbTree.getRoot()
-                     .getKey() == 1;
-        assertTrue("root node is not black", (( RBTreeNode ) rbTree.getRoot()).isBlack());
+        assertTrue("Tree is not RB correct", rbTree.validateRBCorrect());
     }
     
     @Test
@@ -246,8 +259,10 @@ public class RBTreeTest {
         rbTree.insert(6, 'F');
         rbTree.insert(18, 'G');
         rbTree.displayTree();
+        assertTrue("Tree is not RB correct", rbTree.validateRBCorrect());
         rbTree.insert(3, 'H');
         rbTree.displayTree();
+        assertTrue("Tree is not RB correct", rbTree.validateRBCorrect());
     }
     
     @Test
@@ -262,8 +277,10 @@ public class RBTreeTest {
         rbTree.insert(31, 'F');
         rbTree.insert(43, 'G');
         rbTree.displayTree();
+        assertTrue("Tree is not RB correct", rbTree.validateRBCorrect());
         rbTree.insert(30, 'H');
         rbTree.displayTree();
+        assertTrue("Tree is not RB correct", rbTree.validateRBCorrect());
     }
     
     @Test
@@ -278,8 +295,10 @@ public class RBTreeTest {
         rbTree.insert(80, 'F');
         rbTree.insert(95, 'G');
         rbTree.displayTree();
+        assertTrue("Tree is not RB correct", rbTree.validateRBCorrect());
         rbTree.insert(99, 'H');
         rbTree.displayTree();
+        assertTrue("Tree is not RB correct", rbTree.validateRBCorrect());
     }
     
     @Test
@@ -300,7 +319,9 @@ public class RBTreeTest {
         
         rbTree.insert(80, 'E');
         rbTree.displayTree();
+        assertTrue("Tree is not RB correct", rbTree.validateRBCorrect());
         rbTree.insert(76, 'D');
         rbTree.displayTree();
+        assertTrue("Tree is not RB correct", rbTree.validateRBCorrect());
     }
 }
