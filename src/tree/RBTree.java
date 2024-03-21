@@ -203,10 +203,54 @@ public class RBTree extends Tree {
         }
     }
     
-    // todo implement method to validate tree for red-black correctness
+    // generated 2024-03-20 GPT 4 turbo
     public boolean validateRBCorrect()
     {
-        return (( RBTreeNode ) this.getRoot()).isBlack();
+        // Property 2: The root is always black. If root is null, the tree is considered valid.
+        if (this.getRoot() != null && !isBlack(( RBTreeNode ) this.getRoot())) {
+            return false;
+        }
+        
+        // Use a helper method to validate properties 3, 4, and 5
+        return validateNode(( RBTreeNode ) this.getRoot(), 0) != -1;
+    }
+    
+    // generated 2024-03-20 GPT 4 turbo
+    private boolean isBlack(RBTreeNode node)
+    {
+        return node == null || node.isBlack();
+    }
+    
+    // generated 2024-03-20 GPT 4 turbo
+    private int validateNode(RBTreeNode node, int blackCount)
+    {
+        // Base case: reach a leaf (NIL node)
+        if (node == null) {
+            return blackCount + 1; // Count the black NIL node
+        }
+        
+        // Property 1: node must be either red or black, checked implicitly by node structure
+        
+        // Property 3: Red nodes have only black children
+        if (!isBlack(node) && (!isBlack(( RBTreeNode ) node.getlChild())
+                               || !isBlack(( RBTreeNode ) node.getrChild())))
+        {
+            return -1; // Invalid RB tree
+        }
+        
+        // Increment black count if the current node is black
+        if (isBlack(node)) {
+            blackCount++;
+        }
+        
+        // Check if the left and right children have the same black node count
+        int leftBlackCount = validateNode(( RBTreeNode ) node.getlChild(), blackCount);
+        int rightBlackCount = validateNode(( RBTreeNode ) node.getrChild(), blackCount);
+        if (leftBlackCount == -1 || rightBlackCount == -1 || leftBlackCount != rightBlackCount) {
+            return -1; // Invalid RB tree
+        }
+        
+        return leftBlackCount; // Or rightBlackCount, they're equal if valid
     }
     
     private static class RBTreeDemo {
