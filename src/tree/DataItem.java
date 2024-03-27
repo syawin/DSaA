@@ -6,11 +6,10 @@ public final class DataItem<T> {
     
     public DataItem(T data) { this.data = data; }
     
-// getter
+    // getter
     public T getData()
     {
         return data;
     }
-// getter end
-
+    // getter end
 }
