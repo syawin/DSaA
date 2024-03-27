@@ -1,13 +1,13 @@
 package tree;
 
-public final class DataItem<T> {
+public abstract class DataItem<T> {
     
     private final T data;
     
     public DataItem(T data) { this.data = data; }
     
     // getter
-    public T getData()
+    public final T getData()
     {
         return data;
     }
