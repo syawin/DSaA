@@ -1,4 +1,4 @@
-package tree;
+package tree.btree;
 
 public class NumericDataItem<T extends Number> extends DataItem<T> {
     
