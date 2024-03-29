@@ -7,7 +7,7 @@ public class MultiNode<T> {
     private DataItem<T>[]  itemArray;
     private MultiNode<T>[] childArray;
     
-// getter
+    // getter
     public MultiNode<T>[] getChildArray()
     {
         return childArray;
@@ -17,9 +17,9 @@ public class MultiNode<T> {
     {
         return itemArray;
     }
-// getter end
-
-// setter
+    // getter end
+    
+    // setter
     public void setChildArray(MultiNode<T>[] childArray)
     {
         this.childArray = childArray;
@@ -29,7 +29,7 @@ public class MultiNode<T> {
     {
         this.itemArray = itemArray;
     }
-// setter end
+    // setter end
     
     @Override
     public String toString()
