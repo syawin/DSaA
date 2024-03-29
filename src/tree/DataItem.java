@@ -12,4 +12,12 @@ public abstract class DataItem<T> {
         return data;
     }
     // getter end
+    
+    
+    @Override
+    public String toString()
+    {
+        return "/%s/".formatted(data);
+    }
+    
 }

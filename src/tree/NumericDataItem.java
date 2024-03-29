@@ -7,4 +7,10 @@ public class NumericDataItem<T extends Number> extends DataItem<T> {
         super(data);
     }
     
+    @Override
+    public String toString()
+    {
+        return "/%d/".formatted(getData());
+    }
+    
 }
