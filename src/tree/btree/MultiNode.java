@@ -37,7 +37,9 @@ public class MultiNode<T> {
         return (itemArray == null
                 ? "[]"
                 : Arrays.asList(itemArray)
-                        .toString());
+                        .toString()
+                        .replace(",", "")
+                        .replace(" ", ""));
     }
     
 }
