@@ -63,6 +63,11 @@ public class MultiNode<T> {
     }
     // setter end
     
+    // todo display method; prints data items and all children recursively
+    public void display()
+    {
+    }
+    
     @Override
     public String toString()
     {
