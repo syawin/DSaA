@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="idea files" pattern="file:.idea//*||file:*.iml||file:qodana.yaml" />
+</component>
