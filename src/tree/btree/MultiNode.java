@@ -1,22 +1,29 @@
 package tree.btree;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MultiNode<T> {
     
-    private final int            ORDER;
+    private final int                ORDER;
     // item count is ORDER - 1
-    private       DataItem<T>[]  itemArray;
+    private       List<DataItem<T>>  itemArray;
     // child count is ORDER
-    private       MultiNode<T>[] childArray;
-    private       MultiNode<T>   parent;
-    private       long           count;
+    private       List<MultiNode<T>> childArray;
+    private       MultiNode<T>       parent;
+    private       long               count;
     
-    public MultiNode(int order) { ORDER = order; }
+    public MultiNode(int order)
+    {
+        ORDER      = order;
+        itemArray  = new ArrayList<>(ORDER - 1);
+        childArray = new ArrayList<>(ORDER);
+        count      = 0;
+    }
     
     
     // getter
-    public MultiNode<T>[] getChildArray()
+    public List<MultiNode<T>> getChildArray()
     {
         return childArray;
     }
@@ -26,7 +33,7 @@ public class MultiNode<T> {
         return count;
     }
     
-    public DataItem<T>[] getItemArray()
+    public List<DataItem<T>> getItemArray()
     {
         return itemArray;
     }
@@ -43,7 +50,7 @@ public class MultiNode<T> {
     // getter end
     
     // setter
-    public void setChildArray(MultiNode<T>[] childArray)
+    public void setChildArray(List<MultiNode<T>> childArray)
     {
         this.childArray = childArray;
     }
@@ -53,7 +60,7 @@ public class MultiNode<T> {
         this.count = count;
     }
     
-    public void setItemArray(DataItem<T>[] itemArray)
+    public void setItemArray(List<DataItem<T>> itemArray)
     {
         this.itemArray = itemArray;
     }
@@ -67,12 +74,11 @@ public class MultiNode<T> {
     @Override
     public String toString()
     {
-        return (itemArray == null
+        return (itemArray == null || itemArray.isEmpty()
                 ? "[]"
-                : Arrays.asList(itemArray)
-                        .toString()
-                        .replace(",", "")
-                        .replace(" ", ""));
+                : itemArray.toString()
+                           .replace(",", "")
+                           .replace(" ", ""));
     }
     
 }
