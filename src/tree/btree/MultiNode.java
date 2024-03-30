@@ -71,6 +71,17 @@ public class MultiNode<T> {
     }
     // setter end
     
+    public void connectChild(int childIndex, MultiNode<T> child)
+    {
+        if (childIndex < 0 || childIndex >= ORDER) {
+            throw new IllegalArgumentException("Index %d is invalid for ORDER %d".formatted(childIndex, ORDER));
+        }
+        childArray.set(childIndex, child);
+        if (child != null) {
+            child.setParent(this);
+        }
+    }
+    
     @Override
     public String toString()
     {
