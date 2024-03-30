@@ -7,7 +7,11 @@ public class MultiNode<T> {
     private DataItem<T>[]  itemArray;
     private MultiNode<T>[] childArray;
     private MultiNode<T> parent;
-    private long         count, order;
+    private final int  ORDER;
+    private       long count;
+    
+    public MultiNode(int order) { ORDER = order; }
+    
     
     // getter
     public MultiNode<T>[] getChildArray()
@@ -27,7 +31,7 @@ public class MultiNode<T> {
     
     public long getOrder()
     {
-        return order;
+        return ORDER;
     }
     
     public MultiNode<T> getParent()
@@ -50,11 +54,6 @@ public class MultiNode<T> {
     public void setItemArray(DataItem<T>[] itemArray)
     {
         this.itemArray = itemArray;
-    }
-    
-    public void setOrder(long order)
-    {
-        this.order = order;
     }
     
     public void setParent(MultiNode<T> parent)
