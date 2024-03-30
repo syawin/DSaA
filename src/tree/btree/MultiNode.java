@@ -4,11 +4,13 @@ import java.util.Arrays;
 
 public class MultiNode<T> {
     
-    private DataItem<T>[]  itemArray;
-    private MultiNode<T>[] childArray;
-    private MultiNode<T> parent;
-    private final int  ORDER;
-    private       long count;
+    private final int            ORDER;
+    // item count is ORDER - 1
+    private       DataItem<T>[]  itemArray;
+    // child count is ORDER
+    private       MultiNode<T>[] childArray;
+    private       MultiNode<T>   parent;
+    private       long           count;
     
     public MultiNode(int order) { ORDER = order; }
     
@@ -61,11 +63,6 @@ public class MultiNode<T> {
         this.parent = parent;
     }
     // setter end
-    
-    // todo display method; prints data items and all children recursively
-    public void display()
-    {
-    }
     
     @Override
     public String toString()
