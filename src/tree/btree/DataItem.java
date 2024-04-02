@@ -1,15 +1,13 @@
 package tree.btree;
 
-public class DataItem {
+public record DataItem(long key) {
     
-    private final long key;
-    
-    public DataItem(long key) { this.key = key; }
-    
-    // getter
-    public long getKey()
-    {
-        return key;
-    }
     // getter end
+    
+    @Override
+    public String toString()
+    {
+        return "/%d/".formatted(key);
+    }
+    
 }
