@@ -4,9 +4,9 @@ public class MultiNode {
     
     private final int         ORDER;
     private       MultiNode[] childArr;
+    private int       count  = 0;
     private       DataItem[]  dataArr;
-    private       int         dataCount = 0;
-    private       MultiNode   parent    = null;
+    private MultiNode parent = null;
     
     public MultiNode(int order)
     {
@@ -21,14 +21,14 @@ public class MultiNode {
         return childArr;
     }
     
+    public int getCount()
+    {
+        return count;
+    }
+    
     public DataItem[] getDataArr()
     {
         return dataArr;
-    }
-    
-    public int getDataCount()
-    {
-        return dataCount;
     }
     
     public int getORDER()
@@ -43,7 +43,7 @@ public class MultiNode {
     
     public boolean isFull()
     {
-        return dataCount == ORDER - 1;
+        return count == ORDER - 1;
     }
     
     public boolean isLeaf()
@@ -58,14 +58,14 @@ public class MultiNode {
         this.childArr = childArr;
     }
     
+    public void setCount(int count)
+    {
+        this.count = count;
+    }
+    
     public void setDataArr(DataItem[] dataArr)
     {
         this.dataArr = dataArr;
-    }
-
-    public void setDataCount(int dataCount)
-    {
-        this.dataCount = dataCount;
     }
     
     public void setParent(MultiNode parent)
