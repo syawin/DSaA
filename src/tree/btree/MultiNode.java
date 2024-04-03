@@ -6,7 +6,6 @@ import java.util.Arrays;
 
 public class MultiNode {
     
-    // test
     private final int         ORDER;
     private       MultiNode[] childArr;
     private       int         count  = 0;
@@ -15,9 +14,9 @@ public class MultiNode {
     
     public MultiNode(int order)
     {
-        ORDER = order;
+        ORDER    = order;
         childArr = new MultiNode[ORDER];
-        dataArr = new DataItem[ORDER - 1];
+        dataArr  = new DataItem[ORDER - 1];
     }
     
     // getter
