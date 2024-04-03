@@ -1,5 +1,9 @@
 package tree.btree;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Arrays;
+
 public class MultiNode {
     
     private final int         ORDER;
@@ -88,6 +92,63 @@ public class MultiNode {
         MultiNode temp = childArr[childIndex];
         childArr[childIndex] = null;
         return temp;
+    }
+    
+    public int findItem(long key)
+    {
+        for (int i = 0; i < ORDER; i++) {
+            if (dataArr[i] == null) {
+                break;
+            }
+            else if (dataArr[i].key() == key) {
+                return i;
+            }
+        }
+        return -1;
+    }
+    
+    public int insertItem(@NotNull DataItem insert)
+    {
+        // assumes node is not full
+        count++;
+        long newKey = insert.key();
+        for (int i = ORDER - 2; i >= 0; i--) {
+            if (dataArr[i] == null) {
+                continue;
+            }
+            else {
+                long currKey = dataArr[i].key();
+                if (newKey < currKey) { dataArr[i + 1] = dataArr[i]; }
+                else {
+                    dataArr[i + 1] = insert;
+                    return i + 1;
+                }
+            }
+        }
+        dataArr[0] = insert;
+        return 0;
+    }
+    
+    public DataItem removeLargest()
+    {
+        // assumes node is not empty
+        DataItem temp = dataArr[count - 1];
+        dataArr[count - 1] = null;
+        count--;
+        return temp;
+    }
+    
+    @Override
+    public String toString()
+    {
+        final StringBuffer sb = new StringBuffer("MultiNode{");
+        sb.append("dataArr=")
+          .append(dataArr == null
+                  ? "null"
+                  : Arrays.asList(dataArr)
+                          .toString());
+        sb.append('}');
+        return sb.toString();
     }
     
 }
