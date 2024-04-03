@@ -50,6 +50,9 @@ public class MultiNode {
     {
         return childArr[0] == null;
     }
+    // getter end
+    
+    // setter
     public void setChildArr(MultiNode[] childArr)
     {
         this.childArr = childArr;
@@ -59,7 +62,7 @@ public class MultiNode {
     {
         this.dataArr = dataArr;
     }
-    
+
     public void setDataCount(int dataCount)
     {
         this.dataCount = dataCount;
@@ -69,9 +72,6 @@ public class MultiNode {
     {
         this.parent = parent;
     }
-    // getter end
-    
-    // setter
     // setter end
     
     public void connectChild(int childIndex, MultiNode child)
@@ -89,4 +89,5 @@ public class MultiNode {
         childArr[childIndex] = null;
         return temp;
     }
+    
 }
