@@ -40,9 +40,16 @@ public class MultiNode {
     {
         return parent;
     }
-    // getter end
     
-    // setter
+    public boolean isFull()
+    {
+        return dataCount == ORDER - 1;
+    }
+    
+    public boolean isLeaf()
+    {
+        return childArr[0] == null;
+    }
     public void setChildArr(MultiNode[] childArr)
     {
         this.childArr = childArr;
@@ -62,5 +69,24 @@ public class MultiNode {
     {
         this.parent = parent;
     }
+    // getter end
+    
+    // setter
     // setter end
+    
+    public void connectChild(int childIndex, MultiNode child)
+    {
+        childArr[childIndex] = child;
+        if (child != null) {
+            child.parent = this;
+        }
+    }
+    
+    // What do I do Lord? Corrupt them all.
+    public MultiNode destroyTheChild(int childIndex)
+    {
+        MultiNode temp = childArr[childIndex];
+        childArr[childIndex] = null;
+        return temp;
+    }
 }
