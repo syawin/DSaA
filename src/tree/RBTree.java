@@ -29,13 +29,14 @@ public class RBTree extends Tree {
     @Override
     public void insert(int key, Object val)
     {
-        RBTreeNode insert = new RBTreeNode.Builder(key, val).build();
-        Boolean isLeftChild = null, isLeftGrandChild = null;
+        RBTreeNode insert      = new RBTreeNode.Builder(key, val).build();
+        Boolean    isLeftChild = null, isLeftGrandChild = null;
         System.out.println("Ins:\t" + insert);
         if (this.getRoot() == null) {
             insert.setRed(false);
             this.setRoot(insert);
-        } else {
+        }
+        else {
             RBTreeNode curr = ( RBTreeNode ) this.getRoot();
             RBTreeNode paren = null, gp = null;
             if (isFlip.test(curr)) {
@@ -62,7 +63,8 @@ public class RBTree extends Tree {
                         curr = ( RBTreeNode ) paren.getlChild();
                         break;
                     }
-                } else {
+                }
+                else {
                     curr = ( RBTreeNode ) curr.getrChild();
                     if (isFlip.test(paren)) paren.flipColors();
                     if (gp != null && isRRViolation.test(paren, gp)) {
@@ -107,15 +109,16 @@ public class RBTree extends Tree {
     {
         if (isLeftGrandChild != null) {
             // begin case outer gc
-            RBTreeNode ggp = ( RBTreeNode ) gp.getParent();
-            TreeNode top, temp = ggp.getParent();
+            RBTreeNode ggp       = ( RBTreeNode ) gp.getParent();
+            TreeNode   top, temp = ggp.getParent();
             if ((isLeftChild && isLeftGrandChild) || (!isLeftChild && !isLeftGrandChild)) {
                 gp.toggleNodeColor();
                 ggp.toggleNodeColor();
                 if (isLeftChild) {
                     // do right rotation to raise P
                     top = ggp.rotateRight();
-                } else {
+                }
+                else {
                     top = ggp.rotateLeft();
                 }
                 // GGP is top of rotation
@@ -138,7 +141,8 @@ public class RBTree extends Tree {
                     ggp.getrChild()
                        .setParent(ggp);
                     top = ggp.rotateLeft();
-                } else {
+                }
+                else {
                     // then isLeftGC must be true
                     // rotate GP left
                     // rotate GGP right
@@ -152,9 +156,11 @@ public class RBTree extends Tree {
             top.setParent(temp);
             if (temp == null) {
                 this.setRoot(top);
-            } else if (top.getKey() < temp.getKey()) {
+            }
+            else if (top.getKey() < temp.getKey()) {
                 temp.setlChild(top);
-            } else {
+            }
+            else {
                 temp.setrChild(top);
             }
         }
@@ -174,10 +180,12 @@ public class RBTree extends Tree {
                 paren.toggleNodeColor();
                 if (isLeftChild) {
                     top = gp.rotateRight();
-                } else {
+                }
+                else {
                     top = gp.rotateLeft();
                 }
-            } else {
+            }
+            else {
                 // case P is red and X is an inside grandchild
                 gp.toggleNodeColor();
                 insert.toggleNodeColor();
@@ -186,7 +194,8 @@ public class RBTree extends Tree {
                     // perform a right rotation on P then a left on G
                     gp.setrChild(paren.rotateRight());
                     top = gp.rotateLeft();
-                } else {
+                }
+                else {
                     // if X is a right child then that means P is a left child
                     gp.setlChild(paren.rotateLeft());
                     top = gp.rotateRight();
@@ -195,9 +204,11 @@ public class RBTree extends Tree {
             top.setParent(temp);
             if (temp == null) {
                 this.setRoot(top);
-            } else if (top.getKey() < temp.getKey()) {
+            }
+            else if (top.getKey() < temp.getKey()) {
                 temp.setlChild(top);
-            } else {
+            }
+            else {
                 temp.setrChild(top);
             }
         }
