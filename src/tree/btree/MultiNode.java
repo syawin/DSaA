@@ -2,8 +2,6 @@ package tree.btree;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
-
 public class MultiNode {
     
     private final int         ORDER;
@@ -94,6 +92,7 @@ public class MultiNode {
         return temp;
     }
     
+    
     public int findItem(long key)
     {
         for (int i = 0; i < ORDER; i++) {
@@ -141,14 +140,24 @@ public class MultiNode {
     @Override
     public String toString()
     {
-        final StringBuffer sb = new StringBuffer("MultiNode{");
-        sb.append("dataArr=")
-          .append(dataArr == null
-                  ? "null"
-                  : Arrays.asList(dataArr)
-                          .toString());
-        sb.append('}');
-        return sb.toString();
+        String toString = STR."""
+        \{isEmpty() ? "[]" : STR."[\{dataToString()}]"}
+        """;
+        return toString;
+    }
+    
+    public boolean isEmpty()
+    {
+        return count == 0;
+    }
+    
+    public String dataToString()
+    {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (DataItem dataItem : dataArr) {
+            if (dataItem != null) stringBuilder.append(dataItem);
+        }
+        return stringBuilder.toString();
     }
     
 }
