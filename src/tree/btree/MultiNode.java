@@ -108,7 +108,7 @@ public class MultiNode {
     
     public int insertItem(@NotNull DataItem insert)
     {
-        // assumes node is not full
+        // todo make full-safe to avoid IndexOutofBounds
         count++;
         long newKey = insert.key();
         for (int i = ORDER - 2; i >= 0; i--) {
@@ -128,7 +128,7 @@ public class MultiNode {
         return 0;
     }
     
-    public DataItem removeLargest()
+    public DataItem removeItem()
     {
         // assumes node is not empty
         DataItem temp = dataArr[count - 1];

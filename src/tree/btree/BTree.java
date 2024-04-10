@@ -2,9 +2,14 @@ package tree.btree;
 
 public class BTree {
     
-    private MultiNode root;
+    private final int       ORDER;
+    private       MultiNode root;
     
-    public BTree(MultiNode root) { this.root = root; }
+    public BTree(int order)
+    {
+        ORDER = order;
+        root  = new MultiNode(ORDER);
+    }
     
     // getter
     public MultiNode getRoot()
