@@ -7,8 +7,8 @@ public class MultiNode {
     private final int         ORDER;
     private       MultiNode[] childArr;
     private       DataItem[]  dataArr;
-    private int       itemCount = 0;
-    private MultiNode parent    = null;
+    private       int         itemCount = 0;
+    private       MultiNode   parent    = null;
     
     public MultiNode(int order)
     {
@@ -42,21 +42,19 @@ public class MultiNode {
     {
         return parent;
     }
-    public boolean isEmpty()
+    
+    public boolean isFull()
     {
-        return itemCount == 0;
+        return itemCount == ORDER - 1;
     }
     
     public boolean isLeaf()
     {
         return childArr[0] == null;
     }
-
-    public boolean isFull()
-    {
-        return itemCount == ORDER - 1;
-    }
     // getter end
+    
+    // setter
     public void setChildArr(MultiNode[] childArr)
     {
         this.childArr = childArr;
@@ -67,16 +65,16 @@ public class MultiNode {
         this.dataArr = dataArr;
     }
     
-    // setter
+    public void setItemCount(int itemCount)
+    {
+        this.itemCount = itemCount;
+    }
     
     public void setParent(MultiNode parent)
     {
         this.parent = parent;
     }
-    public void setItemCount(int itemCount)
-    {
-        this.itemCount = itemCount;
-    }
+    // setter end
     
     public void connectChild(int childIndex, MultiNode child)
     {
@@ -138,7 +136,15 @@ public class MultiNode {
         dataArr[0] = insert;
         return 0;
     }
-    // setter end
+
+    public DataItem removeItem()
+    {
+        // assumes node is not empty
+        DataItem temp = dataArr[itemCount - 1];
+        dataArr[itemCount - 1] = null;
+        itemCount--;
+        return temp;
+    }
     
     @Override
     public String toString()
@@ -149,13 +155,9 @@ public class MultiNode {
         return toString;
     }
     
-    public DataItem removeItem()
+    public boolean isEmpty()
     {
-        // assumes node is not empty
-        DataItem temp = dataArr[itemCount - 1];
-        dataArr[itemCount - 1] = null;
-        itemCount--;
-        return temp;
+        return itemCount == 0;
     }
     
     public String dataToString()
