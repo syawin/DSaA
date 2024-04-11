@@ -6,9 +6,9 @@ public class MultiNode {
     
     private final int         ORDER;
     private       MultiNode[] childArr;
-    private       int         count  = 0;
     private       DataItem[]  dataArr;
-    private       MultiNode   parent = null;
+    private int       itemCount = 0;
+    private MultiNode parent    = null;
     
     public MultiNode(int order)
     {
@@ -23,14 +23,14 @@ public class MultiNode {
         return childArr;
     }
     
-    public int getCount()
-    {
-        return count;
-    }
-    
     public DataItem[] getDataArr()
     {
         return dataArr;
+    }
+    
+    public int getItemCount()
+    {
+        return itemCount;
     }
     
     public int getORDER()
@@ -43,26 +43,24 @@ public class MultiNode {
         return parent;
     }
     
-    public boolean isFull()
+    public boolean isEmpty()
     {
-        return count == ORDER - 1;
+        return itemCount == 0;
     }
     
     public boolean isLeaf()
     {
         return childArr[0] == null;
     }
+
+    public boolean isFull()
+    {
+        return itemCount == ORDER - 1;
+    }
     // getter end
-    
-    // setter
     public void setChildArr(MultiNode[] childArr)
     {
         this.childArr = childArr;
-    }
-    
-    public void setCount(int count)
-    {
-        this.count = count;
     }
     
     public void setDataArr(DataItem[] dataArr)
@@ -70,11 +68,16 @@ public class MultiNode {
         this.dataArr = dataArr;
     }
     
+    // setter
+    
     public void setParent(MultiNode parent)
     {
         this.parent = parent;
     }
-    // setter end
+    public void setItemCount(int itemCount)
+    {
+        this.itemCount = itemCount;
+    }
     
     public void connectChild(int childIndex, MultiNode child)
     {
@@ -92,7 +95,6 @@ public class MultiNode {
         return temp;
     }
     
-    
     public int findItem(long key)
     {
         for (int i = 0; i < ORDER; i++) {
@@ -105,11 +107,22 @@ public class MultiNode {
         }
         return -1;
     }
+    // setter end
+    
+    public MultiNode getChild(int childIndex)
+    {
+        return childArr[childIndex];
+    }
+    
+    public DataItem getData(int dataIndex)
+    {
+        return dataArr[dataIndex];
+    }
     
     public int insertItem(@NotNull DataItem insert)
     {
         // todo make full-safe to avoid IndexOutofBounds
-        count++;
+        itemCount++;
         long newKey = insert.key();
         for (int i = ORDER - 2; i >= 0; i--) {
             if (dataArr[i] == null) {
@@ -128,15 +141,6 @@ public class MultiNode {
         return 0;
     }
     
-    public DataItem removeItem()
-    {
-        // assumes node is not empty
-        DataItem temp = dataArr[count - 1];
-        dataArr[count - 1] = null;
-        count--;
-        return temp;
-    }
-    
     @Override
     public String toString()
     {
@@ -146,9 +150,13 @@ public class MultiNode {
         return toString;
     }
     
-    public boolean isEmpty()
+    public DataItem removeItem()
     {
-        return count == 0;
+        // assumes node is not empty
+        DataItem temp = dataArr[itemCount - 1];
+        dataArr[itemCount - 1] = null;
+        itemCount--;
+        return temp;
     }
     
     public String dataToString()
