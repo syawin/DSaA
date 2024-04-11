@@ -42,7 +42,6 @@ public class MultiNode {
     {
         return parent;
     }
-    
     public boolean isEmpty()
     {
         return itemCount == 0;
@@ -107,7 +106,6 @@ public class MultiNode {
         }
         return -1;
     }
-    // setter end
     
     public MultiNode getChild(int childIndex)
     {
@@ -140,6 +138,7 @@ public class MultiNode {
         dataArr[0] = insert;
         return 0;
     }
+    // setter end
     
     @Override
     public String toString()
