@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="javax.validation.api" type="repository">
+    <properties maven-id="javax.validation:validation-api:2.0.1.Final" />
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/validation-api-2.0.1.Final1.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/lib/validation-api-2.0.1.Final-javadoc1.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/lib/validation-api-2.0.1.Final-sources1.jar!/" />
+    </SOURCES>
+  </library>
+</component>
