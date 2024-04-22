@@ -16,8 +16,22 @@ public class BTreeTest {
         bTree.insert(9);
         bTree.insert(72);
         bTree.insert(4);
-        Assert.assertEquals(STR."""
-                                Minimum is 4, not \{bTree.getMin()}""", 4, bTree.getMin());
+        Assert.assertEquals(4, bTree.getMin());
+    }
+    
+    @Test
+    public void printInOrder()
+    {
+        BTree bTree = new BTree(4);
+        bTree.insert(57);
+        bTree.insert(83);
+        bTree.insert(26);
+        bTree.insert(45);
+        bTree.insert(9);
+        bTree.insert(72);
+        bTree.insert(4);
+        String expected = "[/4//9//26/45//57//72//83/]";
+        Assert.assertEquals(expected, bTree.traverseInOrder());
     }
     
 }

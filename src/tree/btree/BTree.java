@@ -125,6 +125,11 @@ public class BTree {
         newRight.connectChild(1, child3);
     }
     
+    public String traverseInOrder()
+    {
+        return "";
+    }
+    
     private void recDisplayTree(MultiNode curr, int level, int childIndex)
     {
         System.out.println(STR."""
