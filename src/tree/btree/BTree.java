@@ -12,6 +12,19 @@ public class BTree {
     }
     
     // getter
+    public long getMin()
+    {
+        if (root == null) {
+            return -1;
+        }
+        MultiNode current = root;
+        while (!current.isLeaf()) {
+            current = current.getChild(0);
+        }
+        return current.getData(0)
+                      .key();
+    }
+    
     public MultiNode getRoot()
     {
         return root;
@@ -130,10 +143,18 @@ public class BTree {
         public static void main(String[] args)
         {
             BTree bTree = new BTree(4);
-            bTree.insert(2);
-            bTree.insert(1);
-            bTree.insert(3);
-            System.out.println(bTree);
+            bTree.insert(57);
+            bTree.insert(83);
+            bTree.insert(26);
+            bTree.insert(45);
+            bTree.insert(9);
+            bTree.insert(72);
+            bTree.insert(38);
+            bTree.insert(14);
+            bTree.insert(66);
+            bTree.insert(4);
+            bTree.displayTree();
+            System.out.println(bTree.getMin());
         }
         
     }
