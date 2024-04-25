@@ -2,13 +2,11 @@ package tree.btree;
 
 import org.jetbrains.annotations.NotNull;
 
-import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
 public class MultiNode {
     
     @Min(3)
-    @Max(7)
     private final int         ORDER;
     private       MultiNode[] childArr;
     private       DataItem[]  dataArr;
@@ -172,6 +170,16 @@ public class MultiNode {
             if (dataItem != null) stringBuilder.append(dataItem);
         }
         return stringBuilder.toString();
+    }
+    
+    private static class MultiNodeDemo {
+        
+        public static void main(String[] args)
+        {
+            MultiNode root = new MultiNode(3);
+            System.out.print(root.dataToString());
+        }
+        
     }
     
 }
