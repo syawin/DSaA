@@ -1,5 +1,11 @@
 package tree.btree;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static common.CommonConstants.comma;
+import static common.CommonConstants.formatStr;
+
 public class BTree {
     
     private final int       ORDER;
@@ -38,6 +44,18 @@ public class BTree {
     }
     // setter end
     
+    public static long[] sort(long[] in)
+    {
+        BTree sorter = new BTree(4);
+        for (long l : in) {
+            sorter.insert(l);
+        }
+        return sorter.inOrder()
+                     .stream()
+                     .mapToLong(DataItem::key)
+                     .toArray();
+    }
+    
     public void displayTree(int spaces)
     {
         // todo impl method to display BTree recursively
@@ -74,20 +92,21 @@ public class BTree {
         return curr.getChild(i);
     }
     
-    public String inOrder()
+    // todo this can be generalized to take into account ORDER
+    public List<DataItem> inOrder()
     {
-        StringBuilder sb = new StringBuilder("[");
+        List<DataItem> itemsInOrder = new ArrayList<>();
+        // todo refactor this code into a loop
         if (root != null) {
-            inOrderRec(root.getChild(0), sb);
-            if (root.getData(0) != null) sb.append(root.getData(0));
-            inOrderRec(root.getChild(1), sb);
-            if (root.getData(1) != null) sb.append(root.getData(1));
-            inOrderRec(root.getChild(2), sb);
-            if (root.getData(2) != null) sb.append(root.getData(2));
-            inOrderRec(root.getChild(3), sb);
+            inOrderRec(root.getChild(0), itemsInOrder);
+            if (root.getData(0) != null) itemsInOrder.add(root.getData(0));
+            inOrderRec(root.getChild(1), itemsInOrder);
+            if (root.getData(1) != null) itemsInOrder.add(root.getData(1));
+            inOrderRec(root.getChild(2), itemsInOrder);
+            if (root.getData(2) != null) itemsInOrder.add(root.getData(2));
+            inOrderRec(root.getChild(3), itemsInOrder);
         }
-        sb.append("]");
-        return sb.toString();
+        return itemsInOrder;
     }
     
     public void insert(long key)
@@ -105,6 +124,34 @@ public class BTree {
             else { curr = getNextChild(curr, key); }
         }
         curr.insertItem(temp);
+    }
+    
+    // todo this can be generalized to take into account ORDER
+    private void inOrderRec(MultiNode localRoot, List<DataItem> items)
+    {
+        // todo refactor this code into a loop
+        if (localRoot != null) {
+            inOrderRec(localRoot.getChild(0), items);
+            if (localRoot.getData(0) != null) items.add(localRoot.getData(0));
+            inOrderRec(localRoot.getChild(1), items);
+            if (localRoot.getData(1) != null) items.add(localRoot.getData(1));
+            inOrderRec(localRoot.getChild(2), items);
+            if (localRoot.getData(2) != null) items.add(localRoot.getData(2));
+            inOrderRec(localRoot.getChild(3), items);
+        }
+    }
+    
+    private void recDisplayTree(MultiNode curr, int level, int childIndex)
+    {
+        System.out.println(STR."""
+                              level=\{level} child=\{childIndex}""");
+        System.out.println(curr);
+        int itemCount = curr.getItemCount();
+        for (int i = 0; i < itemCount + 1; i++) {
+            MultiNode next = curr.getChild(i);
+            if (next != null) { recDisplayTree(next, level + 1, i); }
+            else { return; }
+        }
     }
     
     private void split(MultiNode curr)
@@ -139,54 +186,21 @@ public class BTree {
         newRight.connectChild(1, child3);
     }
     
-    public String traverseInOrder()
-    {
-        StringBuilder sb      = new StringBuilder();
-        MultiNode     current = root;
-        // iterate thru leftmost child until leaf is reached
-        while (!current.isLeaf()) {
-            // get next child
-            current = current.getChild(0);
-        }
-        sb.append(current.dataToString());
-        return sb.toString();
-    }
-    
-    private void inOrderRec(MultiNode localRoot, StringBuilder sb)
-    {
-        if (localRoot != null) {
-            inOrderRec(localRoot.getChild(0), sb);
-            if (localRoot.getData(0) != null) sb.append(localRoot.getData(0));
-            inOrderRec(localRoot.getChild(1), sb);
-            if (localRoot.getData(1) != null) sb.append(localRoot.getData(1));
-            inOrderRec(localRoot.getChild(2), sb);
-            if (localRoot.getData(2) != null) sb.append(localRoot.getData(2));
-            inOrderRec(localRoot.getChild(3), sb);
-        }
-    }
-    
-    private void recDisplayTree(MultiNode curr, int level, int childIndex)
-    {
-        System.out.println(STR."""
-                              level=\{level} child=\{childIndex}""");
-        System.out.println(curr);
-        int itemCount = curr.getItemCount();
-        for (int i = 0; i < itemCount + 1; i++) {
-            MultiNode next = curr.getChild(i);
-            if (next != null) { recDisplayTree(next, level + 1, i); }
-            else { return; }
-        }
-    }
-    
+    @SuppressWarnings("unused")
     private static class BTreeDemo {
         
         public static void main(String[] args)
         {
             BTree bTree = new BTree(4);
-            System.out.println(bTree.inOrder());
+            String formatted = formatStr(bTree.inOrder()
+                                              .toString(), comma);
+            System.out.println(formatted);
             for (int i : new int[] { 57, 83, 26, 45, 9, 72, 38, 14, 66, 4 }) { bTree.insert(i); }
             bTree.displayTree();
             System.out.println(bTree.getMin());
+            formatted = formatStr(bTree.inOrder()
+                                       .toString(), comma);
+            System.out.println(formatted);
         }
         
     }
