@@ -1,6 +1,6 @@
 package common;
 
-public interface StringFunction {
+public interface StrFunc {
     
     String run(String str);
     

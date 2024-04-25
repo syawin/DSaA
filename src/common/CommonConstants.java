@@ -2,11 +2,11 @@ package common;
 
 public interface CommonConstants {
     
-    String         LINE_BREAK = "•".repeat(100);
-    StringFunction comma      = (s) -> s.replace(",", "")
-                                        .replaceAll("\s+", "");
+    String  LINE_BREAK = "•".repeat(100);
+    StrFunc comma      = (s) -> s.replace(",", "")
+                                 .replaceAll("\s+", "");
     
-    static String formatStr(String str, StringFunction func)
+    static String formatStr(String str, StrFunc func)
     {
         return func.run(str);
     }
