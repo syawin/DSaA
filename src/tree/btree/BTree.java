@@ -18,32 +18,19 @@ public class BTree {
     }
     
     // getter
-    public long getMin()
-    {
-        if (root == null) {
-            return -1;
-        }
-        MultiNode current = root;
-        while (!current.isLeaf()) {
-            current = current.getChild(0);
-        }
-        return current.getData(0)
-                      .key();
-    }
-    
     public MultiNode getRoot()
     {
         return root;
     }
     // getter end
-    
+
     // setter
     public void setRoot(MultiNode root)
     {
         this.root = root;
     }
     // setter end
-    
+
     public static long[] sort(long[] in)
     {
         BTree sorter = new BTree(4);
@@ -126,6 +113,19 @@ public class BTree {
         curr.insertItem(temp);
     }
     
+    public long minimum()
+    {
+        if (root == null) {
+            return -1;
+        }
+        MultiNode current = root;
+        while (!current.isLeaf()) {
+            current = current.getChild(0);
+        }
+        return current.getData(0)
+                      .key();
+    }
+    
     // todo this can be generalized to take into account ORDER
     private void inOrderRec(MultiNode localRoot, List<DataItem> items)
     {
@@ -197,7 +197,7 @@ public class BTree {
             System.out.println(formatted);
             for (int i : new int[] { 57, 83, 26, 45, 9, 72, 38, 14, 66, 4 }) { bTree.insert(i); }
             bTree.displayTree();
-            System.out.println(bTree.getMin());
+            System.out.println(bTree.minimum());
             formatted = formatStr(bTree.inOrder()
                                        .toString(), comma);
             System.out.println(formatted);

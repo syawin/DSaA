@@ -33,7 +33,7 @@ public class BTreeTest {
         long min = Arrays.stream(input)
                          .min()
                          .orElse(-1);
-        Assert.assertEquals(min, bTree.getMin());
+        Assert.assertEquals(min, bTree.minimum());
     }
     
     @Test
