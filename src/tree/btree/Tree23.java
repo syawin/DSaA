@@ -7,31 +7,13 @@ import static common.CommonConstants.comma;
 import static common.CommonConstants.formatStr;
 
 // todo modify class to handle a 2-3 tree
+@SuppressWarnings("DuplicatedCode")
 public class Tree23 {
     
-    private final int       ORDER;
-    private       MultiNode root;
-    
-    public Tree23(int order)
-    {
-        ORDER = order;
-        root  = new MultiNode(ORDER);
-    }
+    private final static int       ORDER = 3;
+    private              MultiNode root  = new MultiNode(ORDER);
     
     // getter
-    public long getMin()
-    {
-        if (root == null) {
-            return -1;
-        }
-        MultiNode current = root;
-        while (!current.isLeaf()) {
-            current = current.getChild(0);
-        }
-        return current.getData(0)
-                      .key();
-    }
-    
     public MultiNode getRoot()
     {
         return root;
@@ -44,23 +26,6 @@ public class Tree23 {
         this.root = root;
     }
     // setter end
-    
-    public static long[] sort(long[] in)
-    {
-        Tree23 sorter = new Tree23(4);
-        for (long l : in) {
-            sorter.insert(l);
-        }
-        return sorter.inOrder()
-                     .stream()
-                     .mapToLong(DataItem::key)
-                     .toArray();
-    }
-    
-    public void displayTree(int spaces)
-    {
-        // todo impl method to display BTree recursively
-    }
     
     public void displayTree()
     {
@@ -104,27 +69,66 @@ public class Tree23 {
             inOrderRec(root.getChild(1), itemsInOrder);
             if (root.getData(1) != null) itemsInOrder.add(root.getData(1));
             inOrderRec(root.getChild(2), itemsInOrder);
-            if (root.getData(2) != null) itemsInOrder.add(root.getData(2));
-            inOrderRec(root.getChild(3), itemsInOrder);
         }
         return itemsInOrder;
     }
     
     public void insert(long key)
     {
-        MultiNode curr = root;
-        DataItem  temp = new DataItem(key);
+        MultiNode parent, curr = root;
+        DataItem  temp         = new DataItem(key);
+        
+        // first impl not recursive
+        // split only happens when curr is full but not parent
         
         while (true) {
-            if (curr.isFull()) {
-                split(curr);
-                curr = curr.getParent();
-                curr = getNextChild(curr, key);
-            }
-            else if (curr.isLeaf()) { break; }
+            if (curr.isLeaf()) { break; }
             else { curr = getNextChild(curr, key); }
         }
-        curr.insertItem(temp);
+        
+        if (curr.isFull()) {
+            split(curr, temp);
+        }
+        else {
+            curr.insertItem(temp);
+        }
+    }
+    
+    private void split(MultiNode curr, DataItem insert)
+    {
+        // assume order is 3
+        DataItem  itemB = curr.removeItem();
+        MultiNode par   = curr.getParent();
+        if (par == null) {
+            //     root case
+            par  = new MultiNode(ORDER);
+            root = par;
+            root.connectChild(0, curr);
+        }
+        MultiNode newNode = new MultiNode(ORDER);
+        newNode.insertItem(insert.compareTo(itemB) > 0 ? insert : itemB);
+        par.insertItem(insert.compareTo(itemB) < 0 ? insert : itemB);
+        MultiNode temp = par.destroyTheChild(1);
+        if (temp != null) {
+            par.connectChild(1, newNode.compareTo(temp) < 0 ? newNode : temp);
+            par.connectChild(2, newNode.compareTo(temp) > 0 ? newNode : temp);
+        }
+        else {
+            par.connectChild(1, newNode);
+        }
+    }
+    
+    public long minimum()
+    {
+        if (root == null) {
+            return -1;
+        }
+        MultiNode current = root;
+        while (!current.isLeaf()) {
+            current = current.getChild(0);
+        }
+        return current.getData(0)
+                      .key();
     }
     
     // todo this can be generalized to take into account ORDER
@@ -137,8 +141,6 @@ public class Tree23 {
             inOrderRec(localRoot.getChild(1), items);
             if (localRoot.getData(1) != null) items.add(localRoot.getData(1));
             inOrderRec(localRoot.getChild(2), items);
-            if (localRoot.getData(2) != null) items.add(localRoot.getData(2));
-            inOrderRec(localRoot.getChild(3), items);
         }
     }
     
@@ -155,53 +157,23 @@ public class Tree23 {
         }
     }
     
-    private void split(MultiNode curr)
-    {
-        // assumes order is 4
-        DataItem  itemB, itemC;
-        MultiNode parent, child2, child3;
-        int       itemIndex;
-        
-        itemC  = curr.removeItem();
-        itemB  = curr.removeItem();
-        child2 = curr.destroyTheChild(2);
-        child3 = curr.destroyTheChild(3);
-        MultiNode newRight = new MultiNode(ORDER);
-        if (curr == root) {
-            root   = new MultiNode(ORDER);
-            parent = root;
-            root.connectChild(0, curr);
-        }
-        else { parent = curr.getParent(); }
-        itemIndex = parent.insertItem(itemB);
-        int n = parent.getItemCount();
-        
-        for (int i = n - 1; i > itemIndex; i--) {
-            MultiNode temp = parent.destroyTheChild(i);
-            parent.connectChild(i + 1, temp);
-        }
-        parent.connectChild(itemIndex + 1, newRight);
-        
-        newRight.insertItem(itemC);
-        newRight.connectChild(0, child2);
-        newRight.connectChild(1, child3);
-    }
-    
     @SuppressWarnings("unused")
-    private static class BTreeDemo {
+    private static class Tree23Demo {
         
         public static void main(String[] args)
         {
-            Tree23 bTree = new Tree23(4);
-            String formatted = formatStr(bTree.inOrder()
-                                              .toString(), comma);
+            Tree23 tree23 = new Tree23();
+            String formatted = formatStr(tree23.inOrder()
+                                               .toString(), comma);
             System.out.println(formatted);
-            for (int i : new int[] { 57, 83, 26, 45, 9, 72, 38, 14, 66, 4 }) { bTree.insert(i); }
-            bTree.displayTree();
-            System.out.println(bTree.getMin());
-            formatted = formatStr(bTree.inOrder()
-                                       .toString(), comma);
-            System.out.println(formatted);
+            tree23.insert(11);
+            tree23.insert(33);
+            tree23.insert(22);
+            tree23.insert(44);
+            tree23.insert(14);
+            tree23.insert(35);
+            tree23.insert(36);
+            tree23.displayTree();
         }
         
     }
