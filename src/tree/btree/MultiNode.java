@@ -4,7 +4,7 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.validation.constraints.Min;
 
-public class MultiNode {
+public class MultiNode implements Comparable<MultiNode> {
     
     @Min(3)
     private final int         ORDER;
@@ -79,6 +79,18 @@ public class MultiNode {
     }
     // setter end
     
+    @Override
+    public int compareTo(@NotNull MultiNode o)
+    {
+        return this.getData(0)
+                   .compareTo(o.getData(0));
+    }
+    
+    public DataItem getData(int dataIndex)
+    {
+        return dataArr[dataIndex];
+    }
+    
     public void connectChild(int childIndex, MultiNode child)
     {
         childArr[childIndex] = child;
@@ -111,11 +123,6 @@ public class MultiNode {
     public MultiNode getChild(int childIndex)
     {
         return childArr[childIndex];
-    }
-    
-    public DataItem getData(int dataIndex)
-    {
-        return dataArr[dataIndex];
     }
     
     public int insertItem(@NotNull DataItem insert)
