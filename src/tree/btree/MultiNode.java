@@ -107,6 +107,20 @@ public class MultiNode implements Comparable<MultiNode> {
         return temp;
     }
     
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (obj instanceof MultiNode other) {
+            if (this.ORDER != other.ORDER) return false;
+            if (this.itemCount != other.itemCount) return false;
+            for (int i = 0; i < itemCount; i++) {
+                if (this.dataArr[i].compareTo(other.dataArr[i]) != 0) return false;
+            }
+            return true;
+        }
+        return false;
+    }
+    
     public int findItem(long key)
     {
         for (int i = 0; i < ORDER; i++) {
