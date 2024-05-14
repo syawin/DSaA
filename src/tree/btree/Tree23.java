@@ -44,6 +44,19 @@ public class Tree23 {
         }
     }
     
+    private MultiNode getNextChild(MultiNode curr, long key)
+    {
+        int i;
+        // assumes the node is not empty, not full, and not a leaf
+        int count = curr.getItemCount();
+        for (i = 0; i < count; i++) {
+            if (key < curr.getData(i)
+                          .key())
+            { return curr.getChild(i); }
+        }
+        return curr.getChild(i);
+    }
+    
     public List<DataItem> inOrder()
     {
         List<DataItem> itemsInOrder = new ArrayList<>();
@@ -73,19 +86,6 @@ public class Tree23 {
         else {
             curr.insertItem(temp);
         }
-    }
-    
-    private MultiNode getNextChild(MultiNode curr, long key)
-    {
-        int i;
-        // assumes the node is not empty, not full, and not a leaf
-        int count = curr.getItemCount();
-        for (i = 0; i < count; i++) {
-            if (key < curr.getData(i)
-                          .key())
-            { return curr.getChild(i); }
-        }
-        return curr.getChild(i);
     }
     
     private void split(MultiNode curr, DataItem insert)
