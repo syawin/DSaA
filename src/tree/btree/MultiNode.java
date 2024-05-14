@@ -141,7 +141,7 @@ public class MultiNode implements Comparable<MultiNode> {
     
     public int insertItem(@NotNull DataItem insert)
     {
-        // todo make full-safe to avoid IndexOutofBounds
+        // suggest make full-safe to avoid IndexOutofBounds
         itemCount++;
         long newKey = insert.key();
         for (int i = ORDER - 2; i >= 0; i--) {

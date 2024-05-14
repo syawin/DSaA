@@ -23,14 +23,14 @@ public class BTree {
         return root;
     }
     // getter end
-
+    
     // setter
     public void setRoot(MultiNode root)
     {
         this.root = root;
     }
     // setter end
-
+    
     public static long[] sort(long[] in)
     {
         BTree sorter = new BTree(4);
@@ -45,7 +45,7 @@ public class BTree {
     
     public void displayTree(int spaces)
     {
-        // todo impl method to display BTree recursively
+        // suggest impl method to display BTree recursively
     }
     
     public void displayTree()
@@ -66,24 +66,11 @@ public class BTree {
         }
     }
     
-    private MultiNode getNextChild(MultiNode curr, long key)
-    {
-        int i;
-        // todo assumes the node is not empty, not full, and not a leaf
-        int count = curr.getItemCount();
-        for (i = 0; i < count; i++) {
-            if (key < curr.getData(i)
-                          .key())
-            { return curr.getChild(i); }
-        }
-        return curr.getChild(i);
-    }
-    
-    // todo this can be generalized to take into account ORDER
+    // suggest this can be generalized to take into account ORDER
     public List<DataItem> inOrder()
     {
         List<DataItem> itemsInOrder = new ArrayList<>();
-        // todo refactor this code into a loop
+        // suggest refactor this code into a loop
         if (root != null) {
             inOrderRec(root.getChild(0), itemsInOrder);
             if (root.getData(0) != null) itemsInOrder.add(root.getData(0));
@@ -94,6 +81,19 @@ public class BTree {
             inOrderRec(root.getChild(3), itemsInOrder);
         }
         return itemsInOrder;
+    }
+    
+    private MultiNode getNextChild(MultiNode curr, long key)
+    {
+        int i;
+        // suggest assumes the node is not empty, not full, and not a leaf
+        int count = curr.getItemCount();
+        for (i = 0; i < count; i++) {
+            if (key < curr.getData(i)
+                          .key())
+            { return curr.getChild(i); }
+        }
+        return curr.getChild(i);
     }
     
     public void insert(long key)
@@ -126,10 +126,10 @@ public class BTree {
                       .key();
     }
     
-    // todo this can be generalized to take into account ORDER
+    // suggest this can be generalized to take into account ORDER
     private void inOrderRec(MultiNode localRoot, List<DataItem> items)
     {
-        // todo refactor this code into a loop
+        // suggest refactor this code into a loop
         if (localRoot != null) {
             inOrderRec(localRoot.getChild(0), items);
             if (localRoot.getData(0) != null) items.add(localRoot.getData(0));
