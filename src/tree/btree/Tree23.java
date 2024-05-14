@@ -6,7 +6,6 @@ import java.util.List;
 import static common.CommonConstants.comma;
 import static common.CommonConstants.formatStr;
 
-// todo modify class to handle a 2-3 tree
 @SuppressWarnings("DuplicatedCode")
 public class Tree23 {
     
@@ -45,24 +44,10 @@ public class Tree23 {
         }
     }
     
-    private MultiNode getNextChild(MultiNode curr, long key)
-    {
-        int i;
-        // todo assumes the node is not empty, not full, and not a leaf
-        int count = curr.getItemCount();
-        for (i = 0; i < count; i++) {
-            if (key < curr.getData(i)
-                          .key())
-            { return curr.getChild(i); }
-        }
-        return curr.getChild(i);
-    }
-    
-    // todo this can be generalized to take into account ORDER
     public List<DataItem> inOrder()
     {
         List<DataItem> itemsInOrder = new ArrayList<>();
-        // todo refactor this code into a loop
+        // suggest refactor this code into a loop
         if (root != null) {
             inOrderRec(root.getChild(0), itemsInOrder);
             if (root.getData(0) != null) itemsInOrder.add(root.getData(0));
@@ -75,17 +60,13 @@ public class Tree23 {
     
     public void insert(long key)
     {
-        MultiNode parent, curr = root;
-        DataItem  temp         = new DataItem(key);
-        
-        // first impl not recursive
-        // split only happens when curr is full but not parent
+        MultiNode par, curr = root;
+        DataItem  temp      = new DataItem(key);
         
         while (true) {
             if (curr.isLeaf()) { break; }
             else { curr = getNextChild(curr, key); }
         }
-        
         if (curr.isFull()) {
             split(curr, temp);
         }
@@ -94,28 +75,22 @@ public class Tree23 {
         }
     }
     
+    private MultiNode getNextChild(MultiNode curr, long key)
+    {
+        int i;
+        // assumes the node is not empty, not full, and not a leaf
+        int count = curr.getItemCount();
+        for (i = 0; i < count; i++) {
+            if (key < curr.getData(i)
+                          .key())
+            { return curr.getChild(i); }
+        }
+        return curr.getChild(i);
+    }
+    
     private void split(MultiNode curr, DataItem insert)
     {
-        // assume order is 3
-        DataItem  itemB = curr.removeItem();
-        MultiNode par   = curr.getParent();
-        if (par == null) {
-            //     root case
-            par  = new MultiNode(ORDER);
-            root = par;
-            root.connectChild(0, curr);
-        }
-        MultiNode newNode = new MultiNode(ORDER);
-        newNode.insertItem(insert.compareTo(itemB) > 0 ? insert : itemB);
-        par.insertItem(insert.compareTo(itemB) < 0 ? insert : itemB);
-        MultiNode temp = par.destroyTheChild(1);
-        if (temp != null) {
-            par.connectChild(1, newNode.compareTo(temp) < 0 ? newNode : temp);
-            par.connectChild(2, newNode.compareTo(temp) > 0 ? newNode : temp);
-        }
-        else {
-            par.connectChild(1, newNode);
-        }
+    
     }
     
     public long minimum()
@@ -131,10 +106,9 @@ public class Tree23 {
                       .key();
     }
     
-    // todo this can be generalized to take into account ORDER
     private void inOrderRec(MultiNode localRoot, List<DataItem> items)
     {
-        // todo refactor this code into a loop
+        // suggest refactor this code into a loop
         if (localRoot != null) {
             inOrderRec(localRoot.getChild(0), items);
             if (localRoot.getData(0) != null) items.add(localRoot.getData(0));
@@ -166,13 +140,13 @@ public class Tree23 {
             String formatted = formatStr(tree23.inOrder()
                                                .toString(), comma);
             System.out.println(formatted);
-            tree23.insert(11);
-            tree23.insert(33);
-            tree23.insert(22);
-            tree23.insert(44);
-            tree23.insert(14);
-            tree23.insert(35);
-            tree23.insert(36);
+            tree23.insert(60);
+            tree23.insert(80);
+            tree23.insert(40);
+            tree23.insert(50);
+            tree23.insert(70);
+            tree23.insert(90);
+            tree23.insert(45);
             tree23.displayTree();
         }
         
