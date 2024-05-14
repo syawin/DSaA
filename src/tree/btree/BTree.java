@@ -66,6 +66,19 @@ public class BTree {
         }
     }
     
+    private MultiNode getNextChild(MultiNode curr, long key)
+    {
+        int i;
+        // suggest assumes the node is not empty, not full, and not a leaf
+        int count = curr.getItemCount();
+        for (i = 0; i < count; i++) {
+            if (key < curr.getData(i)
+                          .key())
+            { return curr.getChild(i); }
+        }
+        return curr.getChild(i);
+    }
+    
     // suggest this can be generalized to take into account ORDER
     public List<DataItem> inOrder()
     {
@@ -81,19 +94,6 @@ public class BTree {
             inOrderRec(root.getChild(3), itemsInOrder);
         }
         return itemsInOrder;
-    }
-    
-    private MultiNode getNextChild(MultiNode curr, long key)
-    {
-        int i;
-        // suggest assumes the node is not empty, not full, and not a leaf
-        int count = curr.getItemCount();
-        for (i = 0; i < count; i++) {
-            if (key < curr.getData(i)
-                          .key())
-            { return curr.getChild(i); }
-        }
-        return curr.getChild(i);
     }
     
     public void insert(long key)
