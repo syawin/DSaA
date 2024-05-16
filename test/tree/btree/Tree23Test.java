@@ -26,7 +26,7 @@ public class Tree23Test {
         tree.insert(inputs[2]);
         tree.displayTree();
         expected = new MultiNode(3);
-        expected.setDataArr(new DataItem[] { new DataItem(inputs[0]), null, new DataItem(inputs[1]), null });
+        expected.setDataArr(new DataItem[] { new DataItem(inputs[0]), null });
         expected.setItemCount(1);
         Assert.assertEquals(expected, tree.getRoot());
         
@@ -40,8 +40,42 @@ public class Tree23Test {
                            );
         
         expected = new MultiNode(3);
-        expected.setDataArr(new DataItem[] { new DataItem(inputs[1]), null, new DataItem(inputs[1]), null });
+        expected.setDataArr(new DataItem[] { new DataItem(inputs[1]), null });
         expected.setItemCount(1);
+        Assert.assertEquals(
+                expected,
+                tree.getRoot()
+                    .getChild(1)
+                           );
+    }
+    
+    @Test
+    public void insertChildNodeNoSplits()
+    {
+        tree.insert(inputs[0]);
+        tree.insert(inputs[1]);
+        tree.insert(inputs[2]);
+        tree.insert(inputs[3]);
+        tree.insert(inputs[4]);
+        tree.displayTree();
+        
+        expected = new MultiNode(3);
+        expected.setDataArr(new DataItem[] { new DataItem(inputs[0]), null });
+        expected.setItemCount(1);
+        Assert.assertEquals(expected, tree.getRoot());
+        
+        expected = new MultiNode(3);
+        expected.setDataArr(new DataItem[] { new DataItem(inputs[2]), new DataItem(inputs[3]) });
+        expected.setItemCount(2);
+        Assert.assertEquals(
+                expected,
+                tree.getRoot()
+                    .getChild(0)
+                           );
+        
+        expected = new MultiNode(3);
+        expected.setDataArr(new DataItem[] { new DataItem(inputs[4]), new DataItem(inputs[1]) });
+        expected.setItemCount(2);
         Assert.assertEquals(
                 expected,
                 tree.getRoot()
