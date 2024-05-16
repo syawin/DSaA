@@ -25,7 +25,28 @@ public class Tree23Test {
         tree.insert(inputs[1]);
         tree.insert(inputs[2]);
         tree.displayTree();
-        // todo implement split root case
+        expected = new MultiNode(3);
+        expected.setDataArr(new DataItem[] { new DataItem(inputs[0]), null, new DataItem(inputs[1]), null });
+        expected.setItemCount(1);
+        Assert.assertEquals(expected, tree.getRoot());
+        
+        expected = new MultiNode(3);
+        expected.setDataArr(new DataItem[] { new DataItem(inputs[2]), null });
+        expected.setItemCount(1);
+        Assert.assertEquals(
+                expected,
+                tree.getRoot()
+                    .getChild(0)
+                           );
+        
+        expected = new MultiNode(3);
+        expected.setDataArr(new DataItem[] { new DataItem(inputs[1]), null, new DataItem(inputs[1]), null });
+        expected.setItemCount(1);
+        Assert.assertEquals(
+                expected,
+                tree.getRoot()
+                    .getChild(1)
+                           );
     }
     
     @Test

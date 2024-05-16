@@ -90,7 +90,29 @@ public class Tree23 {
     
     private void split(MultiNode curr, DataItem insert)
     {
-    
+        // base case
+        if (curr.getParent() == null) {
+            DataItem  itemB   = curr.removeItem();
+            MultiNode insNode = new MultiNode(ORDER);
+            insNode.insertItem(insert);
+            MultiNode newSibling = new MultiNode(ORDER);
+            newSibling.insertItem(itemB);
+            if (insNode.compareTo(curr) < 0) {
+                root = curr;
+                root.connectChild(0, insNode);
+                root.connectChild(1, newSibling);
+            }
+            else if (insNode.compareTo(newSibling) > 0) {
+                root = newSibling;
+                root.connectChild(0, curr);
+                root.connectChild(1, insNode);
+            }
+            else {
+                root = insNode;
+                root.connectChild(0, curr);
+                root.connectChild(1, newSibling);
+            }
+        }
     }
     
     public long minimum()
