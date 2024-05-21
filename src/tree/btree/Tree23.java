@@ -90,12 +90,13 @@ public class Tree23 {
     
     private void split(MultiNode curr, DataItem insert)
     {
+        // todo refactor and condense code
+        MultiNode newSibling = new MultiNode(ORDER);
         // base case
         if (curr.getParent() == null) {
             DataItem  itemB   = curr.removeItem();
             MultiNode insNode = new MultiNode(ORDER);
             insNode.insertItem(insert);
-            MultiNode newSibling = new MultiNode(ORDER);
             newSibling.insertItem(itemB);
             if (insNode.compareTo(curr) < 0) {
                 root = curr;
@@ -112,7 +113,19 @@ public class Tree23 {
                 root.connectChild(0, curr);
                 root.connectChild(1, newSibling);
             }
+            return;
         }
+        MultiNode sort = new MultiNode(ORDER + 1);
+        sort.insertItem(insert);
+        sort.insertItem(curr.removeItem());
+        sort.insertItem(curr.removeItem());
+        newSibling.insertItem(sort.removeItem());
+        curr.getParent()
+            .insertItem(sort.removeItem());
+        curr.insertItem(sort.removeItem());
+        curr.getParent()
+            .connectChild(curr.getParent()
+                              .getItemCount(), newSibling);
     }
     
     public long minimum()
