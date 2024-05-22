@@ -90,42 +90,23 @@ public class Tree23 {
     
     private void split(MultiNode curr, DataItem insert)
     {
-        // todo refactor and condense code
         MultiNode newSibling = new MultiNode(ORDER);
+        MultiNode par        = curr.getParent();
         // base case
-        if (curr.getParent() == null) {
-            DataItem  itemB   = curr.removeItem();
-            MultiNode insNode = new MultiNode(ORDER);
-            insNode.insertItem(insert);
-            newSibling.insertItem(itemB);
-            if (insNode.compareTo(curr) < 0) {
-                root = curr;
-                root.connectChild(0, insNode);
-                root.connectChild(1, newSibling);
-            }
-            else if (insNode.compareTo(newSibling) > 0) {
-                root = newSibling;
-                root.connectChild(0, curr);
-                root.connectChild(1, insNode);
-            }
-            else {
-                root = insNode;
-                root.connectChild(0, curr);
-                root.connectChild(1, newSibling);
-            }
-            return;
+        if (par == null) {
+            par  = new MultiNode(ORDER);
+            root = par;
+            par.connectChild(0, curr);
         }
         MultiNode sort = new MultiNode(ORDER + 1);
         sort.insertItem(insert);
         sort.insertItem(curr.removeItem());
         sort.insertItem(curr.removeItem());
         newSibling.insertItem(sort.removeItem());
-        curr.getParent()
-            .insertItem(sort.removeItem());
+        par.insertItem(sort.removeItem());
         curr.insertItem(sort.removeItem());
-        curr.getParent()
-            .connectChild(curr.getParent()
-                              .getItemCount(), newSibling);
+        par.connectChild(par.getItemCount(), newSibling);
+        // todo add recursion
     }
     
     public long minimum()
