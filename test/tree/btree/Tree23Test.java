@@ -2,7 +2,6 @@ package tree.btree;
 
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class Tree23Test {
@@ -17,7 +16,6 @@ public class Tree23Test {
         tree = new Tree23();
     }
     
-    @Ignore
     @Test
     public void insertAndSplitRoot()
     {
