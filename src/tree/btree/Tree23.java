@@ -6,9 +6,17 @@ import java.util.List;
 import static common.CommonConstants.comma;
 import static common.CommonConstants.formatStr;
 
+/**
+ * 2-3 Tree class that has the same properties as a regular BTree but has a different method of
+ * splitting.
+ * <p>
+ *
+ * @see tree.btree.BTree
+ */
 @SuppressWarnings("DuplicatedCode")
 public class Tree23 {
     
+    // suggest make Tree23 an extension of Btree
     private final static int       ORDER = 3;
     private              MultiNode root  = new MultiNode(ORDER);
     
@@ -50,9 +58,7 @@ public class Tree23 {
         // assumes the node is not empty, not full, and not a leaf
         int count = curr.getItemCount();
         for (i = 0; i < count; i++) {
-            if (key < curr.getData(i)
-                          .key())
-            { return curr.getChild(i); }
+            if (key < curr.getData(i).key()) { return curr.getChild(i); }
         }
         return curr.getChild(i);
     }
@@ -103,9 +109,14 @@ public class Tree23 {
         sort.insertItem(curr.removeItem());
         sort.insertItem(curr.removeItem());
         newSibling.insertItem(sort.removeItem());
-        par.insertItem(sort.removeItem());
+        int parInsIndex = par.insertItem(sort.removeItem());
         curr.insertItem(sort.removeItem());
-        par.connectChild(par.getItemCount(), newSibling);
+        
+        if (par.getChild(parInsIndex + 1) != null) {
+            par.connectChild(parInsIndex + 2, par.destroyTheChild(parInsIndex + 1));
+        }
+        
+        par.connectChild(parInsIndex + 1, newSibling);
         // todo add recursion
     }
     
@@ -118,8 +129,7 @@ public class Tree23 {
         while (!current.isLeaf()) {
             current = current.getChild(0);
         }
-        return current.getData(0)
-                      .key();
+        return current.getData(0).key();
     }
     
     private void inOrderRec(MultiNode localRoot, List<DataItem> items)
@@ -152,9 +162,8 @@ public class Tree23 {
         
         public static void main(String[] args)
         {
-            Tree23 tree23 = new Tree23();
-            String formatted = formatStr(tree23.inOrder()
-                                               .toString(), comma);
+            Tree23 tree23    = new Tree23();
+            String formatted = formatStr(tree23.inOrder().toString(), comma);
             System.out.println(formatted);
             tree23.insert(60);
             tree23.insert(80);
