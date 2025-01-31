@@ -82,8 +82,7 @@ public class MultiNode implements Comparable<MultiNode> {
     @Override
     public int compareTo(@NotNull MultiNode o)
     {
-        return this.getData(0)
-                   .compareTo(o.getData(0));
+        return this.getData(0).compareTo(o.getData(0));
     }
     
     public DataItem getData(int dataIndex)
@@ -173,9 +172,7 @@ public class MultiNode implements Comparable<MultiNode> {
     @Override
     public String toString()
     {
-        String toString = STR."""
-        \{isEmpty() ? "[]" : STR."[\{dataToString()}]"}
-        """;
+        String toString = (isEmpty() ? "[]" : "[" + dataToString() + "]") + "\n";
         return toString;
     }
     

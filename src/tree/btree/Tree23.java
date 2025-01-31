@@ -146,8 +146,7 @@ public class Tree23 {
     
     private void recDisplayTree(MultiNode curr, int level, int childIndex)
     {
-        System.out.println(STR."""
-                              level=\{level} child=\{childIndex}""");
+        System.out.println("level=" + level + " child=" + childIndex);
         System.out.println(curr);
         int itemCount = curr.getItemCount();
         for (int i = 0; i < itemCount + 1; i++) {

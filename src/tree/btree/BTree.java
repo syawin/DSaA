@@ -37,10 +37,7 @@ public class BTree {
         for (long l : in) {
             sorter.insert(l);
         }
-        return sorter.inOrder()
-                     .stream()
-                     .mapToLong(DataItem::key)
-                     .toArray();
+        return sorter.inOrder().stream().mapToLong(DataItem::key).toArray();
     }
     
     public void displayTree(int spaces)
@@ -72,9 +69,7 @@ public class BTree {
         // suggest assumes the node is not empty, not full, and not a leaf
         int count = curr.getItemCount();
         for (i = 0; i < count; i++) {
-            if (key < curr.getData(i)
-                          .key())
-            { return curr.getChild(i); }
+            if (key < curr.getData(i).key()) { return curr.getChild(i); }
         }
         return curr.getChild(i);
     }
@@ -122,8 +117,7 @@ public class BTree {
         while (!current.isLeaf()) {
             current = current.getChild(0);
         }
-        return current.getData(0)
-                      .key();
+        return current.getData(0).key();
     }
     
     // suggest this can be generalized to take into account ORDER
@@ -143,8 +137,7 @@ public class BTree {
     
     private void recDisplayTree(MultiNode curr, int level, int childIndex)
     {
-        System.out.println(STR."""
-                              level=\{level} child=\{childIndex}""");
+        System.out.println("level=" + level + " child=" + childIndex);
         System.out.println(curr);
         int itemCount = curr.getItemCount();
         for (int i = 0; i < itemCount + 1; i++) {
@@ -192,14 +185,23 @@ public class BTree {
         public static void main(String[] args)
         {
             BTree bTree = new BTree(4);
-            String formatted = formatStr(bTree.inOrder()
-                                              .toString(), comma);
+            String formatted = formatStr(bTree.inOrder().toString(), comma);
             System.out.println(formatted);
-            for (int i : new int[] { 57, 83, 26, 45, 9, 72, 38, 14, 66, 4 }) { bTree.insert(i); }
+            for (int i : new int[] {
+                    57,
+                    83,
+                    26,
+                    45,
+                    9,
+                    72,
+                    38,
+                    14,
+                    66,
+                    4
+            }) { bTree.insert(i); }
             bTree.displayTree();
             System.out.println(bTree.minimum());
-            formatted = formatStr(bTree.inOrder()
-                                       .toString(), comma);
+            formatted = formatStr(bTree.inOrder().toString(), comma);
             System.out.println(formatted);
         }
         
