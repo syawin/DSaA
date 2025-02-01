@@ -4,6 +4,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class Tree23Test {
     
     static long[] inputs = new long[] {
@@ -54,6 +57,39 @@ public class Tree23Test {
         });
         expected.setItemCount(1);
         Assert.assertEquals(expected, tree.getRoot().getChild(1));
+    }
+    
+    @Test
+    public void insertAscendingOrder()
+    {
+        // Compute the sorted array from the given inputs.
+        long[] sorted = Arrays.stream(inputs).sorted().toArray();
+        
+        // Create a new tree instance.
+        tree = new Tree23();
+        
+        // Insert the keys in ascending order.
+        for (long key : sorted) {
+            tree.insert(key);
+        }
+        
+        // Optionally display the tree structure (useful for debugging).
+        tree.displayTree();
+        
+        // Retrieve the in-order traversal from the tree.
+        List<DataItem> inOrderList = tree.inOrder();
+        
+        // Assert that the number of items returned matches the number of keys inserted.
+        Assert.assertEquals("The inOrder list size should match the number of inserted keys.",
+                            sorted.length,
+                            inOrderList.size());
+        
+        // Check that each element in the inOrder list has the expected key.
+        for (int i = 0; i < sorted.length; i++) {
+            Assert.assertEquals("The key at index " + i + " should be " + sorted[i],
+                                sorted[i],
+                                inOrderList.get(i).key());
+        }
     }
     
     @Test
