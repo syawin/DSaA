@@ -143,7 +143,7 @@ public class MultiNode implements Comparable<MultiNode> {
         // suggest make full-safe to avoid IndexOutofBounds
         itemCount++;
         long newKey = insert.key();
-        for (int i = ORDER - 2; i >= 0; i--) {
+        for (int i = itemCount - 2; i >= 0; i--) {
             if (dataArr[i] == null) {
                 continue;
             }
@@ -172,8 +172,7 @@ public class MultiNode implements Comparable<MultiNode> {
     @Override
     public String toString()
     {
-        String toString = (isEmpty() ? "[]" : "[" + dataToString() + "]") + "\n";
-        return toString;
+        return (isEmpty() ? "[]" : "[" + dataToString() + "]") + "\n";
     }
     
     public boolean isEmpty()
