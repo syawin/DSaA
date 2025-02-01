@@ -46,11 +46,6 @@ public class MultiNode implements Comparable<MultiNode> {
         return parent;
     }
     
-    public boolean isFull()
-    {
-        return itemCount == ORDER - 1;
-    }
-    
     public boolean isLeaf()
     {
         return childArr[0] == null;
@@ -138,9 +133,13 @@ public class MultiNode implements Comparable<MultiNode> {
         return childArr[childIndex];
     }
     
-    public int insertItem(@NotNull DataItem insert)
+    public int insertItem(@NotNull DataItem insert) throws IllegalStateException
     {
-        // suggest make full-safe to avoid IndexOutofBounds
+        if (isFull()) {
+            throw new IllegalStateException("Cannot insert into a full node");
+        }
+        // todo move the logic incrementing itemCount to later in the method. Note that just
+        //  doing that causes everything to break.
         itemCount++;
         long newKey = insert.key();
         for (int i = itemCount - 2; i >= 0; i--) {
@@ -158,6 +157,11 @@ public class MultiNode implements Comparable<MultiNode> {
         }
         dataArr[0] = insert;
         return 0;
+    }
+    
+    public boolean isFull()
+    {
+        return itemCount == ORDER - 1;
     }
     
     public DataItem removeItem()
