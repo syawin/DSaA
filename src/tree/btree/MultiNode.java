@@ -4,7 +4,7 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.validation.constraints.Min;
 
-public class MultiNode {
+public class MultiNode implements Comparable<MultiNode> {
     
     @Min(3)
     private final int         ORDER;
@@ -46,11 +46,6 @@ public class MultiNode {
         return parent;
     }
     
-    public boolean isFull()
-    {
-        return itemCount == ORDER - 1;
-    }
-    
     public boolean isLeaf()
     {
         return childArr[0] == null;
@@ -79,6 +74,17 @@ public class MultiNode {
     }
     // setter end
     
+    @Override
+    public int compareTo(@NotNull MultiNode o)
+    {
+        return this.getData(0).compareTo(o.getData(0));
+    }
+    
+    public DataItem getData(int dataIndex)
+    {
+        return dataArr[dataIndex];
+    }
+    
     public void connectChild(int childIndex, MultiNode child)
     {
         childArr[childIndex] = child;
@@ -93,6 +99,20 @@ public class MultiNode {
         MultiNode temp = childArr[childIndex];
         childArr[childIndex] = null;
         return temp;
+    }
+    
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (obj instanceof MultiNode other) {
+            if (this.ORDER != other.ORDER) return false;
+            if (this.itemCount != other.itemCount) return false;
+            for (int i = 0; i < itemCount; i++) {
+                if (this.dataArr[i].compareTo(other.dataArr[i]) != 0) return false;
+            }
+            return true;
+        }
+        return false;
     }
     
     public int findItem(long key)
@@ -113,17 +133,16 @@ public class MultiNode {
         return childArr[childIndex];
     }
     
-    public DataItem getData(int dataIndex)
+    public int insertItem(@NotNull DataItem insert) throws IllegalStateException
     {
-        return dataArr[dataIndex];
-    }
-    
-    public int insertItem(@NotNull DataItem insert)
-    {
-        // todo make full-safe to avoid IndexOutofBounds
+        if (isFull()) {
+            throw new IllegalStateException("Cannot insert into a full node");
+        }
+        // todo move the logic incrementing itemCount to later in the method. Note that just
+        //  doing that causes everything to break.
         itemCount++;
         long newKey = insert.key();
-        for (int i = ORDER - 2; i >= 0; i--) {
+        for (int i = itemCount - 2; i >= 0; i--) {
             if (dataArr[i] == null) {
                 continue;
             }
@@ -140,6 +159,11 @@ public class MultiNode {
         return 0;
     }
     
+    public boolean isFull()
+    {
+        return itemCount == ORDER - 1;
+    }
+    
     public DataItem removeItem()
     {
         // assumes node is not empty
@@ -152,10 +176,7 @@ public class MultiNode {
     @Override
     public String toString()
     {
-        String toString = STR."""
-        \{isEmpty() ? "[]" : STR."[\{dataToString()}]"}
-        """;
-        return toString;
+        return (isEmpty() ? "[]" : "[" + dataToString() + "]") + "\n";
     }
     
     public boolean isEmpty()

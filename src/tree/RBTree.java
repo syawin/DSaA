@@ -19,7 +19,7 @@ public class RBTree extends Tree {
         super(root);
     }
     
-    // todo implement delete method
+    // suggest implement delete method
     @Override
     public boolean delete(int key)
     {
@@ -37,14 +37,14 @@ public class RBTree extends Tree {
             this.setRoot(insert);
         }
         else {
-            RBTreeNode curr = ( RBTreeNode ) this.getRoot();
+            RBTreeNode curr  = ( RBTreeNode ) this.getRoot();
             RBTreeNode paren = null, gp = null;
             if (isFlip.test(curr)) {
                 curr.flipColors();
                 curr.setRed(false);
             }
             while (true) {
-                gp = paren;
+                gp    = paren;
                 paren = curr;
                 // begin seek subroutine
                 if (key < curr.getKey()) {
@@ -255,7 +255,7 @@ public class RBTree extends Tree {
         }
         
         // Check if the left and right children have the same black node count
-        int leftBlackCount = validateNode(( RBTreeNode ) node.getlChild(), blackCount);
+        int leftBlackCount  = validateNode(( RBTreeNode ) node.getlChild(), blackCount);
         int rightBlackCount = validateNode(( RBTreeNode ) node.getrChild(), blackCount);
         if (leftBlackCount == -1 || rightBlackCount == -1 || leftBlackCount != rightBlackCount) {
             return -1; // Invalid RB tree
