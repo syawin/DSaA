@@ -138,15 +138,10 @@ public class MultiNode implements Comparable<MultiNode> {
         if (isFull()) {
             throw new IllegalStateException("Cannot insert into a full node");
         }
-        // todo move the logic incrementing itemCount to later in the method. Note that just
-        //  doing that causes everything to break.
         itemCount++;
         long newKey = insert.key();
         for (int i = itemCount - 2; i >= 0; i--) {
-            if (dataArr[i] == null) {
-                continue;
-            }
-            else {
+            if (dataArr[i] != null) {
                 long currKey = dataArr[i].key();
                 if (newKey < currKey) { dataArr[i + 1] = dataArr[i]; }
                 else {
