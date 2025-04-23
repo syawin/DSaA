@@ -1,6 +1,8 @@
 package tree.btree;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 import static common.CommonConstants.comma;
@@ -52,17 +54,6 @@ public class Tree23 {
         }
     }
     
-    private MultiNode getNextChild(MultiNode curr, long key)
-    {
-        int i;
-        // assumes the node is not empty, not full, and not a leaf
-        int count = curr.getItemCount();
-        for (i = 0; i < count; i++) {
-            if (key < curr.getData(i).key()) { return curr.getChild(i); }
-        }
-        return curr.getChild(i);
-    }
-    
     public List<DataItem> inOrder()
     {
         List<DataItem> itemsInOrder = new ArrayList<>();
@@ -79,45 +70,20 @@ public class Tree23 {
     
     public void insert(long key)
     {
-        MultiNode par, curr = root;
-        DataItem  temp      = new DataItem(key);
+        DataItem newItem = new DataItem(key);
         
-        while (true) {
-            if (curr.isLeaf()) { break; }
-            else { curr = getNextChild(curr, key); }
-        }
-        if (curr.isFull()) {
-            split(curr, temp);
-        }
-        else {
-            curr.insertItem(temp);
-        }
-    }
-    
-    private void split(MultiNode curr, DataItem insert)
-    {
-        MultiNode newSibling = new MultiNode(ORDER);
-        MultiNode par        = curr.getParent();
-        // base case
-        if (par == null) {
-            par  = new MultiNode(ORDER);
-            root = par;
-            par.connectChild(0, curr);
-        }
-        MultiNode sort = new MultiNode(ORDER + 1);
-        sort.insertItem(insert);
-        sort.insertItem(curr.removeItem());
-        sort.insertItem(curr.removeItem());
-        newSibling.insertItem(sort.removeItem());
-        int parInsIndex = par.insertItem(sort.removeItem());
-        curr.insertItem(sort.removeItem());
-        
-        if (par.getChild(parInsIndex + 1) != null) {
-            par.connectChild(parInsIndex + 2, par.destroyTheChild(parInsIndex + 1));
+        // 1. Empty‑tree case ─ create a root and stop.
+        if (root == null) {
+            root = new MultiNode(ORDER);
+            root.insertItem(newItem);
+            return;
         }
         
-        par.connectChild(parInsIndex + 1, newSibling);
-        // todo add recursion
+        // 2. Descend to the correct leaf.
+        MultiNode leaf = findLeafNode(key);
+        
+        // 3. Insert (and split if necessary).
+        insertIntoNode(leaf, newItem, null);
     }
     
     public long minimum()
@@ -132,6 +98,37 @@ public class Tree23 {
         return current.getData(0).key();
     }
     
+    /**
+     * Returns the leaf that should contain {@code key}.
+     */
+    private MultiNode findLeafNode(long key)
+    {
+        MultiNode curr = root;
+        while (!curr.isLeaf()) {
+            if (key < curr.getData(0).key()) {
+                curr = curr.getChild(0);
+            }
+            else if (curr.getItemCount() == 1 || key < curr.getData(1).key()) {
+                curr = curr.getChild(1);
+            }
+            else {
+                curr = curr.getChild(2);
+            }
+        }
+        return curr;
+    }
+    
+    private MultiNode getNextChild(MultiNode curr, long key)
+    {
+        int i;
+        // assumes the node is not empty, not full, and not a leaf
+        int count = curr.getItemCount();
+        for (i = 0; i < count; i++) {
+            if (key < curr.getData(i).key()) { return curr.getChild(i); }
+        }
+        return curr.getChild(i);
+    }
+    
     private void inOrderRec(MultiNode localRoot, List<DataItem> items)
     {
         // suggest refactor this code into a loop
@@ -144,6 +141,32 @@ public class Tree23 {
         }
     }
     
+    /**
+     * Insert {@code item} into {@code node}.
+     * If {@code extraChild} is non‑null it is attached immediately to the right
+     * of the position where {@code item} ends up.
+     * Splits and recurses upward as required.
+     */
+    private void insertIntoNode(MultiNode node, DataItem item, MultiNode extraChild)
+    {
+        // Simple case – node has room.
+        if (!node.isFull()) {
+            int pos = node.insertItem(item);
+            
+            if (extraChild != null) {
+                // shift children right to make room
+                for (int i = node.getItemCount(); i > pos + 1; i--) {
+                    node.connectChild(i, node.getChild(i - 1));
+                }
+                node.connectChild(pos + 1, extraChild);
+            }
+            return;
+        }
+        
+        // Node is full – split first.
+        splitNode(node, item, extraChild);
+    }
+    
     private void recDisplayTree(MultiNode curr, int level, int childIndex)
     {
         System.out.println("level=" + level + " child=" + childIndex);
@@ -153,6 +176,72 @@ public class Tree23 {
             MultiNode next = curr.getChild(i);
             if (next != null) { recDisplayTree(next, level + 1, i); }
             else { return; }
+        }
+    }
+    
+    /**
+     * Split a full {@code node} around {@code newItem}.
+     * {@code extraChild} is the child that belongs immediately to the right of
+     * {@code newItem} (null when the split originated in a leaf).
+     */
+    private void splitNode(MultiNode node, DataItem newItem, MultiNode extraChild)
+    {
+        /* ---- 1. gather and sort the three keys ---- */
+        DataItem[] keys = {
+                node.getData(0),
+                node.getData(1),
+                newItem
+        };
+        Arrays.sort(keys, Comparator.comparingLong(DataItem::key));
+        
+        DataItem leftKey     = keys[0];
+        DataItem promotedKey = keys[1];
+        DataItem rightKey    = keys[2];
+        
+        /* ---- 2. build the right sibling ---- */
+        MultiNode sibling = new MultiNode(ORDER);
+        sibling.insertItem(rightKey);
+        
+        /* ---- 3. re‑initialise the current node ---- */
+        Arrays.fill(node.getDataArr(), null);
+        node.getDataArr()[0] = leftKey;
+        node.setItemCount(1);
+        
+        /* ---- 4. re‑attach children (if internal) ---- */
+        if (!node.isLeaf()) {
+            if (extraChild != null) {
+                if (extraChild.getData(0).key() < rightKey.key()) {
+                    // new child belongs between current and sibling
+                    sibling.connectChild(0, node.getChild(1));
+                    sibling.connectChild(1, node.getChild(2));
+                    
+                    node.connectChild(1, extraChild);
+                    node.connectChild(2, null);
+                }
+                else {
+                    // extraChild is greater than rightKey, so it must become the right‑most child
+                    sibling.connectChild(0, node.getChild(2));
+                    sibling.connectChild(1, extraChild);
+                    
+                    node.connectChild(2, null);
+                }
+            }
+            else { // split originated internally
+                sibling.connectChild(0, node.getChild(2));
+                node.connectChild(2, null);
+            }
+        }
+        
+        /* ---- 5. propagate the promoted key ---- */
+        MultiNode parent = node.getParent();
+        if (parent == null) { // root split
+            root = new MultiNode(ORDER);
+            root.insertItem(promotedKey);
+            root.connectChild(0, node);
+            root.connectChild(1, sibling);
+        }
+        else {
+            insertIntoNode(parent, promotedKey, sibling);
         }
     }
     

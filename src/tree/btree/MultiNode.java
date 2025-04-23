@@ -46,6 +46,16 @@ public class MultiNode implements Comparable<MultiNode> {
         return parent;
     }
     
+    public boolean isEmpty()
+    {
+        return itemCount == 0;
+    }
+    
+    public boolean isFull()
+    {
+        return itemCount == ORDER - 1;
+    }
+    
     public boolean isLeaf()
     {
         return childArr[0] == null;
@@ -80,17 +90,21 @@ public class MultiNode implements Comparable<MultiNode> {
         return this.getData(0).compareTo(o.getData(0));
     }
     
-    public DataItem getData(int dataIndex)
-    {
-        return dataArr[dataIndex];
-    }
-    
     public void connectChild(int childIndex, MultiNode child)
     {
         childArr[childIndex] = child;
         if (child != null) {
             child.parent = this;
         }
+    }
+    
+    public String dataToString()
+    {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (DataItem dataItem : dataArr) {
+            if (dataItem != null) stringBuilder.append(dataItem);
+        }
+        return stringBuilder.toString();
     }
     
     // What do I do Lord? Corrupt them all.
@@ -133,11 +147,18 @@ public class MultiNode implements Comparable<MultiNode> {
         return childArr[childIndex];
     }
     
+    public DataItem getData(int dataIndex)
+    {
+        return dataArr[dataIndex];
+    }
+    
     public int insertItem(@NotNull DataItem insert) throws IllegalStateException
     {
         if (isFull()) {
             throw new IllegalStateException("Cannot insert into a full node");
         }
+        // todo move the logic incrementing itemCount to later in the method. Note that just
+        //  doing that causes everything to break.
         itemCount++;
         long newKey = insert.key();
         for (int i = itemCount - 2; i >= 0; i--) {
@@ -154,11 +175,6 @@ public class MultiNode implements Comparable<MultiNode> {
         return 0;
     }
     
-    public boolean isFull()
-    {
-        return itemCount == ORDER - 1;
-    }
-    
     public DataItem removeItem()
     {
         // assumes node is not empty
@@ -172,20 +188,6 @@ public class MultiNode implements Comparable<MultiNode> {
     public String toString()
     {
         return (isEmpty() ? "[]" : "[" + dataToString() + "]") + "\n";
-    }
-    
-    public boolean isEmpty()
-    {
-        return itemCount == 0;
-    }
-    
-    public String dataToString()
-    {
-        StringBuilder stringBuilder = new StringBuilder();
-        for (DataItem dataItem : dataArr) {
-            if (dataItem != null) stringBuilder.append(dataItem);
-        }
-        return stringBuilder.toString();
     }
     
     private static class MultiNodeDemo {
