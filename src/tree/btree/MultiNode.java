@@ -1,5 +1,6 @@
 package tree.btree;
 
+import common.DataItem;
 import org.jetbrains.annotations.NotNull;
 
 import javax.validation.constraints.Min;
@@ -7,17 +8,17 @@ import javax.validation.constraints.Min;
 public class MultiNode implements Comparable<MultiNode> {
     
     @Min(3)
-    private final int         ORDER;
-    private       MultiNode[] childArr;
-    private       DataItem[]  dataArr;
-    private       int         itemCount = 0;
-    private       MultiNode   parent    = null;
+    private final int               ORDER;
+    private       MultiNode[]       childArr;
+    private       common.DataItem[] dataArr;
+    private       int               itemCount = 0;
+    private       MultiNode         parent    = null;
     
     public MultiNode(int order)
     {
         ORDER    = order;
         childArr = new MultiNode[ORDER];
-        dataArr  = new DataItem[ORDER - 1];
+        dataArr  = new common.DataItem[ORDER - 1];
     }
     
     // getter
@@ -26,7 +27,7 @@ public class MultiNode implements Comparable<MultiNode> {
         return childArr;
     }
     
-    public DataItem[] getDataArr()
+    public common.DataItem[] getDataArr()
     {
         return dataArr;
     }
@@ -68,7 +69,7 @@ public class MultiNode implements Comparable<MultiNode> {
         this.childArr = childArr;
     }
     
-    public void setDataArr(DataItem[] dataArr)
+    public void setDataArr(common.DataItem[] dataArr)
     {
         this.dataArr = dataArr;
     }
@@ -101,7 +102,7 @@ public class MultiNode implements Comparable<MultiNode> {
     public String dataToString()
     {
         StringBuilder stringBuilder = new StringBuilder();
-        for (DataItem dataItem : dataArr) {
+        for (common.DataItem dataItem : dataArr) {
             if (dataItem != null) stringBuilder.append(dataItem);
         }
         return stringBuilder.toString();
@@ -147,12 +148,12 @@ public class MultiNode implements Comparable<MultiNode> {
         return childArr[childIndex];
     }
     
-    public DataItem getData(int dataIndex)
+    public common.DataItem getData(int dataIndex)
     {
         return dataArr[dataIndex];
     }
     
-    public int insertItem(@NotNull DataItem insert) throws IllegalStateException
+    public int insertItem(@NotNull common.DataItem insert) throws IllegalStateException
     {
         if (isFull()) {
             throw new IllegalStateException("Cannot insert into a full node");
@@ -175,7 +176,7 @@ public class MultiNode implements Comparable<MultiNode> {
         return 0;
     }
     
-    public DataItem removeItem()
+    public common.DataItem removeItem()
     {
         // assumes node is not empty
         DataItem temp = dataArr[itemCount - 1];

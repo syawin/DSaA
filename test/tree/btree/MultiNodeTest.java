@@ -1,5 +1,6 @@
 package tree.btree;
 
+import common.DataItem;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,8 +19,8 @@ public class MultiNodeTest {
     public void testEquals()
     {
         MultiNode node2 = new MultiNode(4);
-        node.insertItem(new DataItem(5));
-        node2.insertItem(new DataItem(5));
+        node.insertItem(new common.DataItem(5));
+        node2.insertItem(new common.DataItem(5));
         Assert.assertEquals(node, node2);
     }
     
@@ -34,8 +35,8 @@ public class MultiNodeTest {
     public void testNotEqualsDiffData()
     {
         MultiNode node2 = new MultiNode(4);
-        node.insertItem(new DataItem(5));
-        node2.insertItem(new DataItem(4));
+        node.insertItem(new common.DataItem(5));
+        node2.insertItem(new common.DataItem(4));
         Assert.assertNotEquals(node, node2);
     }
     
@@ -43,7 +44,7 @@ public class MultiNodeTest {
     public void testNotEqualsDiffItemCount()
     {
         MultiNode node2 = new MultiNode(4);
-        node.insertItem(new DataItem(5));
+        node.insertItem(new common.DataItem(5));
         Assert.assertNotEquals(node, node2);
     }
     
@@ -63,9 +64,9 @@ public class MultiNodeTest {
     @Test
     public void testToStringFull()
     {
-        DataItem dataItem  = new DataItem(1);
-        DataItem dataItem2 = new DataItem(2);
-        DataItem dataItem3 = new DataItem(3);
+        common.DataItem dataItem  = new common.DataItem(1);
+        common.DataItem dataItem2 = new common.DataItem(2);
+        common.DataItem dataItem3 = new common.DataItem(3);
         node.insertItem(dataItem);
         node.insertItem(dataItem2);
         node.insertItem(dataItem3);
@@ -75,8 +76,8 @@ public class MultiNodeTest {
     @Test
     public void testToStringPartialData()
     {
-        DataItem dataItem  = new DataItem(1);
-        DataItem dataItem2 = new DataItem(2);
+        common.DataItem dataItem  = new common.DataItem(1);
+        common.DataItem dataItem2 = new DataItem(2);
         node.insertItem(dataItem);
         node.insertItem(dataItem2);
         System.out.print(node);

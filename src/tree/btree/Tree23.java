@@ -1,5 +1,7 @@
 package tree.btree;
 
+import common.DataItem;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -54,9 +56,9 @@ public class Tree23 {
         }
     }
     
-    public List<DataItem> inOrder()
+    public List<common.DataItem> inOrder()
     {
-        List<DataItem> itemsInOrder = new ArrayList<>();
+        List<common.DataItem> itemsInOrder = new ArrayList<>();
         // suggest refactor this code into a loop
         if (root != null) {
             inOrderRec(root.getChild(0), itemsInOrder);
@@ -70,7 +72,7 @@ public class Tree23 {
     
     public void insert(long key)
     {
-        DataItem newItem = new DataItem(key);
+        common.DataItem newItem = new common.DataItem(key);
         
         // 1. Empty‑tree case ─ create a root and stop.
         if (root == null) {
@@ -129,7 +131,7 @@ public class Tree23 {
         return curr.getChild(i);
     }
     
-    private void inOrderRec(MultiNode localRoot, List<DataItem> items)
+    private void inOrderRec(MultiNode localRoot, List<common.DataItem> items)
     {
         // suggest refactor this code into a loop
         if (localRoot != null) {
@@ -147,7 +149,7 @@ public class Tree23 {
      * of the position where {@code item} ends up.
      * Splits and recurses upward as required.
      */
-    private void insertIntoNode(MultiNode node, DataItem item, MultiNode extraChild)
+    private void insertIntoNode(MultiNode node, common.DataItem item, MultiNode extraChild)
     {
         // Simple case – node has room.
         if (!node.isFull()) {
@@ -184,19 +186,19 @@ public class Tree23 {
      * {@code extraChild} is the child that belongs immediately to the right of
      * {@code newItem} (null when the split originated in a leaf).
      */
-    private void splitNode(MultiNode node, DataItem newItem, MultiNode extraChild)
+    private void splitNode(MultiNode node, common.DataItem newItem, MultiNode extraChild)
     {
         /* ---- 1. gather and sort the three keys ---- */
-        DataItem[] keys = {
+        common.DataItem[] keys = {
                 node.getData(0),
                 node.getData(1),
                 newItem
         };
-        Arrays.sort(keys, Comparator.comparingLong(DataItem::key));
+        Arrays.sort(keys, Comparator.comparingLong(common.DataItem::key));
         
-        DataItem leftKey     = keys[0];
-        DataItem promotedKey = keys[1];
-        DataItem rightKey    = keys[2];
+        common.DataItem leftKey     = keys[0];
+        common.DataItem promotedKey = keys[1];
+        DataItem        rightKey    = keys[2];
         
         /* ---- 2. build the right sibling ---- */
         MultiNode sibling = new MultiNode(ORDER);

@@ -1,8 +1,14 @@
-package tree.btree;
+package common;
 
 import org.jetbrains.annotations.NotNull;
 
-public record DataItem(long key) implements Comparable<DataItem> {
+public record DataItem( long key ) implements Comparable<DataItem> {
+    
+    @Override
+    public int compareTo(@NotNull DataItem o)
+    {
+        return Long.compare(this.key, o.key);
+    }
     
     @Override
     public boolean equals(Object obj)
@@ -11,12 +17,6 @@ public record DataItem(long key) implements Comparable<DataItem> {
             return this.compareTo(other) == 0;
         }
         return false;
-    }
-    
-    @Override
-    public int compareTo(@NotNull DataItem o)
-    {
-        return Long.compare(this.key, o.key);
     }
     
     @Override

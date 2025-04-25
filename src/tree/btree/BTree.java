@@ -1,5 +1,7 @@
 package tree.btree;
 
+import common.DataItem;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +39,7 @@ public class BTree {
         for (long l : in) {
             sorter.insert(l);
         }
-        return sorter.inOrder().stream().mapToLong(DataItem::key).toArray();
+        return sorter.inOrder().stream().mapToLong(common.DataItem::key).toArray();
     }
     
     public void displayTree(int spaces)
@@ -63,21 +65,10 @@ public class BTree {
         }
     }
     
-    private MultiNode getNextChild(MultiNode curr, long key)
-    {
-        int i;
-        // suggest assumes the node is not empty, not full, and not a leaf
-        int count = curr.getItemCount();
-        for (i = 0; i < count; i++) {
-            if (key < curr.getData(i).key()) { return curr.getChild(i); }
-        }
-        return curr.getChild(i);
-    }
-    
     // suggest this can be generalized to take into account ORDER
-    public List<DataItem> inOrder()
+    public List<common.DataItem> inOrder()
     {
-        List<DataItem> itemsInOrder = new ArrayList<>();
+        List<common.DataItem> itemsInOrder = new ArrayList<>();
         // suggest refactor this code into a loop
         if (root != null) {
             inOrderRec(root.getChild(0), itemsInOrder);
@@ -93,8 +84,8 @@ public class BTree {
     
     public void insert(long key)
     {
-        MultiNode curr = root;
-        DataItem  temp = new DataItem(key);
+        MultiNode       curr = root;
+        common.DataItem temp = new common.DataItem(key);
         
         while (true) {
             if (curr.isFull()) {
@@ -120,8 +111,19 @@ public class BTree {
         return current.getData(0).key();
     }
     
+    private MultiNode getNextChild(MultiNode curr, long key)
+    {
+        int i;
+        // suggest assumes the node is not empty, not full, and not a leaf
+        int count = curr.getItemCount();
+        for (i = 0; i < count; i++) {
+            if (key < curr.getData(i).key()) { return curr.getChild(i); }
+        }
+        return curr.getChild(i);
+    }
+    
     // suggest this can be generalized to take into account ORDER
-    private void inOrderRec(MultiNode localRoot, List<DataItem> items)
+    private void inOrderRec(MultiNode localRoot, List<common.DataItem> items)
     {
         // suggest refactor this code into a loop
         if (localRoot != null) {
@@ -184,7 +186,7 @@ public class BTree {
         
         public static void main(String[] args)
         {
-            BTree bTree = new BTree(4);
+            BTree  bTree     = new BTree(4);
             String formatted = formatStr(bTree.inOrder().toString(), comma);
             System.out.println(formatted);
             for (int i : new int[] {
