@@ -6,7 +6,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class Hashtable {
+public final class Hashtable {
     
     private static final int        STEP_CONSTANT = 5;
     private final        DataItem   NON_ITEM      = new DataItem(-1);
@@ -17,6 +17,25 @@ public class Hashtable {
     {
         arraySize = size;
         hashArray = new DataItem[arraySize];
+    }
+    
+    private static boolean isPrime(int n) // is n prime?
+    {
+        if (n <= 1) {
+            return false;
+        }
+        if (n <= 3) {
+            return true;
+        }
+        if (n % 2 == 0 || n % 3 == 0) {
+            return false;
+        }
+        for (int i = 5; i * i <= n; i += 6) {
+            if (n % i == 0 || n % (i + 2) == 0) {
+                return false;
+            }
+        }
+        return true;
     }
     
     /**
@@ -30,14 +49,16 @@ public class Hashtable {
      */
     public DataItem delete(long key)
     {
-        int hashVal = hashFuncPrime(key);
+        int hashVal  = hashFuncPrime(key);
+        int stepSize = hashFuncSec(key);
         
         while (hashArray[hashVal] != null) {
             if (hashArray[hashVal].key() == key) {
                 DataItem temp = hashArray[hashVal];
                 hashArray[hashVal] = NON_ITEM;
+                return temp;
             }
-            ++hashVal;
+            hashVal += stepSize;
             hashVal %= arraySize;
         }
         return null;
@@ -64,11 +85,12 @@ public class Hashtable {
      */
     public DataItem find(long key)
     {
-        int hashVal = hashFuncPrime(key);
+        int hashVal  = hashFuncPrime(key);
+        int stepSize = hashFuncSec(key);
         
         while (hashArray[hashVal] != null) {
             if (hashArray[hashVal].key() == key) return hashArray[hashVal];
-            ++hashVal;
+            hashVal += stepSize;
             hashVal %= arraySize;
         }
         return null;
@@ -83,10 +105,11 @@ public class Hashtable {
      */
     public void insert(DataItem item)
     {
-        int hashVal = hashFuncPrime(item.key());
+        int hashVal  = hashFuncPrime(item.key());
+        int stepSize = hashFuncSec(item.key());
         
         while (hashArray[hashVal] != null && hashArray[hashVal].key() != -1) {
-            ++hashVal;
+            hashVal += stepSize;
             hashVal %= arraySize;
         }
         hashArray[hashVal] = item;
@@ -117,25 +140,6 @@ public class Hashtable {
         return ( int ) (STEP_CONSTANT - key % STEP_CONSTANT);
     }
     
-    private boolean isPrime(int n) // is n prime?
-    {
-        if (n <= 1) {
-            return false;
-        }
-        if (n <= 3) {
-            return true;
-        }
-        if (n % 2 == 0 || n % 3 == 0) {
-            return false;
-        }
-        for (int i = 5; i * i <= n; i += 6) {
-            if (n % i == 0 || n % (i + 2) == 0) {
-                return false;
-            }
-        }
-        return true;
-    }
-    
     private static class HashtableDemo {
         
         private static BufferedReader reader = null;
@@ -144,7 +148,7 @@ public class Hashtable {
         {
             DataItem  item;
             long      key;
-            final int size, n, keysPerCell = 10;
+            final int size, n, keysPerCell = 2;
             System.out.print("Enter the size of the table: ");
             size = readInt();
             System.out.print("Enter the initial number of items: ");
@@ -175,6 +179,8 @@ public class Hashtable {
                     case 'f':
                         find(table);
                         break;
+                    case 'q':
+                        return;
                     default:
                         System.out.println("Invalid input");
                 }
