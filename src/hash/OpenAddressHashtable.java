@@ -6,14 +6,14 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public final class HashtableOpenAddress implements Hashtable {
+public final class OpenAddressHashtable {
     
     private static final int        STEP_CONSTANT = 5;
     private final        DataItem   NON_ITEM      = new DataItem(-1);
     private final        int        arraySize;
     private final        DataItem[] hashArray;
     
-    public HashtableOpenAddress(int size)
+    public OpenAddressHashtable(int size)
     {
         arraySize = size;
         hashArray = new DataItem[arraySize];
@@ -38,10 +38,9 @@ public final class HashtableOpenAddress implements Hashtable {
         return true;
     }
     
-    @Override
     public DataItem delete(long key)
     {
-        int hashVal  = hashFuncPrime(key);
+        int hashVal  = hashFunc(key);
         int stepSize = hashFuncSec(key);
         
         while (hashArray[hashVal] != null) {
@@ -56,7 +55,6 @@ public final class HashtableOpenAddress implements Hashtable {
         return null;
     }
     
-    @Override
     public void displayTable()
     {
         System.out.print("Table: ");
@@ -67,10 +65,9 @@ public final class HashtableOpenAddress implements Hashtable {
         System.out.println();
     }
     
-    @Override
     public DataItem find(long key)
     {
-        int hashVal  = hashFuncPrime(key);
+        int hashVal  = hashFunc(key);
         int stepSize = hashFuncSec(key);
         
         while (hashArray[hashVal] != null) {
@@ -81,17 +78,22 @@ public final class HashtableOpenAddress implements Hashtable {
         return null;
     }
     
-    @Override
-    public void insert(DataItem item)
+    public int hashFunc(long key)
     {
-        int hashVal  = hashFuncPrime(item.key());
-        int stepSize = hashFuncSec(item.key());
+        return ( int ) (key % arraySize);
+    }
+    
+    public void insert(long key)
+    {
+        DataItem dataItem = new DataItem(key);
+        int      hashVal  = hashFunc(dataItem.key());
+        int      stepSize = hashFuncSec(dataItem.key());
         
         while (hashArray[hashVal] != null && hashArray[hashVal].key() != -1) {
             hashVal += stepSize;
             hashVal %= arraySize;
         }
-        hashArray[hashVal] = item;
+        hashArray[hashVal] = dataItem;
     }
     
     private int getPrime(int min) // returns 1st prime > min
@@ -109,11 +111,6 @@ public final class HashtableOpenAddress implements Hashtable {
         return candidate;
     }
     
-    private int hashFuncPrime(long key)
-    {
-        return ( int ) (key % arraySize);
-    }
-    
     private int hashFuncSec(long key)
     {
         return ( int ) (STEP_CONSTANT - key % STEP_CONSTANT);
@@ -125,7 +122,6 @@ public final class HashtableOpenAddress implements Hashtable {
         
         public static void main(String[] args) throws IOException
         {
-            DataItem  item;
             long      key;
             final int size, n, keysPerCell = 2;
             System.out.print("Enter the size of the table: ");
@@ -133,12 +129,11 @@ public final class HashtableOpenAddress implements Hashtable {
             System.out.print("Enter the initial number of items: ");
             n = readInt();
             
-            Hashtable table = new HashtableOpenAddress(size); // create table
+            OpenAddressHashtable table = new OpenAddressHashtable(size); // create table
             
             for (int i = 0; i < n; i++) {
-                key  = ( long ) (Math.random() * keysPerCell * size);
-                item = new DataItem(key);
-                table.insert(item);
+                key = ( long ) (Math.random() * keysPerCell * size);
+                table.insert(key);
             }
             
             while (true) {
@@ -166,7 +161,7 @@ public final class HashtableOpenAddress implements Hashtable {
             }
         }
         
-        private static void delete(Hashtable table) throws IOException
+        private static void delete(OpenAddressHashtable table) throws IOException
         {
             long key;
             System.out.print("Enter key value to delete: ");
@@ -174,7 +169,7 @@ public final class HashtableOpenAddress implements Hashtable {
             table.delete(key);
         }
         
-        private static void find(Hashtable table) throws IOException
+        private static void find(OpenAddressHashtable table) throws IOException
         {
             long     key;
             DataItem item;
@@ -187,14 +182,12 @@ public final class HashtableOpenAddress implements Hashtable {
             else { System.out.println("Key not found"); }
         }
         
-        private static void insert(Hashtable table) throws IOException
+        private static void insert(OpenAddressHashtable table) throws IOException
         {
-            long     key;
-            DataItem item;
+            long key;
             System.out.print("Enter key value to insert: ");
-            key  = readInt();
-            item = new DataItem(key);
-            table.insert(item);
+            key = readInt();
+            table.insert(key);
         }
         
         private static char readChar() throws IOException
