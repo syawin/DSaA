@@ -1,43 +1,56 @@
 package linkedlist;
 
 public class Link {
-    int iData;
-
+    
     double dData;
-    Link next;
-    public Link(int iData, double dData) {
-        this.iData = iData;
+    long   key;
+    Link   next;
+    
+    public Link(long key, double dData)
+    {
+        this.key   = key;
         this.dData = dData;
     }
-
-    public int getiData() {
-        return iData;
+    
+    // getter
+    public long getKey()
+    {
+        return key;
     }
-
-    public void print() {
-        System.out.printf("{%d, %f} ", iData, dData);
+    
+    public Link getNext()
+    {
+        return next;
     }
-
+    // getter end
+    
+    // setter
+    public void setNext(Link next)
+    {
+        this.next = next;
+    }
+    // setter end
+    
+    public boolean hasNext()
+    {
+        return next != null;
+    }
+    
+    public void print()
+    {
+        System.out.printf("{%d, %f} ", key, dData);
+    }
+    
     @Override
-    public String toString() {
+    public String toString()
+    {
         StringBuilder sb = new StringBuilder();
         sb.append("{");
-        sb.append(this.iData);
+        sb.append(this.key);
         sb.append(", ");
         sb.append(this.dData);
         sb.append("} ");
         return sb.toString();
     }
-
-    public Link getNext() {
-        return next;
-    }
-
-    public boolean hasNext() {
-        return next != null;
-    }
-
-    public void setNext(Link next) {
-        this.next = next;
-    }
+    
 }
