@@ -75,20 +75,20 @@ public class LinkedList {
         return current;
     }
     
-    public void insertFirst(long iData, double dData)
+    public void insertFirst(long key, double dData)
     {
-        Link newLink = new Link(iData, dData);
+        Link newLink = new Link(key, dData);
         newLink.setNext(first);
         this.first = newLink;
     }
     
-    public void insertInOrder(long iData, double dData)
+    public void insertInOrder(long key, double dData)
     {
-        Link newLink  = new Link(iData, dData);
+        Link newLink  = new Link(key, dData);
         Link previous = null;
         Link current  = this.first;
         
-        while (current != null && iData > current.key) {
+        while (current != null && key > current.key) {
             previous = current;
             current  = current.getNext();
         }
