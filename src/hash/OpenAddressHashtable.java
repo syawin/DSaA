@@ -83,7 +83,7 @@ public final class OpenAddressHashtable {
         return ( int ) (key % arraySize);
     }
     
-    public void insert(long key)
+    public void insertDoubleHash(long key)
     {
         DataItem dataItem = new DataItem(key);
         int      hashVal  = hashFunc(dataItem.key());
@@ -92,6 +92,19 @@ public final class OpenAddressHashtable {
         while (hashArray[hashVal] != null && hashArray[hashVal].key() != -1) {
             hashVal += stepSize;
             hashVal %= arraySize;
+        }
+        hashArray[hashVal] = dataItem;
+    }
+    
+    public void insertQuadProbe(long key)
+    {
+        DataItem dataItem = new DataItem(key);
+        int      hashVal  = hashFunc(dataItem.key());
+        int      step     = 1;
+        
+        while (hashArray[hashVal] != null && hashArray[hashVal].key() != -1) {
+            hashVal = (hashVal + step * step) % arraySize;
+            step++;
         }
         hashArray[hashVal] = dataItem;
     }
@@ -133,7 +146,7 @@ public final class OpenAddressHashtable {
             
             for (int i = 0; i < n; i++) {
                 key = ( long ) (Math.random() * keysPerCell * size);
-                table.insert(key);
+                table.insertQuadProbe(key);
             }
             
             while (true) {
@@ -187,7 +200,7 @@ public final class OpenAddressHashtable {
             long key;
             System.out.print("Enter key value to insert: ");
             key = readInt();
-            table.insert(key);
+            table.insertDoubleHash(key);
         }
         
         private static char readChar() throws IOException
