@@ -6,7 +6,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public final class OpenAddressHashtable implements GenericHashtable<Long, DataItem> {
+public final class OpenAddressHashtable extends GenericHashtable<Long, DataItem> {
     
     private static final int        STEP_CONSTANT = 5;
     private final        DataItem   NON_ITEM      = new DataItem(-1);
@@ -15,27 +15,8 @@ public final class OpenAddressHashtable implements GenericHashtable<Long, DataIt
     
     public OpenAddressHashtable(int size)
     {
-        arraySize = size;
+        arraySize = getPrime(size);
         hashArray = new DataItem[arraySize];
-    }
-    
-    private static boolean isPrime(int n) // is n prime?
-    {
-        if (n <= 1) {
-            return false;
-        }
-        if (n <= 3) {
-            return true;
-        }
-        if (n % 2 == 0 || n % 3 == 0) {
-            return false;
-        }
-        for (int i = 5; i * i <= n; i += 6) {
-            if (n % i == 0 || n % (i + 2) == 0) {
-                return false;
-            }
-        }
-        return true;
     }
     
     @Override
@@ -119,21 +100,6 @@ public final class OpenAddressHashtable implements GenericHashtable<Long, DataIt
             step++;
         }
         hashArray[hashVal] = dataItem;
-    }
-    
-    private int getPrime(int min) // returns 1st prime > min
-    {
-        if (min < 2) {
-            return 2;
-        }
-        int candidate = min + 1;
-        if (candidate % 2 == 0) {
-            candidate++;
-        }
-        while (!isPrime(candidate)) {
-            candidate += 2;
-        }
-        return candidate;
     }
     
     private int hashFuncSec(long key)

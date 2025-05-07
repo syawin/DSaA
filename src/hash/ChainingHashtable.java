@@ -7,7 +7,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class ChainingHashtable implements GenericHashtable<Long, Link> {
+public class ChainingHashtable extends GenericHashtable<Long, Link> {
     
     private final int          arraySize;
     private final LinkedList[] hashArray;
