@@ -7,7 +7,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class ChainingHashtable {
+public class ChainingHashtable implements GenericHashtable<Long, Link> {
     
     private final int          arraySize;
     private final LinkedList[] hashArray;
@@ -21,12 +21,14 @@ public class ChainingHashtable {
         }
     }
     
-    public Link delete(long key)
+    @Override
+    public Link delete(Long key)
     {
         int hashVal = hashFunc(key);
         return hashArray[hashVal].delete(key);
     }
     
+    @Override
     public void displayTable()
     {
         for (int i = 0; i < arraySize; i++) {
@@ -35,7 +37,8 @@ public class ChainingHashtable {
         }
     }
     
-    public Link find(long key)
+    @Override
+    public Link find(Long key)
     {
         int hashVal = hashFunc(key);
         return hashArray[hashVal].find(key);
@@ -46,7 +49,8 @@ public class ChainingHashtable {
         return ( int ) (key % arraySize);
     }
     
-    public void insert(long key)
+    @Override
+    public void insert(Long key)
     {
         int        hashVal = hashFunc(key);
         LinkedList list    = hashArray[hashVal];

@@ -6,7 +6,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public final class OpenAddressHashtable {
+public final class OpenAddressHashtable implements GenericHashtable<Long, DataItem> {
     
     private static final int        STEP_CONSTANT = 5;
     private final        DataItem   NON_ITEM      = new DataItem(-1);
@@ -38,7 +38,8 @@ public final class OpenAddressHashtable {
         return true;
     }
     
-    public DataItem delete(long key)
+    @Override
+    public DataItem delete(Long key)
     {
         int hashVal  = hashFunc(key);
         int stepSize = hashFuncSec(key);
@@ -55,6 +56,7 @@ public final class OpenAddressHashtable {
         return null;
     }
     
+    @Override
     public void displayTable()
     {
         System.out.print("Table: ");
@@ -65,7 +67,8 @@ public final class OpenAddressHashtable {
         System.out.println();
     }
     
-    public DataItem find(long key)
+    @Override
+    public DataItem find(Long key)
     {
         int hashVal  = hashFunc(key);
         int stepSize = hashFuncSec(key);
@@ -81,6 +84,15 @@ public final class OpenAddressHashtable {
     public int hashFunc(long key)
     {
         return ( int ) (key % arraySize);
+    }
+    
+    /**
+     * Default insertion strategy uses double hashing.
+     */
+    @Override
+    public void insert(Long key)
+    {
+        insertDoubleHash(key);
     }
     
     public void insertDoubleHash(long key)
@@ -129,6 +141,7 @@ public final class OpenAddressHashtable {
         return ( int ) (STEP_CONSTANT - key % STEP_CONSTANT);
     }
     
+    @SuppressWarnings("unused")
     private static class HashtableDemo {
         
         private static BufferedReader reader = null;
