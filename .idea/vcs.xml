@@ -5,6 +5,16 @@
       <inspection_tool class="SubjectBodySeparation" enabled="false" level="TEXT ATTRIBUTES" enabled_by_default="false" />
     </profile>
   </component>
+  <component name="IssueNavigationConfiguration">
+    <option name="links">
+      <list>
+        <IssueNavigationLink>
+          <option name="issueRegexp" value="#([0-9]+)" />
+          <option name="linkRegexp" value="https://github.com/syawin/DSaA/issues/$1" />
+        </IssueNavigationLink>
+      </list>
+    </option>
+  </component>
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
   </component>
