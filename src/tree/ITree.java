@@ -3,10 +3,10 @@ package tree;
 import stack.StackGeneric;
 
 public class ITree {
-
+    
     private INode root;
-
-    public boolean delete(int key)
+    
+    public INode delete(int key)
     {
         INode parent, curr;
         parent = curr = root;
@@ -21,8 +21,9 @@ public class ITree {
                 isLeftChild = false;
                 curr        = curr.rChild;
             }
-            if (curr == null) return false;
+            if (curr == null) return null;
         }
+        INode deleted = curr;
         // begin case: 0 child
         if (curr.lChild == null && curr.rChild == null) {
             if (curr == root) {
@@ -83,52 +84,38 @@ public class ITree {
             successor.lChild = curr.lChild;
         }
         // end case: 2 child
-        return true;
+        return deleted;
     }
-
-    public INode find(int key)
-    {
-        INode current = root;
-        while (current != null && current.key != key) {
-            if (key < current.key) {
-                current = current.lChild;
-            }
-            else {
-                current = current.rChild;
-            }
-        }
-        return current;
-    }
-
+    
     public void displayTree()
     {
         displayTree(32);
     }
-
+    
     public void displayTree(int spaces)
     {
         StackGeneric<INode> globalStack = new StackGeneric<>();
         globalStack.push(root);
-        int nBlanks = spaces;
-        boolean isRowEmpty = false;
-        StringBuilder lineBreak = new StringBuilder();
+        int           nBlanks    = spaces;
+        boolean       isRowEmpty = false;
+        StringBuilder lineBreak  = new StringBuilder();
         lineBreak.append("•".repeat(nBlanks * 2));
         System.out.println(lineBreak);
-
+        
         while (!isRowEmpty) {
             StackGeneric<INode> localStack = new StackGeneric<>();
             isRowEmpty = true;
             for (int i = 0; i < nBlanks; i++) {
                 System.out.print(' ');
             }
-
+            
             while (!globalStack.isEmpty()) {
                 INode temp = globalStack.pop();
                 if (temp != null) {
                     System.out.print(temp.key);
                     localStack.push(temp.lChild);
                     localStack.push(temp.rChild);
-
+                    
                     if (temp.lChild != null || temp.rChild != null) {
                         isRowEmpty = false;
                     }
@@ -150,7 +137,21 @@ public class ITree {
         }
         System.out.println(lineBreak);
     }
-
+    
+    public INode find(int key)
+    {
+        INode current = root;
+        while (current != null && current.key != key) {
+            if (key < current.key) {
+                current = current.lChild;
+            }
+            else {
+                current = current.rChild;
+            }
+        }
+        return current;
+    }
+    
     public void insert(int key, double val)
     {
         INode insert = new INode(key, val);
@@ -181,10 +182,10 @@ public class ITree {
             }
         }
     }
-
+    
     public INode min()
     {
-        INode min = null;
+        INode min     = null;
         INode current = root;
         while (current != null) {
             min     = current;
@@ -192,16 +193,7 @@ public class ITree {
         }
         return min;
     }
-
-    void preOrder(INode localRoot)
-    {
-        if (localRoot != null) {
-            System.out.println(localRoot.key + " ");
-            preOrder(localRoot.lChild);
-            preOrder(localRoot.rChild);
-        }
-    }
-
+    
     public void traverse(int traverseType)
     {
         switch (traverseType) {
@@ -219,7 +211,7 @@ public class ITree {
                 break;
         }
     }
-
+    
     void inOrder(INode localRoot)
     {
         if (localRoot != null) {
@@ -228,7 +220,7 @@ public class ITree {
             inOrder(localRoot.rChild);
         }
     }
-
+    
     void postOrder(INode localRoot)
     {
         if (localRoot != null) {
@@ -237,7 +229,16 @@ public class ITree {
             System.out.println(localRoot.key + " ");
         }
     }
-
+    
+    void preOrder(INode localRoot)
+    {
+        if (localRoot != null) {
+            System.out.println(localRoot.key + " ");
+            preOrder(localRoot.lChild);
+            preOrder(localRoot.rChild);
+        }
+    }
+    
     private INode getSuccessor(INode delNode)
     {
         INode paren, successor, curr;
@@ -254,9 +255,9 @@ public class ITree {
         }
         return successor;
     }
-
+    
     private static class TreeDemo {
-
+        
         public static void main(String[] args)
         {
             ITree tree = new ITree();
@@ -267,7 +268,7 @@ public class ITree {
             tree.displayTree(16);
             tree.displayTree();
         }
-
+        
     }
-
+    
 }
