@@ -1,5 +1,7 @@
 package hash;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -31,8 +33,8 @@ public class StringHashtable extends GenericHashtable<String, String> {
                 return temp;
             }
             index++;
-            probe++;
             index %= ARRAY_SIZE;
+            probe++;
         }
         return null;
     }
@@ -66,16 +68,15 @@ public class StringHashtable extends GenericHashtable<String, String> {
     public void insert(String key)
     {
         int hash = getHash(key);
-        while (hashArray[hash] != null || !Objects.equals(hashArray[hash], NON) || !Objects.equals(
-                hashArray[hash],
-                key)) {
+        while (hashArray[hash] != null || !Objects.equals(hashArray[hash], NON)) {
+            if (Objects.equals(hashArray[hash], key)) return;// forbid duplicates
             hash++;
             hash %= ARRAY_SIZE;
         }
         hashArray[hash] = key;
     }
     
-    private int getHash(String key)
+    private int getHash(@NotNull String key)
     {
         int hash = 0;
         // iterate through the string as a char array
