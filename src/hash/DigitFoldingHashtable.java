@@ -4,16 +4,25 @@ import java.util.Objects;
 
 public class DigitFoldingHashtable extends GenericHashtable<Long, Long> {
     
-    private final int    ARRAY_SIZE;
-    private final int    MAGNITUDE;
-    private final Long[] hashArray;
+    private int    arraySize;
+    private Long[] hashArray;
+    private int    itemCount;
+    private int    magnitude;
     
     public DigitFoldingHashtable(int size)
     {
-        ARRAY_SIZE = getPrime(size);
-        hashArray  = new Long[ARRAY_SIZE];
-        MAGNITUDE  = calcMagnitude(ARRAY_SIZE);
+        arraySize = getPrime(size);
+        hashArray = new Long[arraySize];
+        magnitude = calcMagnitude(arraySize);
+        itemCount = 0;
     }
+    
+    // getter
+    public int getItemCount()
+    {
+        return itemCount;
+    }
+    // getter end
     
     private static int calcMagnitude(int arg)
     {
@@ -30,14 +39,15 @@ public class DigitFoldingHashtable extends GenericHashtable<Long, Long> {
     {
         int index = hashFunc(key);
         int probe = 0;
-        while (hashArray[index] != null && probe <= ARRAY_SIZE) {
+        while (hashArray[index] != null && probe <= arraySize) {
             if (hashArray[index].equals(key)) {
                 long temp = hashArray[index];
                 hashArray[index] = -1L;
+                itemCount--;
                 return temp;
             }
             probe++;
-            index = (index + 1) % ARRAY_SIZE;
+            index = (index + 1) % arraySize;
         }
         return null;
     }
@@ -46,7 +56,7 @@ public class DigitFoldingHashtable extends GenericHashtable<Long, Long> {
     public void displayTable()
     {
         System.out.print("Table: ");
-        for (int i = 0; i < ARRAY_SIZE; i++) {
+        for (int i = 0; i < arraySize; i++) {
             if (hashArray[i] != null) { System.out.print(hashArray[i].toString() + " "); }
             else { System.out.print("** "); }
         }
@@ -58,11 +68,11 @@ public class DigitFoldingHashtable extends GenericHashtable<Long, Long> {
     {
         int index = hashFunc(key);
         int probe = 0;
-        while (hashArray[index] != null && probe <= ARRAY_SIZE) {
+        while (hashArray[index] != null && probe <= arraySize) {
             if (hashArray[index].equals(key)) return hashArray[index];
             probe++;
             index++;
-            index %= ARRAY_SIZE;
+            index %= arraySize;
         }
         return null;
     }
@@ -74,9 +84,11 @@ public class DigitFoldingHashtable extends GenericHashtable<Long, Long> {
         while (hashArray[index] != null || hashArray[index] != -1) {
             if (Objects.equals(hashArray[index], key)) return; // forbid duplicates
             index++;
-            index %= ARRAY_SIZE;
+            index %= arraySize;
         }
         hashArray[index] = key;
+        itemCount++;
+        if (loadFactor() >= 0.5F) rehash();
     }
     
     private int hashFunc(long key)
@@ -84,10 +96,29 @@ public class DigitFoldingHashtable extends GenericHashtable<Long, Long> {
         long temp  = key;
         long index = 0;
         while (temp != 0) {
-            index += temp % MAGNITUDE;
-            temp /= MAGNITUDE;
+            index += temp % magnitude;
+            temp /= magnitude;
         }
-        return ( int ) (index % ARRAY_SIZE);
+        return ( int ) (index % arraySize);
+    }
+    
+    private float loadFactor()
+    {
+        return ( float ) itemCount / arraySize;
+    }
+    
+    private void rehash()
+    {
+        Long[] temp    = hashArray;
+        int    newSize = getPrime(arraySize * 2);
+        hashArray = new Long[newSize];
+        arraySize = newSize;
+        magnitude = calcMagnitude(arraySize);
+        for (Long aLong : temp) {
+            if (aLong != null && aLong != -1) {
+                insert(aLong);
+            }
+        }
     }
     
 }
