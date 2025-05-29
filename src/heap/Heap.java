@@ -8,9 +8,9 @@ import java.io.InputStreamReader;
 
 public class Heap {
     
-    private int    currentSize;
-    private Node[] heap;
-    private int    maxSize;
+    private final Node[] heap;
+    private final int    maxSize;
+    private       int    currentSize;
     
     public Heap(int maxSize)
     {
@@ -121,6 +121,23 @@ public class Heap {
         return root;
     }
     
+    /**
+     * Add a new key to the end of the array without any concern for ordering.
+     *
+     * @param key
+     *         the key to insert
+     *
+     * @return true if the insert succeeded
+     */
+    public boolean toss(int key)
+    {
+        if (currentSize == maxSize) return false;
+        Node newNode = new Node.Builder(key, null).build();
+        heap[currentSize] = newNode;
+        incrementSize();
+        return true;
+    }
+    
     public void trickleDown(int index)
     {
         int  bigChild;
@@ -177,7 +194,6 @@ public class Heap {
     
     void insertAt(int index, Node node)
     {
-        
         heap[index] = node;
     }
     
@@ -191,7 +207,7 @@ public class Heap {
             int     val1, val2;
             Heap    heap = new Heap(31);
             boolean success;
-            int data[] = {
+            int[] data = {
                     64,
                     26,
                     15,
