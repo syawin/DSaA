@@ -1,51 +1,17 @@
-package tree;
+package tree
 
 // suggest parameterize class Node
-public class Node {
-    
-    private final int    key;
-    private final Object val;
-    
-    Node(Builder builder)
-    {
-        key = builder.key;
-        val = builder.val;
+open class Node internal constructor(builder: Builder) {
+    val key: Int = builder.key
+    val `val`: Any? = builder.`val`
+
+    override fun toString(): String {
+        return "Node{key=$key, val=$`val`}"
     }
-    
-    // getter
-    public int getKey()
-    {
-        return key;
-    }
-    
-    public Object getVal()
-    {
-        return val;
-    }
-    // getter end
-    
-    @Override
-    public String toString()
-    {
-        return "Node{" + "key=" + key + ", val=" + val + '}';
-    }
-    
-    public static class Builder {
-        
-        private final int    key;
-        private final Object val;
-        
-        public Builder(int key, Object val)
-        {
-            this.key = key;
-            this.val = val;
+
+    open class Builder(internal val key: Int, val `val`: Any?) {
+        open fun build(): Node? {
+            return Node(this)
         }
-        
-        public Node build()
-        {
-            return new Node(this);
-        }
-        
     }
-    
 }
