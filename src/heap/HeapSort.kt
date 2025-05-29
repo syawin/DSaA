@@ -1,73 +1,54 @@
-package heap;
+package heap
 
-import tree.Node;
+import tree.Node
+import java.io.BufferedReader
+import java.io.IOException
+import java.io.InputStreamReader
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.HashSet;
+object HeapSort {
+    private val reader: BufferedReader by lazy { BufferedReader(InputStreamReader(System.`in`)) }
 
-public class HeapSort {
-    
-    private static BufferedReader reader = null;
-    
-    public static void main(String[] args)
-    {
-        int size, i;
-        System.out.print("Enter number of items: ");
-        size = getInt();
-        Heap heap = new Heap(size);
-        HashSet<Integer> uniqueNumbers = new HashSet<>();
-        
-        for (i = 0; i < size; i++) {
-            int random;
+    @JvmStatic
+    fun main(args: Array<String>) {
+        print("Enter number of items: ")
+        val size = readInt()
+        val heap = Heap(size)
+        val uniqueNumbers = HashSet<Int>()
+
+        repeat(size) { i ->
+            var random: Int
             do {
-                random = ( int ) (Math.random() * 100);
-            }
-            while (!uniqueNumbers.add(random));
-            heap.insertAt(i, new Node.Builder(random, null).build());
-            heap.incrementSize();
+                random = (Math.random() * 100).toInt() + 1
+            } while (!uniqueNumbers.add(random))
+            heap.insertAt(i, Node.Builder(random, null).build())
+            heap.incrementSize()
         }
-        
-        System.out.print("Random: ");
-        heap.displayArray();
-        
-        for (i = (size / 2) - 1; i >= 0; i--) {
-            heap.trickleDown(i);
+
+        print("Random: ")
+        heap.displayArray()
+
+        for (i in (size / 2 - 1) downTo 0) {
+            heap.trickleDown(i)
         }
-        
-        System.out.print("Heap: ");
-        heap.displayArray();
-        heap.displayHeap();
-        
-        for (i = size - 1; i >= 0; i--) {
-            Node bigNode = heap.remove();
-            heap.insertAt(i, bigNode);
+
+        print("Heap: ")
+        heap.displayArray()
+        heap.displayHeap()
+
+        for (i in (size - 1) downTo 0) {
+            val bigNode = heap.remove()
+            heap.insertAt(i, bigNode)
         }
-        System.out.println("Sorted: ");
-        heap.displayArray();
+        print("Sorted: ")
+        heap.displayArray()
     }
-    
-    private static int getInt()
-    {
-        return Integer.parseInt(getLine());
-    }
-    
-    private static String getLine()
-    {
+
+    private fun readInt(): Int = readLineFromUser().toInt()
+
+    private fun readLineFromUser(): String =
         try {
-            return getReader().readLine();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            reader.readLine() ?: throw RuntimeException("No input provided")
+        } catch (e: IOException) {
+            throw RuntimeException(e)
         }
-    }
-    
-    private static BufferedReader getReader()
-    {
-        if (reader == null) {
-            reader = new BufferedReader(new InputStreamReader(System.in));
-        }
-        return reader;
-    }
-    
 }
