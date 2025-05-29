@@ -157,6 +157,30 @@ public class Heap {
         heap[index] = bottom;
     }
     
+    void displayArray()
+    {
+        for (int i = 0; i < maxSize; i++) {
+            System.out.print(heap[i].getKey() + " ");
+        }
+        System.out.println();
+    }
+    
+    void incrementSize()
+    {
+        incrementSize(1);
+    }
+    
+    void incrementSize(int increment)
+    {
+        currentSize += increment;
+    }
+    
+    void insertAt(int index, Node node)
+    {
+        
+        heap[index] = node;
+    }
+    
     // DEMO
     private static class HeapDemo {
         
