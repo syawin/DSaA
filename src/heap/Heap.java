@@ -24,6 +24,16 @@ public class Heap {
     {
         return currentSize;
     }
+
+    public Node[] getHeap()
+    {
+        return heap;
+    }
+    
+    public int getMaxSize()
+    {
+        return maxSize;
+    }
     // getter end
     
     public boolean changeKey(int index, int newKey)
