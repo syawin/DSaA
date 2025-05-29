@@ -103,7 +103,7 @@ public class Heap {
     }
     
     /**
-     * Validates the min-heap property for the heap array.
+     * Validates the max-heap property for the heap array.
      *
      * @return true if the heap property holds for every node; false otherwise.
      */
@@ -113,10 +113,10 @@ public class Heap {
             int left  = 2 * i + 1;
             int right = 2 * i + 2;
             
-            if (left < currentSize && heap[i].getKey() > heap[left].getKey()) {
+            if (left < currentSize && heap[i].getKey() < heap[left].getKey()) {
                 return false;
             }
-            if (right < currentSize && heap[i].getKey() > heap[right].getKey()) {
+            if (right < currentSize && heap[i].getKey() < heap[right].getKey()) {
                 return false;
             }
         }
@@ -129,6 +129,12 @@ public class Heap {
         heap[0] = heap[--currentSize];
         trickleDown(0);
         return root;
+    }
+    
+    public void restoreHeap() {
+        for (int i = (currentSize/2 - 1); i >= 0; i--) {
+            trickleDown(i);
+        }
     }
     
     /**

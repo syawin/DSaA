@@ -27,9 +27,8 @@ object HeapSort {
         print("Random: ")
         heap.displayArray()
 
-        for (i in (size / 2 - 1) downTo 0) {
-            heap.trickleDown(i)
-        }
+        heap.restoreHeap()
+        println(heap.isValidHeap)
 
         print("Heap: ")
         heap.displayArray()
