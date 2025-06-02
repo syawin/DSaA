@@ -2,6 +2,7 @@ package tree;
 
 import stack.StackGeneric;
 
+@SuppressWarnings("unused")
 public class ITree {
     
     private INode root;
@@ -183,6 +184,16 @@ public class ITree {
         }
     }
     
+    public INode max() {
+        INode max = null;
+        INode current = root;
+        while (current != null) {
+            max = current;
+            current = current.rChild;
+        }
+        return max;
+    }
+    
     public INode min()
     {
         INode min     = null;
@@ -256,6 +267,7 @@ public class ITree {
         return successor;
     }
     
+// DEMO
     private static class TreeDemo {
         
         public static void main(String[] args)
@@ -270,5 +282,6 @@ public class ITree {
         }
         
     }
-    
+// DEMO end
+
 }
