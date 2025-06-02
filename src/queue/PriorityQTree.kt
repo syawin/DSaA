@@ -11,11 +11,11 @@ class PriorityQTree {
         tree.insert(key, 0.0)
     }
 
-    fun peek(): INode = tree.max()
+    fun peek(): INode? = tree.max()
 
-    fun removeMox(): INode {
+    fun removeMox(): INode? {
         val max = tree.max()
-        tree.delete(max.key)
+        max?.let { tree.delete(it.key) }
         return max
     }
 }
