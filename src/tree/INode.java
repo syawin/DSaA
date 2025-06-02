@@ -3,8 +3,9 @@ package tree;
 public class INode {
     
     int    key;
-    INode  lChild;
-    INode  rChild;
+    INode lChild;
+    INode parent;
+    INode rChild;
     double value;
     
     public INode(int key, double value)
@@ -27,6 +28,11 @@ public class INode {
         return key;
     }
     
+    public INode getParent()
+    {
+        return parent;
+    }
+    
     public double getValue()
     {
         return value;
@@ -42,11 +48,16 @@ public class INode {
         return rChild;
     }
     // getter end
-    
+
     // setter
     public void setKey(int key)
     {
         this.key = key;
+    }
+
+    public void setParent(INode parent)
+    {
+        this.parent = parent;
     }
     
     public void setValue(double value)
