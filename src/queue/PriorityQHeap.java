@@ -3,6 +3,7 @@ package queue;
 import heap.Heap;
 import tree.Node;
 
+@SuppressWarnings("unused")
 class PriorityQHeap {
     
     private final int  maxSize;
