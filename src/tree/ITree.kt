@@ -121,9 +121,9 @@ class ITree {
 
     fun insert(
         key: Int,
-        `val`: Double,
+        value: Double,
     ) {
-        val insert = INode(key, `val`)
+        val insert = INode(key, value)
         if (root == null) {
             root = insert
         } else {
