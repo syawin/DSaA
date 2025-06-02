@@ -21,7 +21,7 @@ public class INode {
         this.rChild = rChild;
     }
     
-// getter
+    // getter
     public int getKey()
     {
         return key;
@@ -41,9 +41,9 @@ public class INode {
     {
         return rChild;
     }
-// getter end
-
-// setter
+    // getter end
+    
+    // setter
     public void setKey(int key)
     {
         this.key = key;
@@ -63,7 +63,7 @@ public class INode {
     {
         this.rChild = rChild;
     }
-// setter end
+    // setter end
     
     @Override
     public String toString()

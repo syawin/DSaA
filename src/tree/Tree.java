@@ -48,25 +48,11 @@ public class Tree {
         while (forest.length() > 1) {
             Node a = forest.removeFirst();
             Node b = forest.removeFirst();
-            Node c = new Node.Builder(-1, mergeTrees((Tree) a.getVal(), (Tree) b.getVal())).build();
+            Node c = new Node.Builder(-1, mergeTrees((Tree) a.getValue(), (Tree) b.getValue())).build();
             forest.insertLast(c);
         }
         return (Tree) forest.getFirst()
-                            .getVal();
-    }
-
-    private static Tree mergeTrees(Tree aTree, Tree bTree)
-    {
-        TreeNode newRoot;
-        if (aTree.root == null) {
-            newRoot = bTree.root;
-        }
-        else {
-            newRoot = new TreeNode.Builder(-1, '+').leftChild(aTree.root)
-                                                   .rightChild(bTree.root)
-                                                   .build();
-        }
-        return new Tree(newRoot);
+                            .getValue();
     }
 
     /**
@@ -88,31 +74,14 @@ public class Tree {
             }
             else {
                 TreeNode y = (TreeNode) argStack.removeFirst()
-                                                .getVal();
+                                                .getValue();
                 TreeNode x = (TreeNode) argStack.removeFirst()
-                                                .getVal();
+                                                .getValue();
                 argStack.insertFirst(new Node.Builder(-1, mergeExpressions(token, x, y)).build());
             }
         }
         return new Tree((TreeNode) argStack.removeFirst()
-                                           .getVal());
-    }
-
-    private static boolean isNumeric(String str)
-    {
-        try {
-            parseInt(str);
-        } catch (NumberFormatException e) {
-            return false;
-        }
-        return true;
-    }
-
-    private static TreeNode mergeExpressions(String operator, TreeNode lExpr, TreeNode rExpr)
-    {
-        return new TreeNode.Builder(-1, operator).leftChild(lExpr)
-                                                 .rightChild(rExpr)
-                                                 .build();
+                                           .getValue());
     }
 
     public static Tree createFullStringTree(String message)
@@ -140,7 +109,6 @@ public class Tree {
         return master;
     }
 
-
     private static TreeNode createFullStringTreeRec(TreeNode[] forest, int ptr)
     {
         int index = ptr - 1;
@@ -150,6 +118,37 @@ public class Tree {
         root.setlChild(createFullStringTreeRec(forest, ptr * 2));
         root.setrChild(createFullStringTreeRec(forest, (ptr * 2) + 1));
         return root;
+    }
+
+    private static boolean isNumeric(String str)
+    {
+        try {
+            parseInt(str);
+        } catch (NumberFormatException e) {
+            return false;
+        }
+        return true;
+    }
+
+    private static TreeNode mergeExpressions(String operator, TreeNode lExpr, TreeNode rExpr)
+    {
+        return new TreeNode.Builder(-1, operator).leftChild(lExpr)
+                                                 .rightChild(rExpr)
+                                                 .build();
+    }
+
+    private static Tree mergeTrees(Tree aTree, Tree bTree)
+    {
+        TreeNode newRoot;
+        if (aTree.root == null) {
+            newRoot = bTree.root;
+        }
+        else {
+            newRoot = new TreeNode.Builder(-1, '+').leftChild(aTree.root)
+                                                   .rightChild(bTree.root)
+                                                   .build();
+        }
+        return new Tree(newRoot);
     }
 
     public boolean delete(int key)
@@ -232,20 +231,6 @@ public class Tree {
         return true;
     }
 
-    public TreeNode find(int key)
-    {
-        TreeNode current = root;
-        while (current != null && current.getKey() != key) {
-            if (key < current.getKey()) {
-                current = current.getlChild();
-            }
-            else {
-                current = current.getrChild();
-            }
-        }
-        return current;
-    }
-
     public void displayTree()
     {
         displayTree(32);
@@ -272,7 +257,7 @@ public class Tree {
                 TreeNode temp = globalStack.pop();
                 if (temp != null) {
                     if (temp instanceof RBTreeNode && (( RBTreeNode ) temp).isRed()) System.out.print("\u001B[31m");
-                    System.out.print(temp.getVal() + "/" + temp.getKey());
+                    System.out.print(temp.getValue() + "/" + temp.getKey());
                     System.out.print("\u001B[0m");
                     localStack.push(temp.getlChild());
                     localStack.push(temp.getrChild());
@@ -299,22 +284,18 @@ public class Tree {
         System.out.println(lineBreak);
     }
 
-    public void traverse(int traverseType)
+    public TreeNode find(int key)
     {
-        switch (traverseType) {
-            case 1:
-                System.out.println("\nPreorder traversal: ");
-                preOrder(root);
-                break;
-            case 2:
-                System.out.println("\nInorder traversal:");
-                inOrder(root);
-                break;
-            case 3:
-                System.out.println("\nPostorder traversal:");
-                postOrder(root);
-                break;
+        TreeNode current = root;
+        while (current != null && current.getKey() != key) {
+            if (key < current.getKey()) {
+                current = current.getlChild();
+            }
+            else {
+                current = current.getrChild();
+            }
         }
+        return current;
     }
 
     public void insert(int key, Object val)
@@ -361,6 +342,51 @@ public class Tree {
         return min;
     }
 
+    public void traverse(int traverseType)
+    {
+        switch (traverseType) {
+            case 1:
+                System.out.println("\nPreorder traversal: ");
+                preOrder(root);
+                break;
+            case 2:
+                System.out.println("\nInorder traversal:");
+                inOrder(root);
+                break;
+            case 3:
+                System.out.println("\nPostorder traversal:");
+                postOrder(root);
+                break;
+        }
+    }
+
+    void inOrder(TreeNode localRoot)
+    {
+        if (localRoot != null) {
+            inOrder(localRoot.getlChild());
+            System.out.print(localRoot.getValue() + " ");
+            inOrder(localRoot.getrChild());
+        }
+    }
+
+    void postOrder(TreeNode localRoot)
+    {
+        if (localRoot != null) {
+            postOrder(localRoot.getlChild());
+            postOrder(localRoot.getrChild());
+            System.out.print(localRoot.getValue() + " ");
+        }
+    }
+
+    void preOrder(TreeNode localRoot)
+    {
+        if (localRoot != null) {
+            System.out.print(localRoot.getValue() + " ");
+            preOrder(localRoot.getlChild());
+            preOrder(localRoot.getrChild());
+        }
+    }
+
     private TreeNode getSuccessor(TreeNode delNode)
     {
         TreeNode paren, successor, curr;
@@ -378,48 +404,7 @@ public class Tree {
         return successor;
     }
 
-    void inOrder(TreeNode localRoot)
-    {
-        if (localRoot != null) {
-            inOrder(localRoot.getlChild());
-            System.out.print(localRoot.getVal() + " ");
-            inOrder(localRoot.getrChild());
-        }
-    }
-
-    void postOrder(TreeNode localRoot)
-    {
-        if (localRoot != null) {
-            postOrder(localRoot.getlChild());
-            postOrder(localRoot.getrChild());
-            System.out.print(localRoot.getVal() + " ");
-        }
-    }
-
-    void preOrder(TreeNode localRoot)
-    {
-        if (localRoot != null) {
-            System.out.print(localRoot.getVal() + " ");
-            preOrder(localRoot.getlChild());
-            preOrder(localRoot.getrChild());
-        }
-    }
-
-    private static class TreeDemo {
-
-        public static void main(String[] args)
-        {
-            Tree tree = new Tree();
-            tree.insert(4, 'a');
-            tree.insert(3, "abc");
-            tree.insert(6, 1);
-            tree.insert(5, 2.0);
-            tree.displayTree(16);
-            tree.displayTree();
-        }
-
-    }
-
+// DEMO
     private static class AlphaTreeDemo {
 
         public static void main(String[] args)
@@ -437,5 +422,21 @@ public class Tree {
         }
 
     }
+
+    private static class TreeDemo {
+
+        public static void main(String[] args)
+        {
+            Tree tree = new Tree();
+            tree.insert(4, 'a');
+            tree.insert(3, "abc");
+            tree.insert(6, 1);
+            tree.insert(5, 2.0);
+            tree.displayTree(16);
+            tree.displayTree();
+        }
+
+    }
+// DEMO end
 
 }

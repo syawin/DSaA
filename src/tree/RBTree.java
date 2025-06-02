@@ -99,10 +99,76 @@ public class RBTree extends Tree {
         System.out.println(LINE_BREAK);
     }
     
+    // generated 2024-03-20 GPT 4 turbo
+    public boolean validateRBCorrect()
+    {
+        // Property 2: The root is always black. If root is null, the tree is considered valid.
+        if (this.getRoot() != null && !isBlack(( RBTreeNode ) this.getRoot())) {
+            return false;
+        }
+        
+        // Use a helper method to validate properties 3, 4, and 5
+        return validateNode(( RBTreeNode ) this.getRoot(), 0) != -1;
+    }
+    
+    // generated 2024-03-20 GPT 4 turbo
+    private boolean isBlack(RBTreeNode node)
+    {
+        return node == null || node.isBlack();
+    }
+    
     private void logRedRedViolation(RBTreeNode curr, RBTreeNode paren)
     {
         this.displayTree();
-        System.out.println("R-R violation between " + curr.getVal() + " and " + paren.getVal());
+        System.out.println("R-R violation between " + curr.getValue() + " and " + paren.getValue());
+    }
+    
+    private void rotateAfterInsert(RBTreeNode paren,
+                                   Boolean isLeftGrandChild,
+                                   Boolean isLeftChild,
+                                   RBTreeNode gp,
+                                   RBTreeNode insert)
+    {
+        TreeNode top, temp = gp.getParent();
+        if (isLeftGrandChild != null) {
+            if ((isLeftChild && isLeftGrandChild) || (!isLeftChild && !isLeftGrandChild)) {
+                // case P is red and X is an outside grandchild
+                gp.toggleNodeColor();
+                paren.toggleNodeColor();
+                if (isLeftChild) {
+                    top = gp.rotateRight();
+                }
+                else {
+                    top = gp.rotateLeft();
+                }
+            }
+            else {
+                // case P is red and X is an inside grandchild
+                gp.toggleNodeColor();
+                insert.toggleNodeColor();
+                if (isLeftChild) {
+                    // if X is a left child then that means P is a right child
+                    // perform a right rotation on P then a left on G
+                    gp.setrChild(paren.rotateRight());
+                    top = gp.rotateLeft();
+                }
+                else {
+                    // if X is a right child then that means P is a left child
+                    gp.setlChild(paren.rotateLeft());
+                    top = gp.rotateRight();
+                }
+            }
+            top.setParent(temp);
+            if (temp == null) {
+                this.setRoot(top);
+            }
+            else if (top.getKey() < temp.getKey()) {
+                temp.setlChild(top);
+            }
+            else {
+                temp.setrChild(top);
+            }
+        }
     }
     
     private void rotateOnWayDown(RBTreeNode paren, RBTreeNode gp, Boolean isLeftGrandChild, Boolean isLeftChild)
@@ -166,72 +232,6 @@ public class RBTree extends Tree {
         }
     }
     
-    private void rotateAfterInsert(RBTreeNode paren,
-                                   Boolean isLeftGrandChild,
-                                   Boolean isLeftChild,
-                                   RBTreeNode gp,
-                                   RBTreeNode insert)
-    {
-        TreeNode top, temp = gp.getParent();
-        if (isLeftGrandChild != null) {
-            if ((isLeftChild && isLeftGrandChild) || (!isLeftChild && !isLeftGrandChild)) {
-                // case P is red and X is an outside grandchild
-                gp.toggleNodeColor();
-                paren.toggleNodeColor();
-                if (isLeftChild) {
-                    top = gp.rotateRight();
-                }
-                else {
-                    top = gp.rotateLeft();
-                }
-            }
-            else {
-                // case P is red and X is an inside grandchild
-                gp.toggleNodeColor();
-                insert.toggleNodeColor();
-                if (isLeftChild) {
-                    // if X is a left child then that means P is a right child
-                    // perform a right rotation on P then a left on G
-                    gp.setrChild(paren.rotateRight());
-                    top = gp.rotateLeft();
-                }
-                else {
-                    // if X is a right child then that means P is a left child
-                    gp.setlChild(paren.rotateLeft());
-                    top = gp.rotateRight();
-                }
-            }
-            top.setParent(temp);
-            if (temp == null) {
-                this.setRoot(top);
-            }
-            else if (top.getKey() < temp.getKey()) {
-                temp.setlChild(top);
-            }
-            else {
-                temp.setrChild(top);
-            }
-        }
-    }
-    
-    // generated 2024-03-20 GPT 4 turbo
-    public boolean validateRBCorrect()
-    {
-        // Property 2: The root is always black. If root is null, the tree is considered valid.
-        if (this.getRoot() != null && !isBlack(( RBTreeNode ) this.getRoot())) {
-            return false;
-        }
-        
-        // Use a helper method to validate properties 3, 4, and 5
-        return validateNode(( RBTreeNode ) this.getRoot(), 0) != -1;
-    }
-    
-    // generated 2024-03-20 GPT 4 turbo
-    private boolean isBlack(RBTreeNode node)
-    {
-        return node == null || node.isBlack();
-    }
-    
     // generated 2024-03-20 GPT 4 turbo
     private int validateNode(RBTreeNode node, int blackCount)
     {
@@ -264,6 +264,7 @@ public class RBTree extends Tree {
         return leftBlackCount; // Or rightBlackCount, they're equal if valid
     }
     
+// DEMO
     private static class RBTreeDemo {
         
         public static void main(String[] args)
@@ -289,5 +290,6 @@ public class RBTree extends Tree {
         }
         
     }
-    
+// DEMO end
+
 }
