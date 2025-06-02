@@ -12,79 +12,69 @@ public class ITree {
         INode parent, curr;
         parent = curr = root;
         boolean isLeftChild = true;
-        while (curr.key != key) {
+        while (curr.getKey() != key) {
             parent = curr;
-            if (key < curr.key) {
+            if (key < curr.getKey()) {
                 isLeftChild = true;
-                curr        = curr.lChild;
+                curr        = curr.getlChild();
             }
             else {
                 isLeftChild = false;
-                curr        = curr.rChild;
+                curr        = curr.getrChild();
             }
             if (curr == null) return null;
         }
         INode deleted = curr;
-        // begin case: 0 child
-        if (curr.lChild == null && curr.rChild == null) {
+        // case 0 children
+        if (curr.getlChild() == null && curr.getrChild() == null) {
             if (curr == root) {
                 root = null;
             }
             else if (isLeftChild) {
-                parent.lChild = null;
+                parent.setlChild(null);
             }
             else {
-                parent.rChild = null;
+                parent.setrChild(null);
             }
         }
-        // end case: 0 child
-        // begin case: 1 child
-        // child left
-        else if (curr.rChild == null) {
-            // special case: node to be deleted root
+        // case 1 child: only left
+        else if (curr.getrChild() == null) {
             if (curr == root) {
-                root = curr.lChild;
+                root = curr.getlChild();
             }
-            // child of left
             else if (isLeftChild) {
-                parent.lChild = curr.lChild;
+                parent.setlChild(curr.getlChild());
             }
-            // child of right
             else {
-                parent.rChild = curr.rChild;
+                parent.setrChild(curr.getlChild());
             }
         }
-        // child right
-        else if (curr.lChild == null) {
-            // special case: node to be deleted root
+        // case 1 child: only right
+        else if (curr.getlChild() == null) {
             if (curr == root) {
-                root = curr.rChild;
+                root = curr.getrChild();
             }
-            // child of left
             else if (isLeftChild) {
-                parent.lChild = curr.rChild;
+                parent.setlChild(curr.getrChild());
             }
-            // child of right
             else {
-                parent.rChild = curr.rChild;
+                parent.setrChild(curr.getrChild());
             }
         }
-        // end case: 1 child
-        // begin case: 2 child
+        // case 2 children
         else {
             INode successor = getSuccessor(curr);
             if (curr == root) {
                 root = successor;
             }
             else if (isLeftChild) {
-                parent.lChild = successor;
+                parent.setlChild(successor);
             }
             else {
-                parent.rChild = successor;
+                parent.setrChild(successor);
             }
-            successor.lChild = curr.lChild;
+            successor.setlChild(curr.getlChild());
         }
-        // end case: 2 child
         return deleted;
     }
     
@@ -109,15 +99,13 @@ public class ITree {
             for (int i = 0; i < nBlanks; i++) {
                 System.out.print(' ');
             }
-            
             while (!globalStack.isEmpty()) {
                 INode temp = globalStack.pop();
                 if (temp != null) {
-                    System.out.print(temp.key);
-                    localStack.push(temp.lChild);
-                    localStack.push(temp.rChild);
-                    
-                    if (temp.lChild != null || temp.rChild != null) {
+                    System.out.print(temp.getKey());
+                    localStack.push(temp.getlChild());
+                    localStack.push(temp.getrChild());
+                    if (temp.getlChild() != null || temp.getrChild() != null) {
                         isRowEmpty = false;
                     }
                 }
@@ -142,12 +130,12 @@ public class ITree {
     public INode find(int key)
     {
         INode current = root;
-        while (current != null && current.key != key) {
-            if (key < current.key) {
-                current = current.lChild;
+        while (current != null && current.getKey() != key) {
+            if (key < current.getKey()) {
+                current = current.getlChild();
             }
             else {
-                current = current.rChild;
+                current = current.getrChild();
             }
         }
         return current;
@@ -164,19 +152,17 @@ public class ITree {
             INode parent;
             while (true) {
                 parent = current;
-                // less than - left
-                if (key < current.key) {
-                    current = current.lChild;
+                if (key < current.getKey()) {
+                    current = current.getlChild();
                     if (current == null) {
-                        parent.lChild = insert;
+                        parent.setlChild(insert);
                         return;
                     }
                 }
-                //  greater than or equal - right
                 else {
-                    current = current.rChild;
+                    current = current.getrChild();
                     if (current == null) {
-                        parent.rChild = insert;
+                        parent.setrChild(insert);
                         return;
                     }
                 }
@@ -184,12 +170,13 @@ public class ITree {
         }
     }
     
-    public INode max() {
-        INode max = null;
+    public INode max()
+    {
+        INode max     = null;
         INode current = root;
         while (current != null) {
-            max = current;
-            current = current.rChild;
+            max     = current;
+            current = current.getrChild();
         }
         return max;
     }
@@ -200,7 +187,7 @@ public class ITree {
         INode current = root;
         while (current != null) {
             min     = current;
-            current = current.lChild;
+            current = current.getlChild();
         }
         return min;
     }
@@ -226,48 +213,46 @@ public class ITree {
     void inOrder(INode localRoot)
     {
         if (localRoot != null) {
-            inOrder(localRoot.lChild);
-            System.out.println(localRoot.key + " ");
-            inOrder(localRoot.rChild);
+            inOrder(localRoot.getlChild());
+            System.out.println(localRoot.getKey() + " ");
+            inOrder(localRoot.getrChild());
         }
     }
     
     void postOrder(INode localRoot)
     {
         if (localRoot != null) {
-            postOrder(localRoot.lChild);
-            postOrder(localRoot.rChild);
-            System.out.println(localRoot.key + " ");
+            postOrder(localRoot.getlChild());
+            postOrder(localRoot.getrChild());
+            System.out.println(localRoot.getKey() + " ");
         }
     }
     
     void preOrder(INode localRoot)
     {
         if (localRoot != null) {
-            System.out.println(localRoot.key + " ");
-            preOrder(localRoot.lChild);
-            preOrder(localRoot.rChild);
+            System.out.println(localRoot.getKey() + " ");
+            preOrder(localRoot.getlChild());
+            preOrder(localRoot.getrChild());
         }
     }
     
     private INode getSuccessor(INode delNode)
     {
-        INode paren, successor, curr;
-        paren = successor = delNode;
-        curr  = delNode.rChild;
+        INode parent = delNode, successor = delNode, curr = delNode.getrChild();
         while (curr != null) {
-            paren     = successor;
+            parent    = successor;
             successor = curr;
-            curr      = curr.lChild;
+            curr      = curr.getlChild();
         }
-        if (successor != delNode.rChild) {
-            paren.lChild     = successor.rChild;
-            successor.rChild = delNode.rChild;
+        if (successor != delNode.getrChild()) {
+            parent.setlChild(successor.getrChild());
+            successor.setrChild(delNode.getrChild());
         }
         return successor;
     }
     
-// DEMO
+    // DEMO
     private static class TreeDemo {
         
         public static void main(String[] args)
@@ -282,6 +267,5 @@ public class ITree {
         }
         
     }
-// DEMO end
-
+    // DEMO end
 }
