@@ -8,8 +8,7 @@ class ITree {
 
     fun delete(key: Int): INode? {
         var parent: INode
-        var curr: INode
-        curr = root!!
+        var curr = root ?: return null
         parent = curr
         var isLeftChild = true
         while (curr.getKey() != key) {
@@ -21,7 +20,6 @@ class ITree {
                 isLeftChild = false
                 curr = curr.getrChild()
             }
-            if (curr == null) return null
         }
         val deleted = curr
         // case 0 children
@@ -29,36 +27,48 @@ class ITree {
             if (curr === root) {
                 root = null
             } else if (isLeftChild) {
+                curr.setParent(null)
                 parent.setlChild(null)
             } else {
+                curr.setParent(null)
                 parent.setrChild(null)
             }
         } else if (curr.getrChild() == null) {
             if (curr === root) {
                 root = curr.getlChild()
+                root?.setParent(null)
             } else if (isLeftChild) {
                 parent.setlChild(curr.getlChild())
+                parent.getlChild().setParent(parent)
             } else {
                 parent.setrChild(curr.getlChild())
+                parent.getrChild().setParent(parent)
             }
         } else if (curr.getlChild() == null) {
             if (curr === root) {
                 root = curr.getrChild()
+                root?.setParent(null)
             } else if (isLeftChild) {
                 parent.setlChild(curr.getrChild())
+                parent.getlChild().setParent(parent)
             } else {
                 parent.setrChild(curr.getrChild())
+                parent.getrChild().setParent(parent)
             }
         } else {
             val successor = getSuccessor(curr)
             if (curr === root) {
                 root = successor
+                root?.setParent(null)
             } else if (isLeftChild) {
                 parent.setlChild(successor)
+                parent.getlChild().setParent(parent)
             } else {
                 parent.setrChild(successor)
+                parent.getrChild().setParent(parent)
             }
             successor.setlChild(curr.getlChild())
+            curr.getlChild()?.setParent(successor)
         }
         return deleted
     }
@@ -135,12 +145,14 @@ class ITree {
                     current = current.getlChild()
                     if (current == null) {
                         parent!!.setlChild(insert)
+                        insert.setParent(parent)
                         return
                     }
                 } else {
                     current = current.getrChild()
                     if (current == null) {
                         parent!!.setrChild(insert)
+                        insert.setParent(parent)
                         return
                     }
                 }
@@ -222,7 +234,9 @@ class ITree {
         }
         if (successor !== delNode.getrChild()) {
             parent.setlChild(successor.getrChild())
+            successor.getrChild()?.setParent(parent)
             successor.setrChild(delNode.getrChild())
+            delNode.getrChild()?.setParent(successor)
         }
         return successor
     }
