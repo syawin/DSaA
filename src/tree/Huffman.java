@@ -77,9 +77,9 @@ public class Huffman {
         }
         while (priorityQueue.length() > 1) {
             TreeNode x = (TreeNode) priorityQueue.removeFirst()
-                                                 .getVal();
+                                                 .getValue();
             TreeNode y = (TreeNode) priorityQueue.removeFirst()
-                                                 .getVal();
+                                                 .getValue();
             int sum = x.getKey() + y.getKey();
             TreeNode newRoot = new TreeNode.Builder(sum, null).leftChild(x)
                                                               .rightChild(y)
@@ -88,7 +88,7 @@ public class Huffman {
             priorityQueue.insertInOrder(wrapper);
         }
         this.hTree = new Tree((TreeNode) priorityQueue.getFirst()
-                                                      .getVal());
+                                                      .getValue());
         hTree.displayTree(64);
     }
 
@@ -107,7 +107,7 @@ public class Huffman {
                     hPtr = hPtr.getrChild();
                 }
             }
-            decoded.append(hPtr.getVal());
+            decoded.append(hPtr.getValue());
         }
         return decoded.toString();
     }
@@ -125,7 +125,7 @@ public class Huffman {
     {
         if (root == null) return;
         if (root.isLeaf()) {
-            int i = SIMPLE_ALPHA.indexOf((char) root.getVal());
+            int i = SIMPLE_ALPHA.indexOf((char) root.getValue());
             codeTable[i] = bitString;
         }
         else {
@@ -134,6 +134,7 @@ public class Huffman {
         }
     }
 
+// DEMO
     private static class Demo {
 
         public static void main(String[] args)
@@ -150,5 +151,6 @@ public class Huffman {
         }
 
     }
+// DEMO end
 
 }

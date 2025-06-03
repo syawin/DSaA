@@ -3,33 +3,39 @@ package tree;
 public class INode {
     
     int    key;
-    INode  lChild;
-    INode  rChild;
-    double val;
+    INode lChild;
+    INode parent;
+    INode rChild;
+    double value;
     
-    public INode(int key, double val)
+    public INode(int key, double value)
     {
-        this.key = key;
-        this.val = val;
+        this.key   = key;
+        this.value = value;
     }
     
-    public INode(int key, double val, INode lChild, INode rChild)
+    public INode(int key, double value, INode lChild, INode rChild)
     {
         this.key    = key;
-        this.val    = val;
+        this.value  = value;
         this.lChild = lChild;
         this.rChild = rChild;
     }
     
-// getter
+    // getter
     public int getKey()
     {
         return key;
     }
     
-    public double getVal()
+    public INode getParent()
     {
-        return val;
+        return parent;
+    }
+    
+    public double getValue()
+    {
+        return value;
     }
     
     public INode getlChild()
@@ -41,17 +47,22 @@ public class INode {
     {
         return rChild;
     }
-// getter end
+    // getter end
 
-// setter
+    // setter
     public void setKey(int key)
     {
         this.key = key;
     }
-    
-    public void setVal(double val)
+
+    public void setParent(INode parent)
     {
-        this.val = val;
+        this.parent = parent;
+    }
+    
+    public void setValue(double value)
+    {
+        this.value = value;
     }
     
     public void setlChild(INode lChild)
@@ -63,7 +74,7 @@ public class INode {
     {
         this.rChild = rChild;
     }
-// setter end
+    // setter end
     
     @Override
     public String toString()
@@ -72,7 +83,7 @@ public class INode {
                + "key="
                + key
                + ", val="
-               + val
+               + value
                + ", lChild="
                + lChild
                + ", rChild="

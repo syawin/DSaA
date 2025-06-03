@@ -40,7 +40,7 @@ public class Heap {
     {
         if (index < 0 || index >= currentSize) return false;
         Node oldVal = heap[index];
-        heap[index] = new Node.Builder(newKey, oldVal.getVal()).build();
+        heap[index] = new Node.Builder(newKey, oldVal.getValue()).build();
         if (oldVal.getKey() < newKey) { trickleUp(index); }
         else { trickleDown(index); }
         return true;

@@ -49,15 +49,10 @@ public class NodeLL implements Iterable<LinkedNode> {
         return curr;
     }
 
-    public boolean isEmpty()
-    {
-        return first == null;
-    }
-
     public void insertFirst(Node node)
     {
-        LinkedNode linkedNode = new LinkedNode.Builder(node.getKey(), node.getVal()).next(first)
-                                                                                    .build();
+        LinkedNode linkedNode = new LinkedNode.Builder(node.getKey(), node.getValue()).next(first)
+                                                                                      .build();
         if (size == 0) this.last = linkedNode;
         this.first = linkedNode;
         size++;
@@ -66,7 +61,7 @@ public class NodeLL implements Iterable<LinkedNode> {
     public void insertInOrder(Node node)
     {
         LinkedNode newLink, prev, curr;
-        newLink = new LinkedNode.Builder(node.getKey(), node.getVal()).build();
+        newLink = new LinkedNode.Builder(node.getKey(), node.getValue()).build();
         prev    = null;
         curr    = this.first;
 
@@ -87,7 +82,7 @@ public class NodeLL implements Iterable<LinkedNode> {
 
     public void insertLast(Node node)
     {
-        LinkedNode linkedNode = new LinkedNode.Builder(node.getKey(), node.getVal()).build();
+        LinkedNode linkedNode = new LinkedNode.Builder(node.getKey(), node.getValue()).build();
         if (isEmpty()) {
             first = last = linkedNode;
         }
@@ -96,6 +91,11 @@ public class NodeLL implements Iterable<LinkedNode> {
             last = linkedNode;
         }
         size++;
+    }
+
+    public boolean isEmpty()
+    {
+        return first == null;
     }
 
     @NotNull
@@ -167,6 +167,7 @@ public class NodeLL implements Iterable<LinkedNode> {
 
     }
 
+// DEMO
     private static final class Demo {
 
         public static void main(String[] args)
@@ -191,5 +192,6 @@ public class NodeLL implements Iterable<LinkedNode> {
         }
 
     }
+// DEMO end
 
 }
