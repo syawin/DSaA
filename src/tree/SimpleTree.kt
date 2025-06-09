@@ -8,7 +8,6 @@ class SimpleTree {
     var itemCount: Int = 0
         private set
 
-    @Synchronized
     /**
      * Retrieves the node located at the specified index within the binary tree.
      *
@@ -16,6 +15,7 @@ class SimpleTree {
      * @return The node located at the specified index, or null if the path to the node is broken.
      * @throws IndexOutOfBoundsException If the tree is empty, the index is out of range, or the path is invalid.
      */
+    @Synchronized
     operator fun get(index: Int): SimpleNode? {
         if (itemCount == 0) throw IndexOutOfBoundsException("Tree is empty")
         if (index < 1 || index > itemCount) throw IndexOutOfBoundsException("Index $index is invalid")
@@ -23,7 +23,7 @@ class SimpleTree {
         var result = root
         val path = convertDecimal2BinaryString(index)
         for (char in path) {
-            if (result == null) throw IndexOutOfBoundsException("Tree path to $index is broken")
+            if (result == null) throw NullPointerException("Tree path to $index is broken")
             @Suppress("LiftReturnOrAssignment")
             when (char) {
                 '0' -> result = result.left
@@ -56,6 +56,23 @@ class SimpleTree {
     }
 
     /**
+     * Rearranges elements in the binary heap by moving the node at the specified index upward,
+     * ensuring the heap property is maintained. The node is swapped with its parent if its key
+     * is greater than the parent's key.
+     *
+     * @param index The 1-based index of the node to start the upward adjustment.
+     *              Must be within the range [1, itemCount].
+     */
+    private fun trickleUp(index: Int) {
+        var heapIndex: Int = index
+        while (heapIndex > 1 && this[heapIndex]!!.key!! > this[heapIndex / 2]!!.key!!) {
+            // swap with parent
+            swapKeys(heapIndex, heapIndex / 2)
+            heapIndex /= 2
+        }
+    }
+
+    /**
      * Inserts a new key into the tree. If the tree is empty, the provided key will initialize the root node.
      * Otherwise, the new key will be added as a child to an appropriate parent node in a binary tree structure.
      *
@@ -78,6 +95,7 @@ class SimpleTree {
             val isRightChild = itemCount % 2 == 1
             attachNewNodeToParent(parentNode, createdNode, isRightChild)
         }
+        trickleUp(itemCount)
     }
 
     /**
