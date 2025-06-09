@@ -72,6 +72,14 @@ class SimpleTree {
         }
     }
 
+    private fun trickleUp(node: SimpleNode) {
+        var ptr = node
+        while (ptr.parent != null && ptr.key!! > ptr.parent!!.key!!) {
+            swapKeys(ptr, ptr.parent!!)
+            ptr = ptr.parent!!
+        }
+    }
+
     /**
      * Inserts a new key into the tree. If the tree is empty, the provided key will initialize the root node.
      * Otherwise, the new key will be added as a child to an appropriate parent node in a binary tree structure.
@@ -89,13 +97,14 @@ class SimpleTree {
         val node = this[itemCount]
         if (node != null) {
             node.key = key
+            trickleUp(node)
         } else {
             val createdNode = SimpleNode(key)
             val parentNode = this[itemCount / 2]
             val isRightChild = itemCount % 2 == 1
             attachNewNodeToParent(parentNode, createdNode, isRightChild)
+            trickleUp(createdNode)
         }
-        trickleUp(itemCount)
     }
 
     /**
@@ -125,6 +134,21 @@ class SimpleTree {
         val temp = this[index1]?.key
         this[index1]?.key = this[index2]?.key
         this[index2]?.key = temp
+    }
+
+    /**
+     * Swaps the keys of two given nodes within the binary tree.
+     *
+     * @param index1 The first node whose key is to be swapped.
+     * @param index2 The second node whose key is to be swapped.
+     */
+    private fun swapKeys(
+        index1: SimpleNode,
+        index2: SimpleNode,
+    ) {
+        val temp = index1.key
+        index1.key = index2.key
+        index2.key = temp
     }
 
     /**
