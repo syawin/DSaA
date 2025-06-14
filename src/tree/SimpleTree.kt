@@ -5,6 +5,9 @@ import common.convertDecimal2BinaryString
 class SimpleTree {
     @Volatile
     var root: SimpleNode? = null
+        private set
+    var last: SimpleNode? = null
+        private set
     var itemCount: Int = 0
         private set
 
@@ -72,6 +75,12 @@ class SimpleTree {
         }
     }
 
+    /**
+     * Moves a node upward in the binary heap to restore the heap property,
+     * swapping it with its parent if its key is greater than the parent's key.
+     *
+     * @param node The node to be moved upward in the binary heap. Must not be null.
+     */
     private fun trickleUp(node: SimpleNode) {
         var ptr = node
         while (ptr.parent != null && ptr.key!! > ptr.parent!!.key!!) {
@@ -79,6 +88,37 @@ class SimpleTree {
             ptr = ptr.parent!!
         }
     }
+
+    /**
+     * Moves the given node downward within a binary heap to restore the heap property.
+     * The method ensures that the node always satisfies the heap condition by swapping
+     * it with its largest child if the largest child is greater than the node itself.
+     *
+     * @param node The node to be moved downward in the binary heap. Must not be null.
+     */
+    private fun trickleDown(node: SimpleNode) {
+        var ptr = node
+        while (ptr.left != null) {
+            val largest = getLargestNode(ptr.left!!, ptr.right)
+            if (ptr.key!! >= largest.key!!) break
+            swapKeys(ptr, largest)
+            ptr = largest
+        }
+    }
+
+    /**
+     * Determines the largest node between two given nodes based on their keys.
+     *
+     * @param firstNode The first node to be compared. Must not be null.
+     * @param secondNode The second node to be compared. Can be null. If null, the first node is returned.
+     * @return The node with the larger key.
+     * If both nodes have the same key, the firstNode is returned
+     *         if it is not null; otherwise, the firstNode is returned.
+     */
+    private fun getLargestNode(
+        firstNode: SimpleNode,
+        secondNode: SimpleNode?,
+    ): SimpleNode = secondNode?.takeIf { it.key!! > firstNode.key!! } ?: firstNode
 
     /**
      * Inserts a new key into the tree. If the tree is empty, the provided key will initialize the root node.
@@ -91,18 +131,21 @@ class SimpleTree {
         if (itemCount == 0) {
             root = root?.apply { this.key = key } ?: SimpleNode(key)
             itemCount++
+            last = root
             return
         }
         itemCount++
         val node = this[itemCount]
         if (node != null) {
             node.key = key
+            last = node
             trickleUp(node)
         } else {
             val createdNode = SimpleNode(key)
             val parentNode = this[itemCount / 2]
             val isRightChild = itemCount % 2 == 1
             attachNewNodeToParent(parentNode, createdNode, isRightChild)
+            last = createdNode
             trickleUp(createdNode)
         }
     }
@@ -115,14 +158,18 @@ class SimpleTree {
      * @return The key of the removed top node, or null if the tree is empty.
      */
     fun removeTop(): Int? {
-        val temp = this[1]?.key
-        swapKeys(1, itemCount)
-        deleteLast()
+        val temp = root?.key
+        root?.let { r ->
+            swapKeys(r, last)
+            deleteLast()
+            trickleDown(r)
+        }
         return temp
     }
 
     /**
      * Swaps the keys of two nodes in the binary tree located at the specified indices.
+     * This version is less efficient because it requires navigating to each node from 'root'.
      *
      * @param index1 The index of the first node whose key is to be swapped.
      * @param index2 The index of the second node whose key is to be swapped.
@@ -138,17 +185,18 @@ class SimpleTree {
 
     /**
      * Swaps the keys of two given nodes within the binary tree.
+     * Faster version because it does not require navigating to each node from 'root'.
      *
-     * @param index1 The first node whose key is to be swapped.
-     * @param index2 The second node whose key is to be swapped.
+     * @param node1 The first node whose key is to be swapped.
+     * @param node2 The second node whose key is to be swapped.
      */
     private fun swapKeys(
-        index1: SimpleNode,
-        index2: SimpleNode,
+        node1: SimpleNode?,
+        node2: SimpleNode?,
     ) {
-        val temp = index1.key
-        index1.key = index2.key
-        index2.key = temp
+        val temp = node1?.key
+        node1?.key = node2?.key
+        node2?.key = temp
     }
 
     /**
@@ -158,10 +206,20 @@ class SimpleTree {
      * @return The key of the deleted last node, or null if the tree is empty or the last node does not exist.
      */
     private fun deleteLast(): Int? {
-        val node = this[itemCount]
-        node?.let {
+        val lastNode = this[itemCount]
+        lastNode?.let {
+            // get the parent. if count % 2 is 0 then parent.left = null. Otherwise parent.right = null
+            val nodeKey = it.key
+            if (itemCount % 2 == 0) {
+                it.parent?.left = null
+            } else {
+                it.parent?.right = null
+            }
+            it.parent = null
             itemCount--
-            return it.key
+            if (itemCount < 1) root = null
+            last = if (itemCount < 1) null else this[itemCount]
+            return nodeKey
         }
         return null
     }
