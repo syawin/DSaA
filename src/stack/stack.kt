@@ -97,10 +97,7 @@ internal class BracketChecker(
                 '}', ']', ')' ->
                     if (!stackX.isEmpty) {
                         val pop = stackX.pop()
-                        if ((c == '}' && pop != '{') ||
-                            (c == ']' && pop != '[') ||
-                            (c == ')' && pop != '(')
-                        ) {
+                        if ((c == '}' && pop != '{') || (c == ']' && pop != '[') || (c == ')' && pop != '(')) {
                             println("Error: $c at $i")
                         }
                     } else {
