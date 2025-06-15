@@ -1,4 +1,4 @@
-@file:Suppress("ktlint:standard:filename", "unused")
+@file:Suppress("ktlint:standard:filename", "unused", "MemberVisibilityCanBePrivate")
 
 package stack
 
@@ -92,8 +92,7 @@ internal class BracketChecker(
         val stackSize = input.length
         val stackX = StackX(stackSize)
         for (i in 0 until stackSize) {
-            val c = input[i]
-            when (c) {
+            when (val c = input[i]) {
                 '{', '[', '(' -> stackX.push(c)
                 '}', ']', ')' ->
                     if (!stackX.isEmpty) {
