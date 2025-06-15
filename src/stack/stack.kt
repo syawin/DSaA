@@ -1,193 +1,165 @@
-package stack;
+@file:Suppress("ktlint:standard:filename", "unused")
 
-import queue.Dequeue;
+package stack
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import queue.Dequeue
+import java.io.BufferedReader
+import java.io.IOException
+import java.io.InputStreamReader
 
 // Reversing a String with Stacks
 // Stack push/pop = O(1)
-@SuppressWarnings("BooleanMethodIsAlwaysInverted")
-class StackX {
-    private final int maxSize;
-    private char[] stackArray;
-    private int top;
+internal class StackX(
+    private val maxSize: Int,
+) {
+    private val stackArray = CharArray(this.maxSize)
+    private var top = -1
 
-    public StackX(int maxSize) {
-        this.maxSize = maxSize;
-        this.stackArray = new char[this.maxSize];
-        this.top = -1;
+    fun push(c: Char) {
+        stackArray[++top] = c
     }
 
-    public void push(char c) {
-        stackArray[++top] = c;
-    }
+    fun pop(): Char = stackArray[top--]
 
-    public char pop() {
-        return stackArray[top--];
-    }
+    fun peek(): Char = stackArray[top]
 
-    public char peek() {
-        return stackArray[top];
-    }
+    fun peekN(n: Int): String = stackArray[n].toString()
 
-    public String peekN(int n) {
-        return String.valueOf(stackArray[n]);
-    }
+    val isEmpty: Boolean
+        get() = top == -1
 
-    public boolean isEmpty() {
-        return top == -1;
-    }
+    fun size(): Int = top + 1
 
-    public int size() {
-        return top + 1;
-    }
-
-    public void displayStack(String s) {
-        System.out.print(s);
-        System.out.print("Stack (bottom->top):\t");
-        for (int i = 0; i < size(); i++) {
-            System.out.print(peekN(i) + " ");
+    fun displayStack(s: String?) {
+        print(s)
+        print("Stack (bottom->top):\t")
+        for (i in 0 until size()) {
+            print(peekN(i) + " ")
         }
-        System.out.println();
+        println()
     }
 }
 
-class StackXDQ {
-    private final Dequeue dequeue;
+internal class StackXDQ(
+    maxSize: Int,
+) {
+    private val dequeue = Dequeue(maxSize)
 
-    StackXDQ(int maxSize) {
-        dequeue = new Dequeue(maxSize);
+    fun push(l: Long) {
+        dequeue.insertLeft(l)
     }
 
-    public void push(long l) {dequeue.insertLeft(l);}
+    fun pop(): Long = dequeue.removeLeft()
 
-    public long pop() {
-        return dequeue.removeLeft();
+    fun peek(): Long {
+        val temp = dequeue.removeLeft()
+        dequeue.insertLeft(temp)
+        return temp
     }
 
-    public long peek() {
-        long temp = dequeue.removeLeft();
-        dequeue.insertLeft(temp);
-        return temp;
-    }
+    fun size(): Long = dequeue.size().toLong()
 
-    public long size() {
-        return dequeue.size();
-    }
-
-    public boolean isEmpty() {
-        return dequeue.size() == 0;
-    }
+    val isEmpty: Boolean
+        get() = dequeue.size() == 0
 }
 
 // Reverse a string using a stack
-class Reverser {
-    private String input;
-    private String output;
+internal class Reverser(
+    private val input: String,
+) {
+    private var output: String? = null
 
-    public Reverser(String input) {
-        this.input = input;
-    }
-
-    @SuppressWarnings("StringConcatenationInLoop")
-    public String doReverse() {
-        int stackSize = input.length();
-        StackX stackX = new StackX(stackSize);
-        for (int i = 0; i < input.length(); i++) {
-            char c = input.charAt(i);
-            stackX.push(c);
+    fun doReverse(): String? {
+        val stackSize = input.length
+        val stackX = StackX(stackSize)
+        for (element in input) {
+            stackX.push(element)
         }
-        output = "";
-        while (!stackX.isEmpty()) {
-            char c = stackX.pop();
-            output += c;
+        output = ""
+        while (!stackX.isEmpty) {
+            val c = stackX.pop()
+            output += c
         }
-        return output;
+        return output
     }
 }
 
 // Use a stack to match brackets
-class BracketChecker {
-    private final String input;
-
-    public BracketChecker(String input) {
-        this.input = input;
-    }
-
-    public void check() {
-        int stackSize = input.length();
-        StackX stackX = new StackX(stackSize);
-        for (int i = 0; i < stackSize; i++) {
-            char c = input.charAt(i);
-            switch (c) {
-                case '{':
-                case '[':
-                case '(':
-                    stackX.push(c);
-                    break;
-                case '}':
-                case ']':
-                case ')':
-                    if (!stackX.isEmpty()) {
-                        char pop = stackX.pop();
-                        if ((c == '}' && pop != '{')
-                                || (c == ']' && pop != '[')
-                                || (c == ')' && pop != '(')) {
-                            System.out.println("Error: " + c + " at " + i);
+internal class BracketChecker(
+    private val input: String,
+) {
+    fun check() {
+        val stackSize = input.length
+        val stackX = StackX(stackSize)
+        for (i in 0 until stackSize) {
+            val c = input[i]
+            when (c) {
+                '{', '[', '(' -> stackX.push(c)
+                '}', ']', ')' ->
+                    if (!stackX.isEmpty) {
+                        val pop = stackX.pop()
+                        if ((c == '}' && pop != '{') ||
+                            (c == ']' && pop != '[') ||
+                            (c == ')' && pop != '(')
+                        ) {
+                            println("Error: $c at $i")
                         }
-                    } else
-                        System.out.println("Error: " + c + " at " + i);
-                    break;
-                default:
-                    break;
+                    } else {
+                        println("Error: $c at $i")
+                    }
+
+                else -> {}
             }
         }
-        if (!stackX.isEmpty()) {
-            System.out.println("Error: missing closing delimiter");
+        if (!stackX.isEmpty) {
+            println("Error: missing closing delimiter")
         }
     }
 }
 
-abstract class IOUtility {
-    static String readNextString() throws IOException {
-        InputStreamReader inputStreamReader = new InputStreamReader(System.in);
-        BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-        return bufferedReader.readLine();
+internal object IOUtility {
+    @JvmStatic
+    @Throws(IOException::class)
+    fun readNextString(): String {
+        val inputStreamReader = InputStreamReader(System.`in`)
+        val bufferedReader = BufferedReader(inputStreamReader)
+        return bufferedReader.readLine()
     }
 }
 
-class ReverserApp {
-    public static void main(String[] args) throws IOException {
-        String input, output;
+internal object ReverserApp {
+    @Throws(IOException::class)
+    @JvmStatic
+    fun main(args: Array<String>) {
+        var input: String
+        var output: String?
         while (true) {
-            System.out.print("Enter a string:");
-            System.out.flush();
-            input = IOUtility.readNextString();
-            if (input.equals(""))
-                break;
+            print("Enter a string:")
+            System.out.flush()
+            input = IOUtility.readNextString()
+            if (input == "") break
 
-            Reverser reverser = new Reverser(input);
-            output = reverser.doReverse();
-            System.out.println("Reversed:\t" + output);
+            val reverser = Reverser(input)
+            output = reverser.doReverse()
+            println("Reversed:\t$output")
         }
     }
-
 }
 
-class BracketsApp {
-    public static void main(String[] args) throws IOException {
-        String input;
+internal object BracketsApp {
+    @Throws(IOException::class)
+    @JvmStatic
+    fun main(args: Array<String>) {
+        var input: String
         while (true) {
-            System.out.print("\tEnter string containing delimiters:\t");
-            System.out.flush();
-            input = IOUtility.readNextString();
-            if (input.equals("")) {
-                break;
+            print("\tEnter string containing delimiters:\t")
+            System.out.flush()
+            input = IOUtility.readNextString()
+            if (input == "") {
+                break
             }
-            BracketChecker checker = new BracketChecker(input);
-            checker.check();
+            val checker = BracketChecker(input)
+            checker.check()
         }
     }
 }
