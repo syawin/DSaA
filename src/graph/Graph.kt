@@ -43,11 +43,33 @@ class Graph(
 
             if (adjacentVertex == -1) {
                 collection.remove()
-                // For queue, we already removed the vertex above
             } else {
                 vertexList[adjacentVertex]?.wasVisited = true
                 displayVertex(adjacentVertex)
                 collection.add(adjacentVertex)
+            }
+        }
+        println()
+        resetFlags()
+    }
+
+    fun minimumSpanningTree() {
+        val collection = IntegerStack(maxSize)
+        vertexList[0]?.wasVisited = true
+        collection.add(0)
+
+        while (!collection.isEmpty) {
+            val currentVertex = collection.peek()
+            val v = getAdjacentUnvisitedVertexIndex(currentVertex)
+            if (v == -1) {
+                collection.remove()
+            } else {
+                vertexList[v]?.wasVisited = true
+                collection.add(v)
+
+                displayVertex(currentVertex)
+                displayVertex(v)
+                print(" ")
             }
         }
         println()
@@ -104,4 +126,7 @@ fun main() {
 
     print("BFS Visits: ")
     graph.breadthFirstSearch()
+
+    print("MST Visits: ")
+    graph.minimumSpanningTree()
 }
