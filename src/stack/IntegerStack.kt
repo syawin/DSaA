@@ -1,36 +1,32 @@
 package stack
 
-/**
- * A stack implementation for integer values.
- * Operations push/pop have O(1) time complexity.
- *
- * @property maxSize Maximum size of the stack.
- */
+import graph.IntegerCollection
+
 class IntegerStack(
     private val maxSize: Int,
-) {
+) : IntegerCollection {
     private val stackArray = IntArray(maxSize)
     private var top = -1
 
-    /**
-     * Checks if the stack is empty.
-     */
-    val isEmpty: Boolean
+    override val isEmpty: Boolean
         get() = top == -1
+    override val isFull: Boolean
+        get() = size == maxSize
 
-    /**
-     * Returns the current size of the stack.
-     */
-    val size: Int
+    override val size: Int
         get() = top + 1
 
-    /**
-     * Pushes an integer onto the stack.
-     *
-     * @param value The integer to push
-     * @return This stack instance for method chaining
-     * @throws ArrayIndexOutOfBoundsException if stack is full
-     */
+    override fun add(value: Int): IntegerStack = push(value)
+
+    override fun remove(): Int = pop()
+
+    override fun peek(): Int {
+        if (isEmpty) {
+            throw NoSuchElementException("Stack is empty")
+        }
+        return stackArray[top]
+    }
+
     fun push(value: Int): IntegerStack {
         if (top >= maxSize - 1) {
             throw ArrayIndexOutOfBoundsException("Stack overflow")
@@ -39,25 +35,6 @@ class IntegerStack(
         return this
     }
 
-    /**
-     * Retrieves the top element without removing it.
-     *
-     * @return The top element
-     * @throws NoSuchElementException if stack is empty
-     */
-    fun peek(): Int {
-        if (isEmpty) {
-            throw NoSuchElementException("Stack is empty")
-        }
-        return stackArray[top]
-    }
-
-    /**
-     * Removes and returns the top element.
-     *
-     * @return The top element
-     * @throws NoSuchElementException if stack is empty
-     */
     fun pop(): Int {
         if (isEmpty) {
             throw NoSuchElementException("Stack is empty")

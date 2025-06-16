@@ -1,62 +1,31 @@
-@file:Suppress("unused", "MemberVisibilityCanBePrivate")
-
 package queue
 
+import graph.IntegerCollection
+
 /**
- * A queue implementation for integer values.
- * Operations insert/remove have O(1) time complexity.
+ * A circular queue implementation for storing integer values.
  *
- * @property maxSize Maximum size of the queue.
+ * @property maxSize specifies the maximum number of elements the queue can hold.
  */
 class IntegerQ(
     private val maxSize: Int,
-) {
+) : IntegerCollection {
     private val queueArray = IntArray(maxSize)
     private var front = 0
     private var rear = -1
     private var nItems = 0
-
-    /**
-     * Checks if the queue is empty.
-     */
-    val isEmpty: Boolean
-        get() = nItems == 0
-
-    /**
-     * Checks if the queue is full.
-     */
-    val isFull: Boolean
+    override val isFull: Boolean
         get() = nItems == maxSize
 
-    /**
-     * Returns the current size of the queue.
-     */
-    val size: Int
+    override val isEmpty: Boolean
+        get() = nItems == 0
+
+    override val size: Int
         get() = nItems
 
-    /**
-     * Inserts an integer at the rear of the queue.
-     *
-     * @param value The integer to insert
-     * @return This queue instance for method chaining
-     */
-    fun insert(value: Int): IntegerQ {
-        if (isFull) return this
-        if (rear == maxSize - 1) {
-            rear = -1
-        }
-        queueArray[++rear] = value
-        nItems++
-        return this
-    }
+    override fun add(value: Int): IntegerQ = insert(value)
 
-    /**
-     * Removes and returns the front element.
-     *
-     * @return The front element
-     * @throws NoSuchElementException if the queue is empty
-     */
-    fun remove(): Int {
+    override fun remove(): Int {
         if (isEmpty) {
             throw NoSuchElementException("Queue is empty")
         }
@@ -68,12 +37,18 @@ class IntegerQ(
         return temp
     }
 
-    /**
-     * Retrieves the front element without removing it.
-     *
-     * @return The front element
-     * @throws NoSuchElementException if the queue is empty
-     */
+    override fun peek(): Int = peekFront()
+
+    fun insert(value: Int): IntegerQ {
+        if (isFull) return this
+        if (rear == maxSize - 1) {
+            rear = -1
+        }
+        queueArray[++rear] = value
+        nItems++
+        return this
+    }
+
     fun peekFront(): Int {
         if (isEmpty) {
             throw NoSuchElementException("Queue is empty")
