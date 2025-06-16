@@ -4,8 +4,8 @@ import java.io.IOException;
 
 public class Postfix {
 
-    private StackI stackI;
-    private String input;
+    private String       input;
+    private IntegerStack integerStack;
 
     public Postfix(String input)
     {
@@ -14,28 +14,28 @@ public class Postfix {
 
     public int eval()
     {
-        stackI = new StackI(input.length());
+        integerStack = new IntegerStack(input.length());
         char ch;
         int i, num1, num2, temp = 0;
 
         for (i = 0; i < input.length(); i++) {
             ch = input.charAt(i);
-            stackI.displayStack(ch + " ");
+            integerStack.displayStack(ch + " ");
             if (ch >= '0' && ch <= '9')
-                stackI.push((char) (ch - '0'));
+                integerStack.push((char) (ch - '0'));
             else {
-                num2 = stackI.pop();
-                num1 = stackI.pop();
+                num2 = integerStack.pop();
+                num1 = integerStack.pop();
                 switch (ch) {
                     case '+' -> temp = num1 + num2;
                     case '-' -> temp = num1 - num2;
                     case '*' -> temp = num1 * num2;
                     case '/' -> temp = num1 / num2;
                 }
-                stackI.push(temp);
+                integerStack.push(temp);
             }
         }
-        return stackI.pop();
+        return integerStack.pop();
     }
 
 }

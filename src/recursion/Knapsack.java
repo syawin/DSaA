@@ -1,6 +1,6 @@
 package recursion;
 
-import stack.StackI;
+import stack.IntegerStack;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -8,15 +8,7 @@ import java.util.List;
 
 public class Knapsack {
 
-    public static List<Integer> knapsack(List<Integer> list, int target)
-    {
-        StackI stackI = new StackI(list.size());
-        List<Integer> ans = Collections.emptyList();
-        if (knapRecur(list, target, stackI)) ans = stackI.popAll();
-        return Collections.unmodifiableList(ans);
-    }
-
-    public static boolean knapRecur(List<Integer> arr, int target, StackI ans)
+    public static boolean knapRecur(List<Integer> arr, int target, IntegerStack ans)
     {
         if (arr == null || arr.isEmpty()) {
             return false;
@@ -46,6 +38,15 @@ public class Knapsack {
         return false;
     }
 
+    public static List<Integer> knapsack(List<Integer> list, int target)
+    {
+        IntegerStack  integerStack = new IntegerStack(list.size());
+        List<Integer> ans          = Collections.emptyList();
+        if (knapRecur(list, target, integerStack)) ans = integerStack.popAll();
+        return Collections.unmodifiableList(ans);
+    }
+
+// DEMO
     private static class KnapsackDemo {
 
         public static void main(String[] args)
@@ -57,5 +58,6 @@ public class Knapsack {
         }
 
     }
+// DEMO end
 
 }

@@ -2,7 +2,7 @@
 
 package graph
 
-import stack.StackI
+import stack.IntegerStack
 
 /**
  * A class representing a graph data structure supporting basic vertex and edge management,
@@ -24,7 +24,7 @@ class Graph(
     var vertexList = arrayOfNulls<Vertex?>(maxSize)
     var adjMatrix = Array(maxSize) { Array(maxSize) { false } }
     var numVertex = 0
-    private var theStack = StackI(maxSize)
+    private var theStack = IntegerStack(maxSize)
 
     /**
      * Adds a new vertex to the graph with the specified label.

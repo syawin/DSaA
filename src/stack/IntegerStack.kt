@@ -6,7 +6,7 @@ package stack
  *
  * @property maxSize Maximum size of the stack.
  */
-class StackI(
+class IntegerStack(
     private val maxSize: Int,
 ) {
     private val stackArray = IntArray(maxSize)
@@ -31,7 +31,7 @@ class StackI(
      * @return This stack instance for method chaining
      * @throws ArrayIndexOutOfBoundsException if stack is full
      */
-    fun push(value: Int): StackI {
+    fun push(value: Int): IntegerStack {
         if (top >= maxSize - 1) {
             throw ArrayIndexOutOfBoundsException("Stack overflow")
         }
