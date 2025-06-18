@@ -5,7 +5,7 @@ package graph
 import queue.IntegerQ
 import stack.IntegerStack
 
-class Graph(
+open class Graph(
     val maxSize: Int,
 ) {
     var vertexList = arrayOfNulls<Vertex?>(maxSize)
@@ -16,7 +16,7 @@ class Graph(
         vertexList[numVertex++] = Vertex(label)
     }
 
-    fun addEdge(
+    open fun addEdge(
         start: Int,
         end: Int,
     ) {
