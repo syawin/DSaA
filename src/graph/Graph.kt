@@ -107,19 +107,36 @@ open class Graph(
         }
         return -1
     }
+
+    fun minimumSpanningTreeBFS() {
+        TODO("Not yet implemented")
+    }
 }
 
 fun main() {
-    val graph = Graph(6)
+    val graph = Graph(9)
     graph.addVertex('A') // 0
     graph.addVertex('B') // 1
     graph.addVertex('C') // 2
     graph.addVertex('D') // 3
     graph.addVertex('E') // 4
+    graph.addVertex('F') // 5
+    graph.addVertex('G') // 6
+    graph.addVertex('H') // 7
+    graph.addVertex('I') // 8
+
     graph.addEdge(0, 1) // AB
-    graph.addEdge(1, 2) // BC
     graph.addEdge(0, 3) // AD
+    graph.addEdge(1, 2) // BC
+    graph.addEdge(1, 4) // BE
+    graph.addEdge(2, 5) // CF
     graph.addEdge(3, 4) // DE
+    graph.addEdge(3, 6) // DG
+    graph.addEdge(4, 5) // EF
+    graph.addEdge(4, 7) // EH
+    graph.addEdge(5, 8) // FI
+    graph.addEdge(6, 7) // GH
+    graph.addEdge(7, 8) // HI
 
     print("DFS Visits: ")
     graph.depthFirstSearch()
@@ -127,6 +144,9 @@ fun main() {
     print("BFS Visits: ")
     graph.breadthFirstSearch()
 
-    print("MST Visits: ")
+    print("MST Visits (DFS): ")
     graph.minimumSpanningTree()
+
+    print("MST Visits (BFS): ")
+    graph.minimumSpanningTreeBFS()
 }
