@@ -109,7 +109,20 @@ open class Graph(
     }
 
     fun minimumSpanningTreeBFS() {
-        TODO("Not yet implemented")
+        val collection = IntegerQ(maxSize)
+        vertexList[0]?.wasVisited = true
+        collection.add(0)
+        var v2: Int
+        while (!collection.isEmpty) {
+            val currentVertex = collection.remove()
+            while ((getAdjacentUnvisitedVertexIndex(currentVertex).also { v2 = it }) != -1) {
+                collection.add(v2)
+                vertexList[v2]?.wasVisited = true
+                displayVertex(v2)
+            }
+        }
+        println()
+        resetFlags()
     }
 }
 
