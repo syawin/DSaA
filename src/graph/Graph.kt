@@ -2,6 +2,7 @@
 
 package graph
 
+import linkedlist.LinkedList
 import queue.IntegerQ
 import stack.IntegerStack
 
@@ -10,6 +11,7 @@ open class Graph(
 ) {
     var vertexList = arrayOfNulls<Vertex?>(maxSize)
     var adjMatrix = Array(maxSize) { Array(maxSize) { false } }
+    var adjList = Array(maxSize) { LinkedList() }
     var numVertex = 0
 
     fun addVertex(label: Char) {
@@ -20,6 +22,8 @@ open class Graph(
         start: Int,
         end: Int,
     ) {
+        adjList[start].insertFirst(end.toLong(), 0.0)
+        adjList[end].insertFirst(start.toLong(), 0.0)
         adjMatrix[start][end] = true
         adjMatrix[end][start] = true
     }
@@ -39,6 +43,26 @@ open class Graph(
         while (!collection.isEmpty) {
             val currentVertex = collection.peek()
             val adjacentVertex = getAdjacentUnvisitedVertexIndex(currentVertex)
+            if (adjacentVertex == -1) {
+                collection.remove()
+            } else {
+                vertexList[adjacentVertex]?.wasVisited = true
+                displayVertex(adjacentVertex)
+                collection.add(adjacentVertex)
+            }
+        }
+        println()
+        resetFlags()
+    }
+
+    fun depthFirstSearchAdjList() {
+        val collection = IntegerStack(maxSize)
+        vertexList[0]?.wasVisited = true
+        displayVertex(0)
+        collection.add(0)
+        while (!collection.isEmpty) {
+            val currentVertex = collection.peek()
+            val adjacentVertex = getAdjacentUnvisitedVertexIndexAdjList(currentVertex)
             if (adjacentVertex == -1) {
                 collection.remove()
             } else {
@@ -122,6 +146,13 @@ open class Graph(
         }
         return -1
     }
+
+    private fun getAdjacentUnvisitedVertexIndexAdjList(vertIndex: Int): Int {
+        for (node in adjList[vertIndex]) {
+            if (vertexList[node.key.toInt()]?.wasVisited == false) return node.key.toInt()
+        }
+        return -1
+    }
 }
 
 fun main() {
@@ -151,6 +182,9 @@ fun main() {
 
     print("DFS Visits: ")
     graph.depthFirstSearch()
+
+    print("DFS Visits (adjacency list): ")
+    graph.depthFirstSearchAdjList()
 
     print("BFS Visits: ")
     graph.breadthFirstSearch()

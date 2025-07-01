@@ -3,16 +3,20 @@ package linkedlist;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
-public class LinkedListIterator {
+public class LinkedListIterator implements Iterator<Link> {
     
-    private Link curr, prev;
-    private LinkedList linkedList;
+    private final LinkedList linkedList;
+    private boolean canRemove;
+    private Link    curr, prev;
     
     public LinkedListIterator(LinkedList linkedList)
     {
         this.linkedList = linkedList;
         reset();
+        canRemove = false;
     }
     
     // getter
@@ -24,12 +28,16 @@ public class LinkedListIterator {
     
     public boolean atEnd()
     {
-        return curr.getNext() == null;
+        return curr == null || curr.getNext() == null;
     }
     
     public Link deleteCurrent()
     {
-        Link result = this.getCurrent();
+        if (curr == null) {
+            throw new IllegalStateException("Cannot delete: iterator is at end of list");
+        }
+        
+        Link result = curr;
         // at beginning
         if (prev == null) {
             this.linkedList.setFirst(curr.getNext());
@@ -41,6 +49,12 @@ public class LinkedListIterator {
             else { this.curr = curr.getNext(); }
         }
         return result;
+    }
+    
+    @Override
+    public boolean hasNext()
+    {
+        return curr != null;
     }
     
     public void insertAfter(long iData, double dData)
@@ -77,39 +91,74 @@ public class LinkedListIterator {
         }
     }
     
+    @Override
+    public Link next()
+    {
+        if (!hasNext()) {
+            throw new NoSuchElementException();
+        }
+        Link current = curr;
+        prev      = curr;
+        curr      = curr.getNext();
+        canRemove = true;
+        return current;
+    }
+    
     public void nextLink()
     {
         prev = curr;
         curr = curr.getNext();
     }
     
+    @Override
+    public void remove()
+    {
+        if (!canRemove) {
+            throw new IllegalStateException(
+                    "Cannot remove element: next() has not been called or element already removed");
+        }
+        
+        /*
+         * Pointer situation right now:
+         *   prev  -> element returned by the most recent next()
+         *   curr  -> element that will be returned by the next call to next() (may be null)
+         *
+         * We must unlink `prev` from the underlying list.
+         */
+        
+        // Case 1 – deleting the first node
+        if (linkedList.getFirst() == prev) {
+            linkedList.setFirst(curr);
+            prev = null;                // iterator is now positioned *before* the new first node
+        }
+        else {
+            // Locate the node that precedes `prev`
+            Link beforePrev = linkedList.getFirst();
+            while (beforePrev != null && beforePrev.getNext() != prev) {
+                beforePrev = beforePrev.getNext();
+            }
+            if (beforePrev == null) {
+                throw new IllegalStateException("Iterator is in an inconsistent state");
+            }
+            // Bypass `prev`
+            beforePrev.setNext(curr);
+            // Re-position `prev` one node back so the iterator can continue seamlessly
+            prev = beforePrev;
+        }
+        
+        canRemove = false;              // forbid consecutive remove() calls without next()
+    }
+    
     public void reset()
     {
-        curr = linkedList.getFirst();
-        prev = null;
+        curr      = linkedList.getFirst();
+        prev      = null;
+        canRemove = false;
     }
     
     private static class LinkedListIterApp {
         
         // getter
-        static char getChar() throws IOException
-        {
-            String s = getString();
-            return s.charAt(0);
-        }
-        
-        static int getInt() throws IOException
-        {
-            String s = getString();
-            return Integer.parseInt(s);
-        }
-        
-        static String getString() throws IOException
-        {
-            InputStreamReader streamReader   = new InputStreamReader(System.in);
-            BufferedReader    bufferedReader = new BufferedReader(streamReader);
-            return bufferedReader.readLine();
-        }
         // getter end
         
         public static void main(String[] args) throws IOException
@@ -124,7 +173,7 @@ public class LinkedListIterator {
             iterator.insertAfter(5, 6.66);
             iterator.insertAfter(7, 7.8);
             
-            while (true) {
+            do {
                 System.out.print(
                         "Enter first letter of Show, Reset,\nNext, Get, Before, After, Delete: ");
                 System.out.flush();
@@ -176,8 +225,27 @@ public class LinkedListIterator {
                         System.out.println("Invalid entry.");
                         break;
                 }
-                if (quit) break;
             }
+            while (!quit);
+        }
+        
+        static char getChar() throws IOException
+        {
+            String s = getString();
+            return s.charAt(0);
+        }
+        
+        static int getInt() throws IOException
+        {
+            String s = getString();
+            return Integer.parseInt(s);
+        }
+        
+        static String getString() throws IOException
+        {
+            InputStreamReader streamReader   = new InputStreamReader(System.in);
+            BufferedReader    bufferedReader = new BufferedReader(streamReader);
+            return bufferedReader.readLine();
         }
         
     }
