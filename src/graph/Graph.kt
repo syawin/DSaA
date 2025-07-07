@@ -153,6 +153,33 @@ open class Graph(
         }
         return -1
     }
+
+    /**
+     * Displays the adjacency matrix with vertex labels as headers.
+     * Only shows connections (1s) to reduce visual noise, omitting 0s (no connection).
+     */
+    fun displayAdjacencyMatrix() {
+        // Print header row with vertex labels
+        print("  ")
+        for (i in 0 until numVertex) {
+            print("${vertexList[i]?.label} ")
+        }
+        println()
+
+        // Print each row with vertex label as row header
+        for (i in 0 until numVertex) {
+            print("${vertexList[i]?.label} ")
+            for (j in 0 until numVertex) {
+                // Only print 1s (connections), leave empty for 0s (no connection)
+                if (adjMatrix[i][j]) {
+                    print("1 ")
+                } else {
+                    print("  ")
+                }
+            }
+            println()
+        }
+    }
 }
 
 fun main() {
@@ -194,4 +221,7 @@ fun main() {
 
     print("MST Visits (BFS): ")
     graph.minimumSpanningTreeBFS()
+
+    println("\nAdjacency Matrix:")
+    graph.displayAdjacencyMatrix()
 }

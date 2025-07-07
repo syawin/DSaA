@@ -124,5 +124,8 @@ fun main() {
     theGraph.addEdge(6, 7) // GH
 
     theGraph.connectivityTable()
+    println("\nAdjacency Matrix:")
+    theGraph.displayAdjacencyMatrix()
+
     theGraph.topologicalSort() // do the sort
 }
