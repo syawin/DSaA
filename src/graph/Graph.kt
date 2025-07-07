@@ -35,11 +35,11 @@ open class Graph(
     /**
      * Performs depth-first search using a stack
      */
-    fun depthFirstSearch() {
+    fun depthFirstSearch(startIndex: Int) {
         val collection = IntegerStack(maxSize)
-        vertexList[0]?.wasVisited = true
-        displayVertex(0)
-        collection.add(0)
+        vertexList[startIndex]?.wasVisited = true
+        displayVertex(startIndex)
+        collection.add(startIndex)
         while (!collection.isEmpty) {
             val currentVertex = collection.peek()
             val adjacentVertex = getAdjacentUnvisitedVertexIndex(currentVertex)
@@ -181,7 +181,7 @@ fun main() {
     graph.addEdge(7, 8) // HI
 
     print("DFS Visits: ")
-    graph.depthFirstSearch()
+    graph.depthFirstSearch(0)
 
     print("DFS Visits (adjacency list): ")
     graph.depthFirstSearchAdjList()
