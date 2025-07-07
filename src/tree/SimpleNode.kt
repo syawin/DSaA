@@ -1,5 +1,6 @@
 package tree
 
+// suggest make key non-nullable and default to 0
 data class SimpleNode(
     var key: Int? = null,
 ) {
