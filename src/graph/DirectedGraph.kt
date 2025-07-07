@@ -1,3 +1,5 @@
+@file:Suppress("DuplicatedCode")
+
 package graph
 
 class DirectedGraph(
@@ -13,22 +15,8 @@ class DirectedGraph(
     }
 
     /**
-     * Performs a topological sort on a directed acyclic graph (DAG) represented by the current instance.
-     * The method sequentially identifies and removes vertices with no successors, adding them to a
-     * sorted order. If a cycle is detected in the graph, the operation is aborted and a message is printed.
-     * Note that running this method empties the graph of vertices when it runs.
-     *
-     * The algorithm works as follows:
-     * 1. Repeatedly finds a vertex with no outgoing edges (no successors).
-     * 2. Appends the label of the vertex to a sorted array.
-     * 3. Deletes the vertex, along with its associated edges in the adjacency structure.
-     * 4. Continues until all vertices are processed or a cycle is detected.
-     *
-     * If the graph contains a cycle, "The graph contains cycles." is printed and the method returns
-     * without completing the sort.
-     *
-     * Results are printed in the form "Topological Sort: <sorted_labels>".
-     * This method assumes the graph is represented using adjacency structures and vertex lists.
+     * Performs a topological sort on a DAG. Identifies and removes vertices with no successors,
+     * adding them to a sorted order. Empties graph when run. Aborts if cycle detected.
      */
     fun topologicalSort() {
         val totalVertices = numVertex
@@ -102,6 +90,29 @@ class DirectedGraph(
         }
         return -1
     }
+
+    /**
+     * Applies Warshall's algorithm to compute the transitive closure of a directed graph.
+     * Modifies the adjacency matrix in-place to show reachability between vertices.
+     * If there is any path from vertex i to j (direct or indirect), adjMatrix[i][j] will be true.
+     * O(v^3) time complexity; v = # vertices
+     */
+    fun warshallAlgorithm() {
+        // iterate thru the rows of the adjacency matrix.
+        for (i in 0 until numVertex) {
+            // iterate thru the columns of the current row matrix[i]
+            for (j in 0 until numVertex) {
+                // if a 1 is found, start transitive closure loop.
+                if (adjMatrix[i][j]) {
+                    for (k in 0 until numVertex) {
+                        if (adjMatrix[k][i]) {
+                            adjMatrix[k][j] = true
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 fun main() {
@@ -125,6 +136,10 @@ fun main() {
 
     theGraph.connectivityTable()
     println("\nAdjacency Matrix:")
+    theGraph.displayAdjacencyMatrix()
+
+    theGraph.warshallAlgorithm()
+    println("\nAdjacency Matrix With Transitive Closure:")
     theGraph.displayAdjacencyMatrix()
 
     theGraph.topologicalSort() // do the sort
