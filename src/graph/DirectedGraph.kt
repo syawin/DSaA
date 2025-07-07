@@ -12,6 +12,24 @@ class DirectedGraph(
         adjMatrix[start][end] = true
     }
 
+    /**
+     * Performs a topological sort on a directed acyclic graph (DAG) represented by the current instance.
+     * The method sequentially identifies and removes vertices with no successors, adding them to a
+     * sorted order. If a cycle is detected in the graph, the operation is aborted and a message is printed.
+     * Note that running this method empties the graph of vertices when it runs.
+     *
+     * The algorithm works as follows:
+     * 1. Repeatedly finds a vertex with no outgoing edges (no successors).
+     * 2. Appends the label of the vertex to a sorted array.
+     * 3. Deletes the vertex, along with its associated edges in the adjacency structure.
+     * 4. Continues until all vertices are processed or a cycle is detected.
+     *
+     * If the graph contains a cycle, "The graph contains cycles." is printed and the method returns
+     * without completing the sort.
+     *
+     * Results are printed in the form "Topological Sort: <sorted_labels>".
+     * This method assumes the graph is represented using adjacency structures and vertex lists.
+     */
     fun topologicalSort() {
         val totalVertices = numVertex
         while (numVertex > 0) {
@@ -26,6 +44,12 @@ class DirectedGraph(
         print("Topological Sort: ")
         for (i in 0 until totalVertices) print(sortedArray[i])
         println()
+    }
+
+    fun connectivityTable() {
+        for (i in 0 until numVertex) {
+            depthFirstSearch(i)
+        }
     }
 
     private fun deleteVertex(delVertex: Int) {
@@ -98,5 +122,7 @@ fun main() {
     theGraph.addEdge(4, 6) // EG
     theGraph.addEdge(5, 7) // FH
     theGraph.addEdge(6, 7) // GH
+
+    theGraph.connectivityTable()
     theGraph.topologicalSort() // do the sort
 }
