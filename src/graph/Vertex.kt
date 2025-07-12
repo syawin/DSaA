@@ -1,7 +1,7 @@
 package graph
 
 data class Vertex(
-    var label: Char,
+    var label: String,
 ) {
     var wasVisited: Boolean = false
 }
