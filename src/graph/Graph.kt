@@ -14,7 +14,7 @@ open class Graph(
     var adjList = Array(maxSize) { LinkedList() }
     var numVertex = 0
 
-    fun addVertex(label: Char) {
+    fun addVertex(label: String) {
         vertexList[numVertex++] = Vertex(label)
     }
 
@@ -156,26 +156,34 @@ open class Graph(
 
     /**
      * Displays the adjacency matrix with vertex labels as headers.
-     * Only shows connections (1s) to reduce visual noise, omitting 0s (no connection).
+     * Allows customization of symbols for connections and empty spaces.
+     *
+     * @param connectionSymbol Symbol to represent a connection (default: "1")
+     * @param emptySymbol Symbol to represent no connection (default: " ")
      */
-    fun displayAdjacencyMatrix() {
-        // Print header row with vertex labels
-        print("  ")
+    fun displayAdjacencyMatrix(
+        connectionSymbol: String = "1",
+        emptySymbol: String = " ",
+    ) {
+        // Determine max width needed for any label
+        val labelWidth = vertexList.take(numVertex).maxOf { it?.label?.length ?: 1 }
+        val colWidth = labelWidth + 1 // Add spacing buffer
+
+        // Print header row
+        print("".padEnd(colWidth)) // Top-left corner cell
         for (i in 0 until numVertex) {
-            print("${vertexList[i]?.label} ")
+            print(vertexList[i]?.label?.padEnd(colWidth))
         }
         println()
 
-        // Print each row with vertex label as row header
+        // Print matrix rows
         for (i in 0 until numVertex) {
-            print("${vertexList[i]?.label} ")
+            // Row header
+            print(vertexList[i]?.label?.padEnd(colWidth))
+            // Row entries
             for (j in 0 until numVertex) {
-                // Only print 1s (connections), leave empty for 0s (no connection)
-                if (adjMatrix[i][j]) {
-                    print("1 ")
-                } else {
-                    print("  ")
-                }
+                val symbol = if (adjMatrix[i][j]) connectionSymbol else emptySymbol
+                print(symbol.padEnd(colWidth))
             }
             println()
         }
@@ -184,15 +192,15 @@ open class Graph(
 
 fun main() {
     val graph = Graph(9)
-    graph.addVertex('A') // 0
-    graph.addVertex('B') // 1
-    graph.addVertex('C') // 2
-    graph.addVertex('D') // 3
-    graph.addVertex('E') // 4
-    graph.addVertex('F') // 5
-    graph.addVertex('G') // 6
-    graph.addVertex('H') // 7
-    graph.addVertex('I') // 8
+    graph.addVertex("A") // 0
+    graph.addVertex("B") // 1
+    graph.addVertex("C") // 2
+    graph.addVertex("D") // 3
+    graph.addVertex("E") // 4
+    graph.addVertex("F") // 5
+    graph.addVertex("G") // 6
+    graph.addVertex("H") // 7
+    graph.addVertex("I") // 8
 
     graph.addEdge(0, 1) // AB
     graph.addEdge(0, 3) // AD
@@ -223,5 +231,5 @@ fun main() {
     graph.minimumSpanningTreeBFS()
 
     println("\nAdjacency Matrix:")
-    graph.displayAdjacencyMatrix()
+    graph.displayAdjacencyMatrix(emptySymbol = "-")
 }
