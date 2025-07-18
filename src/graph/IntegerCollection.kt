@@ -18,4 +18,6 @@ interface IntegerCollection {
     fun remove(): Int
 
     fun peek(): Int
+
+    operator fun iterator(): Iterator<Int>
 }
