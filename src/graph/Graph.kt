@@ -14,7 +14,7 @@ open class Graph(
     var adjList = Array(maxSize) { LinkedList() }
     var numVertex = 0
 
-    fun addVertex(label: Char) {
+    fun addVertex(label: String) {
         vertexList[numVertex++] = Vertex(label)
     }
 
@@ -50,6 +50,49 @@ open class Graph(
                 displayVertex(adjacentVertex)
                 collection.add(adjacentVertex)
             }
+        }
+        println()
+        resetFlags()
+    }
+
+    fun knightsTour(startIndex: Int) {
+        val knightMoves = IntegerStack(maxSize)
+        val mapOfEdges = mutableMapOf<Int, MutableSet<Int>>()
+        vertexList[startIndex]?.wasVisited = true
+        displayVertex(startIndex)
+        knightMoves.add(startIndex)
+        // while the stack of knights is not full
+        while (knightMoves.isFull.not()) {
+            // start by searching for the next connected, unvisited node.
+            val currentVertex = knightMoves.peek()
+            val adjacentVertex = getAdjacentUnvisitedVertexIndex(currentVertex)
+            // check for a dead end
+            if (adjacentVertex == -1) {
+                // we need to backtrack, so pop the current move
+                val popped = knightMoves.pop()
+                // restore any connections that started at popped
+                mapOfEdges[popped]?.forEach { adjMatrix[popped][it] = true }
+                // roll back the visited state
+                resetFlagAtIndex(popped)
+                // block navigation from where we just came from to the "dead end"
+                adjMatrix[knightMoves.peek()][popped] = false
+                // record the edge we just removed
+                mapOfEdges.getOrPut(knightMoves.peek()) { mutableSetOf() }.add(popped)
+                print("Backtrack to ")
+                displayVertex(knightMoves.peek())
+                println()
+                displayAdjacencyMatrix()
+            } else {
+                // otherwise we add it to the stack and continue
+                knightMoves.add(adjacentVertex)
+                vertexList[adjacentVertex]?.wasVisited = true
+                print("Move to ")
+                displayVertex(adjacentVertex)
+            }
+        }
+        println()
+        for (knightMove in knightMoves) {
+            displayVertex(knightMove)
         }
         println()
         resetFlags()
@@ -140,6 +183,10 @@ open class Graph(
         for (i in 0 until numVertex) vertexList[i]?.wasVisited = false
     }
 
+    private fun resetFlagAtIndex(index: Int) {
+        vertexList[index]?.wasVisited = false
+    }
+
     private fun getAdjacentUnvisitedVertexIndex(vertIndex: Int): Int {
         for (i in 0 until numVertex) {
             if (adjMatrix[vertIndex][i] && (vertexList[i]?.wasVisited) == false) return i
@@ -156,26 +203,34 @@ open class Graph(
 
     /**
      * Displays the adjacency matrix with vertex labels as headers.
-     * Only shows connections (1s) to reduce visual noise, omitting 0s (no connection).
+     * Allows customization of symbols for connections and empty spaces.
+     *
+     * @param connectionSymbol Symbol to represent a connection (default: "1")
+     * @param emptySymbol Symbol to represent no connection (default: " ")
      */
-    fun displayAdjacencyMatrix() {
-        // Print header row with vertex labels
-        print("  ")
+    fun displayAdjacencyMatrix(
+        connectionSymbol: String = "1",
+        emptySymbol: String = " ",
+    ) {
+        // Determine max width needed for any label
+        val labelWidth = vertexList.take(numVertex).maxOf { it?.label?.length ?: 1 }
+        val colWidth = labelWidth + 1 // Add spacing buffer
+
+        // Print header row
+        print("".padEnd(colWidth)) // Top-left corner cell
         for (i in 0 until numVertex) {
-            print("${vertexList[i]?.label} ")
+            print(vertexList[i]?.label?.padEnd(colWidth))
         }
         println()
 
-        // Print each row with vertex label as row header
+        // Print matrix rows
         for (i in 0 until numVertex) {
-            print("${vertexList[i]?.label} ")
+            // Row header
+            print(vertexList[i]?.label?.padEnd(colWidth))
+            // Row entries
             for (j in 0 until numVertex) {
-                // Only print 1s (connections), leave empty for 0s (no connection)
-                if (adjMatrix[i][j]) {
-                    print("1 ")
-                } else {
-                    print("  ")
-                }
+                val symbol = if (adjMatrix[i][j]) connectionSymbol else emptySymbol
+                print(symbol.padEnd(colWidth))
             }
             println()
         }
@@ -184,15 +239,15 @@ open class Graph(
 
 fun main() {
     val graph = Graph(9)
-    graph.addVertex('A') // 0
-    graph.addVertex('B') // 1
-    graph.addVertex('C') // 2
-    graph.addVertex('D') // 3
-    graph.addVertex('E') // 4
-    graph.addVertex('F') // 5
-    graph.addVertex('G') // 6
-    graph.addVertex('H') // 7
-    graph.addVertex('I') // 8
+    graph.addVertex("A") // 0
+    graph.addVertex("B") // 1
+    graph.addVertex("C") // 2
+    graph.addVertex("D") // 3
+    graph.addVertex("E") // 4
+    graph.addVertex("F") // 5
+    graph.addVertex("G") // 6
+    graph.addVertex("H") // 7
+    graph.addVertex("I") // 8
 
     graph.addEdge(0, 1) // AB
     graph.addEdge(0, 3) // AD
@@ -223,5 +278,5 @@ fun main() {
     graph.minimumSpanningTreeBFS()
 
     println("\nAdjacency Matrix:")
-    graph.displayAdjacencyMatrix()
+    graph.displayAdjacencyMatrix(emptySymbol = "-")
 }

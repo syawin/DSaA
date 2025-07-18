@@ -39,6 +39,20 @@ class IntegerQ(
 
     override fun peek(): Int = peekFront()
 
+    override fun iterator(): Iterator<Int> =
+        object : Iterator<Int> {
+            private var index = front
+
+            override fun hasNext(): Boolean = index != rear + 1 || index != front
+
+            override fun next(): Int {
+                if (!hasNext()) {
+                    throw NoSuchElementException("End of iterator reached")
+                }
+                return queueArray[index++]
+            }
+        }
+
     fun insert(value: Int): IntegerQ {
         if (isFull) return this
         if (rear == maxSize - 1) {

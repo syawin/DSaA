@@ -5,7 +5,7 @@ package graph
 class DirectedGraph(
     maxSize: Int,
 ) : Graph(maxSize) {
-    private var sortedArray = CharArray(maxSize)
+    private var sortedArray = Array(maxSize) { "" }
 
     override fun addEdge(
         start: Int,
@@ -97,7 +97,7 @@ class DirectedGraph(
      * If there is any path from vertex i to j (direct or indirect), adjMatrix[i][j] will be true.
      * O(v^3) time complexity; v = # vertices
      */
-    fun warshallAlgorithm() {
+    fun computeTransitiveClosure() {
         // iterate thru the rows of the adjacency matrix.
         for (i in 0 until numVertex) {
             // iterate thru the columns of the current row matrix[i]
@@ -117,14 +117,14 @@ class DirectedGraph(
 
 fun main() {
     val theGraph = DirectedGraph(8)
-    theGraph.addVertex('A')
-    theGraph.addVertex('B')
-    theGraph.addVertex('C')
-    theGraph.addVertex('D')
-    theGraph.addVertex('E')
-    theGraph.addVertex('F')
-    theGraph.addVertex('G')
-    theGraph.addVertex('H')
+    theGraph.addVertex("A")
+    theGraph.addVertex("B")
+    theGraph.addVertex("C")
+    theGraph.addVertex("D")
+    theGraph.addVertex("E")
+    theGraph.addVertex("F")
+    theGraph.addVertex("G")
+    theGraph.addVertex("H")
     theGraph.addEdge(0, 3) // AD
     theGraph.addEdge(0, 4) // AE
     theGraph.addEdge(1, 4) // BE
@@ -138,7 +138,7 @@ fun main() {
     println("\nAdjacency Matrix:")
     theGraph.displayAdjacencyMatrix()
 
-    theGraph.warshallAlgorithm()
+    theGraph.computeTransitiveClosure()
     println("\nAdjacency Matrix With Transitive Closure:")
     theGraph.displayAdjacencyMatrix()
 

@@ -27,6 +27,20 @@ class IntegerStack(
         return stackArray[top]
     }
 
+    override fun iterator(): Iterator<Int> =
+        object : Iterator<Int> {
+            private var index = 0
+
+            override fun hasNext(): Boolean = index <= top
+
+            override fun next(): Int {
+                if (!hasNext()) {
+                    throw NoSuchElementException("End of iterator reached")
+                }
+                return stackArray[index++]
+            }
+        }
+
     fun push(value: Int): IntegerStack {
         if (top >= maxSize - 1) {
             throw ArrayIndexOutOfBoundsException("Stack overflow")
