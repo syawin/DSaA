@@ -61,29 +61,20 @@ open class Graph(
         vertexList[startIndex]?.wasVisited = true
         displayVertex(startIndex)
         knightMoves.add(startIndex)
-        // while the stack of knights is not full
         while (knightMoves.isFull.not()) {
-            // start by searching for the next connected, unvisited node.
             val currentVertex = knightMoves.peek()
             val adjacentVertex = getAdjacentUnvisitedVertexIndex(currentVertex)
-            // check for a dead end
             if (adjacentVertex == -1) {
-                // we need to backtrack, so pop the current move
                 val popped = knightMoves.pop()
-                // restore any connections that started at popped
                 mapOfEdges[popped]?.forEach { adjMatrix[popped][it] = true }
-                // roll back the visited state
                 resetFlagAtIndex(popped)
-                // block navigation from where we just came from to the "dead end"
                 adjMatrix[knightMoves.peek()][popped] = false
-                // record the edge we just removed
                 mapOfEdges.getOrPut(knightMoves.peek()) { mutableSetOf() }.add(popped)
                 print("Backtrack to ")
                 displayVertex(knightMoves.peek())
                 println()
                 displayAdjacencyMatrix()
             } else {
-                // otherwise we add it to the stack and continue
                 knightMoves.add(adjacentVertex)
                 vertexList[adjacentVertex]?.wasVisited = true
                 print("Move to ")
