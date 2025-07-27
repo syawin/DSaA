@@ -6,14 +6,39 @@ package queue
  * Elements are stored in descending order (largest at the front, smallest at the end).
  * The implementation provides O(n) insertion and O(1) removal of the minimum element.
  *
- * @param E The type of elements in this priority queue, must implement Comparable
+ * @param E The type of elements in this priority queue; it must implement Comparable
  * @property maxSize The maximum number of elements the queue can hold
  */
 class PriorityQueue<E : Comparable<E>>(
     private val maxSize: Int,
-) {
+) : Collection<E> {
     private val qArray: Array<Any?> = arrayOfNulls(maxSize)
-    private var nItems: Int = 0
+    override var size: Int = 0
+
+    /**
+     * Checks if all elements in the specified collection are contained in this collection.
+     */
+    override fun containsAll(elements: Collection<E>): Boolean {
+        for (element in elements) {
+            if (!contains(element)) {
+                return false
+            }
+        }
+        return true
+    }
+
+    /**
+     * Checks if the specified element is contained in this collection.
+     */
+    override fun contains(element: E): Boolean {
+        for (i in indices) {
+            @Suppress("UNCHECKED_CAST")
+            if (element == (qArray[i] as E)) {
+                return true
+            }
+        }
+        return false
+    }
 
     /**
      * Inserts an item into the priority queue maintaining the ordering.
@@ -30,10 +55,10 @@ class PriorityQueue<E : Comparable<E>>(
 
         var i: Int
 
-        if (nItems == 0) {
-            qArray[nItems++] = item
+        if (isEmpty()) {
+            qArray[size++] = item
         } else {
-            i = nItems - 1
+            i = size - 1
             // Shift smaller items to the right
             while (i >= 0) {
                 @Suppress("UNCHECKED_CAST")
@@ -45,7 +70,7 @@ class PriorityQueue<E : Comparable<E>>(
                 }
             }
             qArray[i + 1] = item
-            nItems++
+            size++
         }
     }
 
@@ -61,7 +86,32 @@ class PriorityQueue<E : Comparable<E>>(
         if (isEmpty()) {
             throw NoSuchElementException("Queue is empty")
         }
-        return qArray[--nItems] as E
+        return qArray[--size] as E
+    }
+
+    /**
+     * Removes and returns the item at the specified index in the queue.
+     * The subsequent items are shifted to maintain the order.
+     *
+     * @param n The index of the item to remove
+     * @return The removed item
+     * @throws NoSuchElementException If the queue is empty
+     * @throws IndexOutOfBoundsException If the index is out of bounds
+     */
+    fun remove(n: Int): E {
+        if (isEmpty()) {
+            throw NoSuchElementException("Queue is empty")
+        }
+        if (n < 0 || n >= size) {
+            throw IndexOutOfBoundsException("Index $n is out of bounds for queue of size $size")
+        }
+        @Suppress("UNCHECKED_CAST")
+        val item = qArray[n] as E
+        for (i in n until size) {
+            qArray[i] = qArray[i + 1]
+        }
+        size--
+        return item
     }
 
     /**
@@ -76,7 +126,7 @@ class PriorityQueue<E : Comparable<E>>(
         if (isEmpty()) {
             throw NoSuchElementException("Queue is empty")
         }
-        return qArray[nItems - 1] as E
+        return qArray[size - 1] as E
     }
 
     /**
@@ -94,38 +144,30 @@ class PriorityQueue<E : Comparable<E>>(
         return qArray[0] as E
     }
 
+    fun peek(n: Int): E {
+        return get(n)
+    }
+
     /**
      * Checks if the queue is empty.
      *
      * @return true if the queue is empty, false otherwise
      */
-    fun isEmpty(): Boolean = nItems == 0
+    @Suppress("ReplaceSizeZeroCheckWithIsEmpty")
+    override fun isEmpty(): Boolean = size == 0
 
     /**
      * Checks if the queue is full.
      *
      * @return true if the queue is full, false otherwise
      */
-    fun isFull(): Boolean = nItems == maxSize
+    fun isFull(): Boolean = size == maxSize
 
-    /**
-     * Returns the current number of items in the queue.
-     *
-     * @return The number of items in the queue
-     */
-    fun size(): Int = nItems
-
-    /**
-     * Returns an iterator over the elements in this queue.
-     * Elements are returned in order from maximum to minimum.
-     *
-     * @return An iterator over the elements in this queue
-     */
-    fun iterator(): Iterator<E> =
+    override fun iterator(): Iterator<E> =
         object : Iterator<E> {
             private var currentIndex = 0
 
-            override fun hasNext(): Boolean = currentIndex < nItems
+            override fun hasNext(): Boolean = currentIndex < size
 
             @Suppress("UNCHECKED_CAST")
             override fun next(): E {
@@ -135,4 +177,19 @@ class PriorityQueue<E : Comparable<E>>(
                 return qArray[currentIndex++] as E
             }
         }
+
+    /**
+     * Retrieves the element at the specified index in the priority queue.
+     *
+     * @param index The index of the element to retrieve.
+     * @return The element at the specified index.
+     * @throws IndexOutOfBoundsException If the index is out of the valid range (0 until size).
+     */
+    operator fun get(index: Int): E {
+        if (index < 0 || index >= size) {
+            throw IndexOutOfBoundsException("Index $index is out of bounds for queue of size $size")
+        }
+        @Suppress("UNCHECKED_CAST")
+        return qArray[index] as E
+    }
 }
