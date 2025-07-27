@@ -13,6 +13,7 @@ open class Graph(
     var adjMatrix = Array(maxSize) { Array(maxSize) { false } }
     var adjList = Array(maxSize) { LinkedList() }
     var numVertex = 0
+    var numInTree = 0
 
     fun addVertex(label: String) {
         vertexList[numVertex++] = Vertex(label)
@@ -109,7 +110,7 @@ open class Graph(
         resetFlags()
     }
 
-    fun minimumSpanningTree() {
+    open fun minimumSpanningTree() {
         val collection = IntegerStack(maxSize)
         vertexList[0]?.wasVisited = true
         collection.add(0)
@@ -171,11 +172,11 @@ open class Graph(
     }
 
     private fun resetFlags() {
-        for (i in 0 until numVertex) vertexList[i]?.wasVisited = false
+        for (i in 0 until numVertex) vertexList[i]?.reset()
     }
 
     private fun resetFlagAtIndex(index: Int) {
-        vertexList[index]?.wasVisited = false
+        vertexList[index]?.reset()
     }
 
     private fun getAdjacentUnvisitedVertexIndex(vertIndex: Int): Int {
