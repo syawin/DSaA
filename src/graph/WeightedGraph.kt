@@ -94,11 +94,52 @@ class WeightedGraph(
         }
     }
 
+    fun dijkstra() {
+        data class DistPar(
+            val parent: Int,
+            val dist: Int,
+        )
+
+        val startTree = 0
+        var currentVertex: Int
+        var startToCurrent: Int
+        vertexList[startTree]?.isInTree = true
+        numInTree = 1
+        val sPath: Array<DistPar> =
+            Array(numVertex) { i ->
+                DistPar(startTree, weightMatrix[startTree][i])
+            }
+        var indexMin: Int
+        while (numInTree < numVertex) {
+            indexMin = getMin()
+            val minDist = sPath[indexMin]
+
+            if (minDist.dist == MAX) {
+                println("No path from $startTree to any other vertex")
+                break
+            } else {
+                currentVertex = indexMin
+                startToCurrent = sPath[indexMin].dist
+            }
+            vertexList[currentVertex]?.isInTree = true
+            numInTree++
+            updateShortestPath()
+        }
+    }
+
+    private fun updateShortestPath() {
+        TODO("Not yet implemented")
+    }
+
+    private fun getMin(): Int {
+        TODO("Not yet implemented")
+    }
+
     /**
      * Display the adjacency matrix with weights instead of just connections
      */
     fun displayWeightMatrix() {
-        // Determine max width needed for any label
+        // Determine the max width needed for any label
         val labelWidth = vertexList.take(numVertex).maxOf { it?.label?.length ?: 1 }
         val weightWidth =
             vertexList
