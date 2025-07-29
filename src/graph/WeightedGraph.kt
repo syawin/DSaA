@@ -94,12 +94,12 @@ class WeightedGraph(
         }
     }
 
-    fun dijkstra() {
-        data class DistPar(
-            val parent: Int,
-            val dist: Int,
-        )
+    private data class DistPar(
+        var parent: Int,
+        var dist: Int,
+    )
 
+    fun dijkstra() {
         val startTree = 0
         var currentVertex: Int
         var startToCurrent: Int
@@ -123,12 +123,38 @@ class WeightedGraph(
             }
             vertexList[currentVertex]?.isInTree = true
             numInTree++
-            updateShortestPath()
+            updateShortestPath(startToCurrent, currentVertex, sPath)
         }
+        displayPaths()
+
+        numInTree = 0
+        resetVertices()
     }
 
-    private fun updateShortestPath() {
+    private fun displayPaths() {
         TODO("Not yet implemented")
+    }
+
+    private fun updateShortestPath(
+        startToCurrent: Int,
+        currentVert: Int,
+        sPath: Array<DistPar>,
+    ) {
+        var col = 1
+        while (col < numVertex) {
+            if (vertexList[col]!!.isInTree) {
+                col++
+                continue
+            }
+            val currentToFrontier = weightMatrix[currentVert][col]
+            val startToFrontier = startToCurrent + currentToFrontier
+            val shortestPathDist = sPath[col].dist
+            if (startToFrontier < shortestPathDist) {
+                sPath[col].parent = currentVert
+                sPath[col].dist = startToFrontier
+            }
+            col++
+        }
     }
 
     private fun getMin(): Int {
