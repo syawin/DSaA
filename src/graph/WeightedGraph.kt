@@ -125,14 +125,24 @@ class WeightedGraph(
             numInTree++
             updateShortestPath(startToCurrent, currentVertex, sPath)
         }
-        displayPaths()
+        displayPaths(sPath)
 
         numInTree = 0
         resetVertices()
     }
 
-    private fun displayPaths() {
-        TODO("Not yet implemented")
+    private fun displayPaths(sPath: Array<DistPar>) {
+        for (i in 0 until numVertex) {
+            print(vertexList[i]?.label + "=")
+            print(
+                when (sPath[i].dist) {
+                    Int.MAX_VALUE -> "inf"
+                    else -> sPath[i].dist.toString()
+                },
+            )
+            print("( ${vertexList[sPath[i].parent]?.label} ) ")
+        }
+        println()
     }
 
     private fun updateShortestPath(
