@@ -2,7 +2,7 @@
 
 package graph
 
-class DirectedGraph(
+open class DirectedGraph(
     maxSize: Int,
 ) : Graph(maxSize) {
     private var sortedArray = Array(maxSize) { "" }

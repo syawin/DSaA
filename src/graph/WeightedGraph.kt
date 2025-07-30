@@ -6,7 +6,7 @@ private const val MAX = Int.MAX_VALUE
 
 class WeightedGraph(
     maxSize: Int,
-) : Graph(maxSize) {
+) : DirectedGraph(maxSize) {
     // Store edge weights in a matrix
     val weightMatrix = Array(maxSize) { Array(maxSize) { MAX } }
 
