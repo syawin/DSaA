@@ -111,7 +111,7 @@ class WeightedGraph(
             }
         var indexMin: Int
         while (numInTree < numVertex) {
-            indexMin = getMin()
+            indexMin = getMin(sPath)
             val minDist = sPath[indexMin]
 
             if (minDist.dist == MAX) {
@@ -167,8 +167,16 @@ class WeightedGraph(
         }
     }
 
-    private fun getMin(): Int {
-        TODO("Not yet implemented")
+    private fun getMin(sPath: Array<DistPar>): Int {
+        var minDist = Int.MAX_VALUE
+        var indexMin = 0
+        for (i in 0 until numVertex) {
+            if (vertexList[i]?.isInTree == false && sPath[i].dist < minDist) {
+                minDist = sPath[i].dist
+                indexMin = i
+            }
+        }
+        return indexMin
     }
 
     /**
