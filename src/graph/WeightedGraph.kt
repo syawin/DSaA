@@ -2,13 +2,15 @@ package graph
 
 import queue.PriorityQueue
 
-private const val MAX = Int.MAX_VALUE
+private const val INF = Int.MAX_VALUE
 
 class WeightedGraph(
     maxSize: Int,
 ) : DirectedGraph(maxSize) {
     // Store edge weights in a matrix
-    val weightMatrix = Array(maxSize) { Array(maxSize) { MAX } }
+    // suggest we could make this less fragile by using `null` in place of a constant.
+    //  that keeps us safe from overflow while keeping the data meaningful.
+    val weightMatrix = Array(maxSize) { Array(maxSize) { INF } }
 
     // Store edges for minimum spanning tree algorithms
     val edges = mutableListOf<Edge>()
@@ -26,7 +28,6 @@ class WeightedGraph(
 
         // Store the weight in our weight matrix (both directions for undirected graph)
         weightMatrix[start][end] = weight
-        weightMatrix[end][start] = weight
 
         // Store the edge object for algorithms that need it
         edges.add(Edge(start, end, weight))
@@ -54,7 +55,7 @@ class WeightedGraph(
                 if (i == currentVertex) continue
                 if (vertexList[i]?.isInTree == true) continue
                 val distance = weightMatrix[currentVertex][i]
-                if (distance == MAX) continue
+                if (distance == INF) continue
                 putInPQ(i, distance, currentVertex, thePQ)
             }
             if (thePQ.isEmpty()) {
@@ -114,7 +115,7 @@ class WeightedGraph(
             indexMin = getMin(sPath)
             val minDist = sPath[indexMin]
 
-            if (minDist.dist == MAX) {
+            if (minDist.dist == INF) {
                 println("No path from $startTree to any other vertex")
                 break
             } else {
@@ -157,7 +158,13 @@ class WeightedGraph(
                 continue
             }
             val currentToFrontier = weightMatrix[currentVert][col]
-            val startToFrontier = startToCurrent + currentToFrontier
+            // clamp the sum to INF aka Int.MAX to avoid overflow. this could be avoided by replacing the named
+            //  constant with 'null's.
+            val startToFrontier =
+                when {
+                    currentToFrontier == INF -> INF
+                    else -> startToCurrent + currentToFrontier
+                }
             val shortestPathDist = sPath[col].dist
             if (startToFrontier < shortestPathDist) {
                 sPath[col].parent = currentVert
