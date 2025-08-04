@@ -157,8 +157,6 @@ class WeightedGraph(
                 continue
             }
             val currentToFrontier = weightMatrix[currentVert][col]
-            // clamp the sum to INF aka Int.MAX to avoid overflow. this could be avoided by replacing the named
-            //  constant with 'null's.
             val startToFrontier =
                 when {
                     currentToFrontier == INF -> INF
