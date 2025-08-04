@@ -2,7 +2,7 @@
 
 package graph
 
-fun dijkstraDemo() {
+fun dijkstraDemo(startingIndex: Int = 0) {
     val theGraph = WeightedGraph(5)
     theGraph.addVertex("A")
     theGraph.addVertex("B")
@@ -18,14 +18,17 @@ fun dijkstraDemo() {
     theGraph.addEdge(3, 2, 20)
     theGraph.addEdge(3, 4, 70)
     theGraph.addEdge(4, 1, 50)
+    theGraph.addEdge(2, 0, 105)
 
     theGraph.displayWeightMatrix()
     println()
     print("Shortest Path: ")
-    theGraph.dijkstra()
+    theGraph.dijkstra(startingIndex)
     println()
 }
 
 fun main() {
-    dijkstraDemo()
+    for (i in 0..4) {
+        dijkstraDemo(i)
+    }
 }

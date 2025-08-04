@@ -100,15 +100,14 @@ class WeightedGraph(
         var dist: Int,
     )
 
-    fun dijkstra() {
-        val startTree = 0
+    fun dijkstra(startingIndex: Int = 0) {
         var currentVertex: Int
         var startToCurrent: Int
-        vertexList[startTree]?.isInTree = true
+        vertexList[startingIndex]?.isInTree = true
         numInTree = 1
         val sPath: Array<DistPar> =
             Array(numVertex) { i ->
-                DistPar(startTree, weightMatrix[startTree][i])
+                DistPar(startingIndex, weightMatrix[startingIndex][i])
             }
         var indexMin: Int
         while (numInTree < numVertex) {
@@ -116,7 +115,7 @@ class WeightedGraph(
             val minDist = sPath[indexMin]
 
             if (minDist.dist == INF) {
-                println("No path from $startTree to any other vertex")
+                println("No path from ${vertexList[startingIndex]?.label} to any other vertex")
                 break
             } else {
                 currentVertex = indexMin
@@ -151,7 +150,7 @@ class WeightedGraph(
         currentVert: Int,
         sPath: Array<DistPar>,
     ) {
-        var col = 1
+        var col = 0
         while (col < numVertex) {
             if (vertexList[col]!!.isInTree) {
                 col++
@@ -175,7 +174,7 @@ class WeightedGraph(
     }
 
     private fun getMin(sPath: Array<DistPar>): Int {
-        var minDist = Int.MAX_VALUE
+        var minDist = INF
         var indexMin = 0
         for (i in 0 until numVertex) {
             if (vertexList[i]?.isInTree == false && sPath[i].dist < minDist) {
