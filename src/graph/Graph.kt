@@ -7,8 +7,8 @@ import queue.IntegerQ
 import stack.IntegerStack
 
 open class Graph(
-    val maxSize: Int,
-) {
+    final override val maxSize: Int,
+) : GraphInterface {
     var vertexList = arrayOfNulls<Vertex?>(maxSize)
     var adjMatrix = Array(maxSize) { Array(maxSize) { false } }
     var adjList = Array(maxSize) { LinkedList() }
