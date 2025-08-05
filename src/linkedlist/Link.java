@@ -2,14 +2,14 @@ package linkedlist;
 
 public class Link {
     
-    double dData;
+    double data;
     long   key;
     Link   next;
     
-    public Link(long key, double dData)
+    public Link(long key, double data)
     {
-        this.key   = key;
-        this.dData = dData;
+        this.key  = key;
+        this.data = data;
     }
     
     // getter
@@ -38,7 +38,7 @@ public class Link {
     
     public void print()
     {
-        System.out.printf("{%d, %f} ", key, dData);
+        System.out.printf("{%d, %f} ", key, data);
     }
     
     @Override
@@ -48,7 +48,7 @@ public class Link {
         sb.append("{");
         sb.append(this.key);
         sb.append(", ");
-        sb.append(this.dData);
+        sb.append(this.data);
         sb.append("} ");
         return sb.toString();
     }

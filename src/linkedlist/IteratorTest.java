@@ -4,7 +4,8 @@ import java.util.Iterator;
 
 public class IteratorTest {
     
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
         // Create a new LinkedList
         LinkedList list = new LinkedList();
         
@@ -22,14 +23,14 @@ public class IteratorTest {
         Iterator<Link> iterator = list.getIterator();
         while (iterator.hasNext()) {
             Link link = iterator.next();
-            System.out.printf("{%d, %f} ", link.key, link.dData);
+            System.out.printf("{%d, %f} ", link.key, link.data);
         }
         System.out.println();
         
         // Test using for-each loop (which uses the Iterable interface)
         System.out.println("\nUsing for-each loop:");
         for (Link link : list) {
-            System.out.printf("{%d, %f} ", link.key, link.dData);
+            System.out.printf("{%d, %f} ", link.key, link.data);
         }
         System.out.println();
         
@@ -47,4 +48,5 @@ public class IteratorTest {
         System.out.println("\nList after removal:");
         list.print();
     }
+    
 }
