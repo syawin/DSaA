@@ -58,8 +58,7 @@ class PriorityQueue<E : Comparable<E>>(
         if (isEmpty()) {
             qArray[size++] = item
         } else {
-            i = size - 1
-            // Shift smaller items to the right
+            i = size - 1 // Shift smaller items to the right
             while (i >= 0) {
                 @Suppress("UNCHECKED_CAST")
                 if (item > (qArray[i] as E)) {
@@ -118,13 +117,12 @@ class PriorityQueue<E : Comparable<E>>(
      * Returns the minimum item without removing it.
      * O(1) time complexity.
      *
-     * @return The minimum item in the queue
-     * @throws NoSuchElementException if the queue is empty
+     * @return The minimum item in the queue, or null if the queue is empty
      */
     @Suppress("UNCHECKED_CAST")
-    fun peekMin(): E {
+    fun peekMin(): E? {
         if (isEmpty()) {
-            throw NoSuchElementException("Queue is empty")
+            return null
         }
         return qArray[size - 1] as E
     }
@@ -133,20 +131,17 @@ class PriorityQueue<E : Comparable<E>>(
      * Returns the maximum item without removing it.
      * O(1) time complexity.
      *
-     * @return The maximum item in the queue
-     * @throws NoSuchElementException if the queue is empty
+     * @return The maximum item in the queue, or null if the queue is empty
      */
     @Suppress("UNCHECKED_CAST")
-    fun peekMax(): E {
+    fun peekMax(): E? {
         if (isEmpty()) {
-            throw NoSuchElementException("Queue is empty")
+            return null
         }
         return qArray[0] as E
     }
 
-    fun peek(n: Int): E {
-        return get(n)
-    }
+    fun peek(n: Int): E = get(n)
 
     /**
      * Checks if the queue is empty.
