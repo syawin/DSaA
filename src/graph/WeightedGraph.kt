@@ -22,8 +22,7 @@ class WeightedGraph(
         start: Int,
         end: Int,
         weight: Int,
-    ) {
-        // Call the parent class method to update adjacency structures
+    ) { // Call the parent class method to update adjacency structures
         super.addEdge(start, end)
 
         // Store the weight in our weight matrix (both directions for undirected graph)
@@ -39,8 +38,7 @@ class WeightedGraph(
     override fun addEdge(
         start: Int,
         end: Int,
-    ) {
-        // Default weight of 1 if not specified
+    ) { // Default weight of 1 if not specified
         addEdge(start, end, 1)
     }
 
@@ -99,6 +97,10 @@ class WeightedGraph(
         var parent: Int,
         var dist: Int,
     )
+
+    fun floydWarshall() {
+        TODO()
+    }
 
     fun dijkstra(startingIndex: Int = 0) {
         var currentVertex: Int
@@ -186,8 +188,7 @@ class WeightedGraph(
     /**
      * Display the adjacency matrix with weights instead of just connections
      */
-    fun displayWeightMatrix() {
-        // Determine the max width needed for any label
+    fun displayWeightMatrix() { // Determine the max width needed for any label
         val labelWidth = vertexList.take(numVertex).maxOf { it?.label?.length ?: 1 }
         val weightWidth =
             vertexList
@@ -207,10 +208,8 @@ class WeightedGraph(
         println()
 
         // Print matrix rows
-        for (i in 0 until numVertex) {
-            // Row header
-            print(vertexList[i]?.label?.padEnd(colWidth))
-            // Row entries
+        for (i in 0 until numVertex) { // Row header
+            print(vertexList[i]?.label?.padEnd(colWidth)) // Row entries
             for (j in 0 until numVertex) {
                 val value = if (adjMatrix[i][j]) weightMatrix[i][j].toString() else "-"
                 print(value.padEnd(colWidth))
