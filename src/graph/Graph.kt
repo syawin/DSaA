@@ -7,19 +7,19 @@ import queue.IntegerQ
 import stack.IntegerStack
 
 open class Graph(
-    final override val maxSize: Int,
-) : GraphInterface {
+    maxSize: Int,
+) : AbstractGraph(maxSize) {
     var vertexList = arrayOfNulls<Vertex?>(maxSize)
     var adjMatrix = Array(maxSize) { Array(maxSize) { false } }
     var adjList = Array(maxSize) { LinkedList() }
     var numVertex = 0
     var numInTree = 0
 
-    fun addVertex(label: String) {
+    override fun addVertex(label: String) {
         vertexList[numVertex++] = Vertex(label)
     }
 
-    open fun addEdge(
+    override fun addEdge(
         start: Int,
         end: Int,
     ) {
