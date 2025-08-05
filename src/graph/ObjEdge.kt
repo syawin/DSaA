@@ -1,11 +1,11 @@
 package graph
 
-data class IntEdge(
-    val source: Int,
-    val destination: Int,
-    val weight: Int = 1,
-) : Comparable<IntEdge> {
-    override fun compareTo(other: IntEdge): Int = this.weight - other.weight
+data class ObjEdge(
+    var source: Vertex,
+    var destination: Vertex,
+    var weight: Int = 1,
+) : Comparable<ObjEdge> {
+    override fun compareTo(other: ObjEdge): Int = this.weight - other.weight
 
     /**
      * Indicates whether some other object is "equal to" this one. Implementations must fulfil the following
@@ -21,7 +21,7 @@ data class IntEdge(
      */
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
-        if (other !is IntEdge) return false
+        if (other !is ObjEdge) return false
         return source == other.source && destination == other.destination && weight == other.weight
     }
 
@@ -32,8 +32,8 @@ data class IntEdge(
      * * If two objects are equal according to the `equals()` method, then calling the `hashCode` method on each of the two objects must produce the same integer result.
      */
     override fun hashCode(): Int {
-        var result = source
-        result = 31 * result + destination
+        var result = source.hashCode()
+        result = 31 * result + destination.hashCode()
         result = 31 * result + weight
         return result
     }
