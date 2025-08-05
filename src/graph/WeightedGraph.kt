@@ -13,7 +13,7 @@ class WeightedGraph(
     val weightMatrix = Array(maxSize) { Array(maxSize) { INF } }
 
     // Store edges for minimum spanning tree algorithms
-    val edges = mutableListOf<Edge>()
+    val edges = mutableListOf<IntEdge>()
 
     /**
      * Adds a weighted edge between two vertices
@@ -30,7 +30,7 @@ class WeightedGraph(
         weightMatrix[start][end] = weight
 
         // Store the edge object for algorithms that need it
-        edges.add(Edge(start, end, weight))
+        edges.add(IntEdge(start, end, weight))
     }
 
     /**
@@ -45,7 +45,7 @@ class WeightedGraph(
     }
 
     override fun minimumSpanningTree() {
-        val thePQ = PriorityQueue<Edge>(numVertex)
+        val thePQ = PriorityQueue<IntEdge>(numVertex)
         var currentVertex = 0
         numInTree = 0
         while (numInTree < numVertex - 1) {
@@ -78,7 +78,7 @@ class WeightedGraph(
         newVertex: Int,
         newDistance: Int,
         currentVertex: Int,
-        thePQ: PriorityQueue<Edge>,
+        thePQ: PriorityQueue<IntEdge>,
     ) {
         val queueIndex = findEdgeIndexByDestination(newVertex, thePQ)
         if (queueIndex != -1) {
@@ -86,11 +86,11 @@ class WeightedGraph(
             val oldDistance = temp.weight
             if (oldDistance > newDistance) {
                 thePQ.remove(queueIndex)
-                val theEdge = Edge(currentVertex, newVertex, newDistance)
+                val theEdge = IntEdge(currentVertex, newVertex, newDistance)
                 thePQ.insert(theEdge)
             }
         } else {
-            val theEdge = Edge(currentVertex, newVertex, newDistance)
+            val theEdge = IntEdge(currentVertex, newVertex, newDistance)
             thePQ.insert(theEdge)
         }
     }
@@ -221,8 +221,8 @@ class WeightedGraph(
 
     fun findEdge(
         destinationVert: Int,
-        searchPQ: PriorityQueue<Edge>,
-    ): Edge? {
+        searchPQ: PriorityQueue<IntEdge>,
+    ): IntEdge? {
         for (edge in searchPQ) {
             if (edge.destination == destinationVert) return edge
         }
@@ -231,7 +231,7 @@ class WeightedGraph(
 
     fun findEdgeIndexByDestination(
         destinationVert: Int,
-        searchPQ: PriorityQueue<Edge>,
+        searchPQ: PriorityQueue<IntEdge>,
     ): Int {
         for (i in searchPQ.indices) {
             if (searchPQ[i].destination == destinationVert) return i

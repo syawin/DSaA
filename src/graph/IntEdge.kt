@@ -1,11 +1,11 @@
 package graph
 
-data class Edge(
+data class IntEdge(
     val source: Int,
     val destination: Int,
     val weight: Int = 1,
-) : Comparable<Edge> {
-    override fun compareTo(other: Edge): Int = this.weight - other.weight
+) : Comparable<IntEdge> {
+    override fun compareTo(other: IntEdge): Int = this.weight - other.weight
 
     /**
      * Indicates whether some other object is "equal to" this one. Implementations must fulfil the following
@@ -21,7 +21,7 @@ data class Edge(
      */
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
-        if (other !is Edge) return false
+        if (other !is IntEdge) return false
         return source == other.source && destination == other.destination && weight == other.weight
     }
 

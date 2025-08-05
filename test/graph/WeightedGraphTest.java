@@ -332,13 +332,13 @@ public class WeightedGraphTest {
     @Test
     public void testFindEdgeExisting()
     {
-        PriorityQueue<Edge> pq    = new PriorityQueue<>(5);
-        Edge                edge1 = new Edge(0, 1, 10);
-        Edge                edge2 = new Edge(1, 2, 20);
+        PriorityQueue<IntEdge> pq    = new PriorityQueue<>(5);
+        IntEdge                edge1 = new IntEdge(0, 1, 10);
+        IntEdge                edge2 = new IntEdge(1, 2, 20);
         pq.insert(edge1);
         pq.insert(edge2);
         
-        Edge found = graph.findEdge(1, pq);
+        IntEdge found = graph.findEdge(1, pq);
         
         assertNotNull("Should find existing edge", found);
         assertEquals("Should find correct edge", 1, found.getDestination());
@@ -348,9 +348,9 @@ public class WeightedGraphTest {
     @Test
     public void testFindEdgeIndexByDestinationExisting()
     {
-        PriorityQueue<Edge> pq    = new PriorityQueue<>(5);
-        Edge                edge1 = new Edge(0, 1, 10);
-        Edge                edge2 = new Edge(1, 2, 20);
+        PriorityQueue<IntEdge> pq    = new PriorityQueue<>(5);
+        IntEdge                edge1 = new IntEdge(0, 1, 10);
+        IntEdge                edge2 = new IntEdge(1, 2, 20);
         pq.insert(edge1);
         pq.insert(edge2);
         
@@ -363,8 +363,8 @@ public class WeightedGraphTest {
     @Test
     public void testFindEdgeIndexByDestinationNonExisting()
     {
-        PriorityQueue<Edge> pq    = new PriorityQueue<>(5);
-        Edge                edge1 = new Edge(0, 1, 10);
+        PriorityQueue<IntEdge> pq    = new PriorityQueue<>(5);
+        IntEdge                edge1 = new IntEdge(0, 1, 10);
         pq.insert(edge1);
         
         int index = graph.findEdgeIndexByDestination(5, pq);
@@ -375,11 +375,11 @@ public class WeightedGraphTest {
     @Test
     public void testFindEdgeNonExisting()
     {
-        PriorityQueue<Edge> pq    = new PriorityQueue<>(5);
-        Edge                edge1 = new Edge(0, 1, 10);
+        PriorityQueue<IntEdge> pq    = new PriorityQueue<>(5);
+        IntEdge                edge1 = new IntEdge(0, 1, 10);
         pq.insert(edge1);
         
-        Edge found = graph.findEdge(5, pq);
+        IntEdge found = graph.findEdge(5, pq);
         
         assertNull("Should not find non-existing edge", found);
     }
