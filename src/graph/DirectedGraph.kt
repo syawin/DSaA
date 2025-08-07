@@ -41,16 +41,13 @@ open class DirectedGraph(
     }
 
     private fun deleteVertex(delVertex: Int) {
-        if (delVertex != numVertex - 1) {
-            // delete from vertexList
+        if (delVertex != numVertex - 1) { // delete from vertexList
             for (i in delVertex until numVertex - 1) {
                 vertexList[i] = vertexList[i + 1]
-            }
-            // delete row from adjMatrix
+            } // delete row from adjMatrix
             for (row in delVertex until numVertex - 1) {
                 moveRowUp(row, numVertex)
-            }
-            // delete col from adjMatrix
+            } // delete col from adjMatrix
             for (col in delVertex until numVertex - 1) {
                 moveColLeft(col, numVertex - 1)
             }
@@ -98,16 +95,11 @@ open class DirectedGraph(
      * O(v^3) time complexity; v = # vertices
      */
     fun computeTransitiveClosure() {
-        // iterate thru the rows of the adjacency matrix.
-        for (i in 0 until numVertex) {
-            // iterate thru the columns of the current row matrix[i]
-            for (j in 0 until numVertex) {
-                // if a 1 is found, start transitive closure loop.
-                if (adjMatrix[i][j]) {
-                    for (k in 0 until numVertex) {
-                        if (adjMatrix[k][i]) {
-                            adjMatrix[k][j] = true
-                        }
+        for (k in 0 until numVertex) {
+            for (i in 0 until numVertex) {
+                for (j in 0 until numVertex) {
+                    if (adjMatrix[i][k] && adjMatrix[k][j]) {
+                        adjMatrix[i][j] = true
                     }
                 }
             }

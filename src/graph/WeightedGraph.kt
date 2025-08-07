@@ -98,8 +98,24 @@ class WeightedGraph(
         var dist: Int,
     )
 
-    fun floydWarshall() {
-        TODO()
+    /**
+     * Computes the shortest paths between all pairs of vertices using the Floyd-Warshall algorithm.
+     *
+     * Updates the weight matrix to reflect the shortest paths between every pair of vertices.
+     * Assumes the graph is represented as a weighted adjacency matrix.
+     */
+    fun floydWarshall() { // iterate thru the rows of the weight matrix
+        for (k in 0 until numVertex) { // iterate thru the columns of the current row matrix[i]
+            for (i in 0 until numVertex) {
+                for (j in 0 until numVertex) {
+                    val path = overflowSafeAdd(weightMatrix[i][k], weightMatrix[k][j])
+                    if (path < weightMatrix[i][j]) {
+                        weightMatrix[i][j] = path
+                        adjMatrix[i][j] = true
+                    }
+                }
+            }
+        }
     }
 
     fun dijkstra(startingIndex: Int = 0) {
@@ -138,7 +154,7 @@ class WeightedGraph(
             print(vertexList[i]?.label + "=")
             print(
                 when (sPath[i].dist) {
-                    Int.MAX_VALUE -> "inf"
+                    INF -> "inf"
                     else -> sPath[i].dist.toString()
                 },
             )
@@ -159,11 +175,7 @@ class WeightedGraph(
                 continue
             }
             val currentToFrontier = weightMatrix[currentVert][col]
-            val startToFrontier =
-                when {
-                    currentToFrontier == INF -> INF
-                    else -> startToCurrent + currentToFrontier
-                }
+            val startToFrontier = overflowSafeAdd(startToCurrent, currentToFrontier)
             val shortestPathDist = sPath[col].dist
             if (startToFrontier < shortestPathDist) {
                 sPath[col].parent = currentVert
@@ -236,5 +248,15 @@ class WeightedGraph(
             if (searchPQ[i].destination == destinationVert) return i
         }
         return -1
+    }
+
+    companion object {
+        private fun overflowSafeAdd(
+            a: Int,
+            b: Int,
+        ) = when {
+            a == INF || b == INF -> INF
+            else -> a + b
+        }
     }
 }
